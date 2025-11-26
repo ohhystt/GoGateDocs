@@ -653,10 +653,7 @@
             { code: "BA_BOS", name: "Bosnie-Herzégovine", region: "EU_EAST", continent: "Europe", power: 95, water: "unsafe", costFactor: 0.7 }
         ].sort((a, b) => a.name.localeCompare(b.name));
 
-        // ==========================================================================================
-        // 5. FONCTIONS UTILITAIRES
-        // ==========================================================================================
-        
+        // --- FONCTIONS UTILITAIRES ---
         const groupCountriesByContinent = (list) => {
             return list.reduce((groups, country) => {
                 const continent = country.continent;
@@ -675,7 +672,6 @@
             if (destCode === 'zn') destCode = 'znz';
             if (destCode === 'cq') destCode = 'cun';
             if (destCode === 'ae') destCode = 'dxb';
-            
             return `https://www.skyscanner.fr/transport/vols/${origin.toLowerCase()}/${destCode}/${startStr}/${endStr}?associateid=${AFFILIATE_CONFIG.flight_marker}`;
         };
 
@@ -685,9 +681,7 @@
             return `https://www.booking.com/searchresults.html?ss=${destName}&checkin_year=${sYear}&checkin_month=${sMonth}&checkin_monthday=${sDay}&checkout_year=${eYear}&checkout_month=${eMonth}&checkout_monthday=${eDay}&aid=${AFFILIATE_CONFIG.hotel_aid}`;
         };
 
-        // ==========================================================================================
-        // 6. COMPOSANTS UI
-        // ==========================================================================================
+        // --- COMPOSANTS UI ---
 
         const Header = ({ lang, setLang, t, setView }) => {
             const languageNames = { EN: "English", FR: "Français", ES: "Español", CN: "中文 (简体)", JP: "日本語" };
@@ -839,7 +833,6 @@
             );
         };
 
-        // MODIFICATION ICI : Remplacement Stethoscope par Heart et changement des couleurs (teal -> rose)
         const HealthCard = ({ water, vaccine, t }) => (
             <div className="bg-white border border-slate-100 rounded-xl p-5 mb-3 shadow-sm hover-card flex flex-row gap-4 items-start">
                 <div className="p-3 rounded-xl shrink-0 border bg-rose-50 text-rose-600 border-rose-100"><Icons.Heart size={20} /></div>
@@ -1039,10 +1032,17 @@
                                                 <InputField label={t.label_origin} icon={Icons.Navigation}><CountrySelect value={formData.origin} onChange={(e) => setFormData({...formData, origin: e.target.value})} placeholder={t.placeholder_select} /></InputField>
                                             </div>
                                             <InputField label={t.label_destination} icon={Icons.MapPin}><CountrySelect value={formData.destination} onChange={(e) => setFormData({...formData, destination: e.target.value})} placeholder={t.placeholder_select} excludeCode={formData.origin} /></InputField>
-                                            <div className="grid grid-cols-2 gap-4">
-                                                <InputField label={t.label_start_date} icon={Icons.Calendar}><input type="date" className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-sm" value={formData.startDate} onChange={(e) => setFormData({...formData, startDate: e.target.value})} /></InputField>
-                                                <InputField label={t.label_end_date} icon={Icons.Calendar}><input type="date" className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-sm" value={formData.endDate} onChange={(e) => setFormData({...formData, endDate: e.target.value})} /></InputField>
+                                            
+                                            {/* CORRECTION DATE MOBILE: Ajout de min-w-0 pour forcer la largeur et gap ajusté */}
+                                            <div className="grid grid-cols-2 gap-3 sm:gap-4">
+                                                <InputField label={t.label_start_date} icon={Icons.Calendar}>
+                                                    <input type="date" className="w-full min-w-0 bg-slate-50 border border-slate-200 rounded-xl p-3 sm:p-4 text-sm" value={formData.startDate} onChange={(e) => setFormData({...formData, startDate: e.target.value})} />
+                                                </InputField>
+                                                <InputField label={t.label_end_date} icon={Icons.Calendar}>
+                                                    <input type="date" className="w-full min-w-0 bg-slate-50 border border-slate-200 rounded-xl p-3 sm:p-4 text-sm" value={formData.endDate} onChange={(e) => setFormData({...formData, endDate: e.target.value})} />
+                                                </InputField>
                                             </div>
+                                            
                                             <InputField label={t.label_age} icon={Icons.Trophy}><input type="number" className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4" value={formData.age} onChange={(e) => setFormData({...formData, age: e.target.value})} /></InputField>
                                             <button onClick={handleSearch} className="w-full mt-6 bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl shadow-lg flex justify-center items-center gap-3 group hover-card">{t.btn_analyze} <Icons.ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" /></button>
                                         </div>
