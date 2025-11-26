@@ -40,7 +40,7 @@
         const { useState, useEffect } = React;
 
         // ==========================================================================================
-        // 1. SYSTÈME D'ICÔNES SVG (INTÉGRÉ EN DUR - SANS DÉPENDANCE)
+        // 1. SYSTÈME D'ICÔNES SVG
         // ==========================================================================================
         
         const IconBase = ({ children, size = 24, className = "", ...props }) => (
@@ -62,7 +62,7 @@
         );
 
         const Icons = {
-            // --- NOUVELLE ICÔNE AVION (STYLE PAPIER / SEND) ---
+            // AVION PAPIER (Nouvelle version demandée)
             Plane: (props) => (
                 <IconBase {...props}>
                     <line x1="22" x2="11" y1="2" y2="13"/>
@@ -70,14 +70,14 @@
                 </IconBase>
             ),
             
-            // --- ICÔNE CŒUR (POUR LA SANTÉ) ---
+            // CŒUR (Pour la Santé)
             Heart: (props) => (
                 <IconBase {...props}>
                     <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
                 </IconBase>
             ),
             
-            // --- RESTE DES ICÔNES ---
+            // AUTRES
             MapPin: (props) => <IconBase {...props}><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></IconBase>,
             Calendar: (props) => <IconBase {...props}><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></IconBase>,
             ShieldCheck: (props) => <IconBase {...props}><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/><path d="m9 12 2 2 4-4"/></IconBase>,
@@ -102,7 +102,9 @@
             Mail: (props) => <IconBase {...props}><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></IconBase>,
             CreditCard: (props) => <IconBase {...props}><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></IconBase>,
             Menu: (props) => <IconBase {...props}><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></IconBase>,
-            X: (props) => <IconBase {...props}><path d="M18 6 6 18"/><path d="m6 6 12 12"/></IconBase>
+            X: (props) => <IconBase {...props}><path d="M18 6 6 18"/><path d="m6 6 12 12"/></IconBase>,
+            Users: (props) => <IconBase {...props}><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></IconBase>,
+            Sun: (props) => <IconBase {...props}><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></IconBase>
         };
 
         // Destructuring simple
@@ -110,7 +112,7 @@
             Plane, MapPin, Calendar, ShieldCheck, Trophy, ArrowRight, Heart, Globe, 
             ExternalLink, CheckCircle, AlertTriangle, Info, Languages, Clock, Copyright, 
             Navigation, Droplets, Siren, Wifi, Ticket, 
-            MessageSquare, Umbrella, Calculator, Mail, CreditCard 
+            MessageSquare, Umbrella, Calculator, Mail, CreditCard, Users, Sun
         } = Icons;
 
         // ==========================================================================================
@@ -120,7 +122,7 @@
         const AFFILIATE_CONFIG = {
             flight_marker: "YOUR_ID", 
             hotel_aid: "YOUR_ID",
-            esim_id: "YOUR_ID", 
+            esim_link: "https://saily.tpo.li/SY9ICcCg", // Nouveau lien Saily
             activities_id: "YOUR_ID",
             insurance_link: "https://www.chapkadirect.com/" 
         };
@@ -146,10 +148,10 @@
                 label_start_date: "Start",
                 label_end_date: "End",
                 label_age: "Age",
-                placeholder_select: "Select...",
+                placeholder_select: "Select a country...",
                 btn_analyze: "Analyze",
-                loading_title: "Checking Formalities",
-                loading_text: "Searching for visas and taxes...",
+                loading_title: "Analyzing Itinerary",
+                loading_text: "Checking visas, taxes and formalities...",
                 result_back: "Edit",
                 docs_title: "Documents & Requirements",
                 docs_disclaimer: "Links redirect to official government websites.",
@@ -163,21 +165,30 @@
                 customs_title: "Customs & Bans",
                 forbidden_items: "Strictly Forbidden:",
                 services_title: "Essentials",
-                service_esim: "eSIM (Data)",
-                service_esim_desc: "No roaming fees.",
-                service_activities: "Activities",
-                service_activities_desc: "Skip-the-line.",
+                service_esim: "Stay Connected (eSIM)", // Catchy
+                service_esim_desc: "Get instant internet. No roaming fees.",
+                service_activities: "Unforgettable Experiences", // Catchy
+                service_activities_desc: "Reserve tours & skip-the-line tickets.",
                 action_title: "Book at Best Prices",
                 action_flight: "✈️ Find Secret Fares (-30%)",
                 action_hotel: "🏨 See Exclusive Deals (-40%)",
                 offer_expires: "Offer expires in",
-                budget_title: "Travel Budget Estimator",
-                budget_desc: "Estimated daily cost including Accommodation, Food & Local Transport.",
+                
+                // Budget Translation
+                budget_title: "Smart Budget Estimator",
+                budget_desc: "Get a realistic estimate for accommodation, food, local transport and flights.",
+                budget_travelers: "Travelers",
+                budget_season: "Seasonality",
+                budget_season_low: "Low Season (Cheaper)",
+                budget_season_mid: "Standard Season",
+                budget_season_high: "High Season (+40%)",
                 budget_style_low: "Backpacker",
                 budget_style_med: "Standard",
                 budget_style_high: "Luxury",
-                budget_result: "Estimated Total:",
-                budget_daily: "per day",
+                budget_result_total: "Total Estimated Cost",
+                budget_result_daily: "Daily cost per person (excluding flights)",
+                budget_flight_estimate: "Estimated Flights",
+                
                 insurance_title: "Chapka Insurance",
                 insurance_subtitle: "Why Credit Cards aren't enough",
                 insurance_desc: "Credit card insurance usually stops after 90 days, has high deductibles and you must advance costs. Chapka covers you fully.",
@@ -228,27 +239,36 @@
                 customs_title: "Douanes & Interdits",
                 forbidden_items: "Strictement Interdit :",
                 services_title: "Indispensables",
-                service_esim: "eSIM (Internet)",
-                service_esim_desc: "Zéro frais de roaming.",
-                service_activities: "Activités",
-                service_activities_desc: "Billets coupe-file.",
+                service_esim: "Internet Instantané (eSIM)", // Catchy
+                service_esim_desc: "Zéro frais de roaming. Activation immédiate.",
+                service_activities: "Moments Inoubliables", // Catchy
+                service_activities_desc: "Réservez vos activités à l'avance.",
                 action_title: "Réserver au meilleur prix",
                 action_flight: "✈️ Trouver des vols secrets (-30%)",
                 action_hotel: "🏨 Voir les offres exclusives (-40%)",
                 offer_expires: "Offre expire dans",
-                budget_title: "Calculateur de Budget",
-                budget_desc: "Estimation quotidienne (Logement + Repas + Transport local).",
+                
+                // Budget Translation
+                budget_title: "Calculateur de Budget Intelligent",
+                budget_desc: "Estimation réaliste incluant logement, repas, transport et vols.",
+                budget_travelers: "Voyageurs",
+                budget_season: "Saisonnalité",
+                budget_season_low: "Basse Saison (Moins cher)",
+                budget_season_mid: "Saison Standard",
+                budget_season_high: "Haute Saison (+40%)",
                 budget_style_low: "Eco / Backpacker",
                 budget_style_med: "Standard",
                 budget_style_high: "Luxe",
-                budget_result: "Budget Total Estimé :",
-                budget_daily: "par jour",
+                budget_result_total: "Budget Total Estimé",
+                budget_result_daily: "Coût par jour/pers (hors vols)",
+                budget_flight_estimate: "Estimation Vols",
+
                 insurance_title: "Assurance Voyage Chapka",
                 insurance_subtitle: "Pourquoi votre CB ne suffit pas",
                 insurance_desc: "L'assurance de votre carte bancaire s'arrête souvent après 90 jours, comporte des franchises élevées et nécessite l'avance des frais. Chapka vous couvre à 100%.",
                 btn_get_quote: "Voir le devis Chapka",
                 feedback_title: "Aide & Contact",
-                feedback_desc: "Une erreur ? Vous voulez ajouter un pays ?",
+                feedback_desc: "Une erreur ? Vous voulez voir un pays ajouté ?",
                 feedback_placeholder: "Votre message (ex: Ajoutez le Pérou svp...)",
                 btn_send: "Envoyer",
                 passport_power: "Puissance Passeport",
@@ -260,6 +280,7 @@
                 donate_text: "Si nous vous avons aidé, vous pouvez nous offrir un café !",
                 donate_btn: "Faire un don"
             },
+            // ... (Autres langues conservées comme placeholder)
             ES: { app_name: "GoGateDocs", subtitle: "V2.0 Global", menu_home: "Home", menu_budget: "Budget", menu_insurance: "Insurance", menu_feedback: "Help", hero_title: "Prepare your trip", hero_highlight: "simply", hero_desc: "Visas, local taxes, vaccines and official documents.", label_nationality: "Your Nationality", label_origin: "Departure", label_destination: "Destination", label_start_date: "Start", label_end_date: "End", label_age: "Age", placeholder_select: "Select...", btn_analyze: "Analyze", loading_title: "Checking Formalities", loading_text: "Searching for visas and taxes...", result_back: "Edit", docs_title: "Documents & Requirements", docs_disclaimer: "Links redirect to official government websites.", doc_mandatory: "Mandatory", cost: "Cost", btn_official_link: "Official Site", health_title: "Health", vaccine_mandatory: "Mandatory Vaccine:", water_safe: "Tap water safe", water_unsafe: "Tap water UNSAFE", customs_title: "Customs & Bans", forbidden_items: "Strictly Forbidden:", services_title: "Essentials", service_esim: "eSIM (Data)", service_esim_desc: "No roaming fees.", service_activities: "Activities", service_activities_desc: "Skip-the-line.", action_title: "Book Now", action_flight: "✈️ Secret Flight Deals (-30%)", action_hotel: "🏨 Exclusive Hotel Rates (-40%)", offer_expires: "Offer expires in", budget_title: "Budget Calculator", budget_desc: "Estimate excluding flights", budget_style_low: "Budget / Backpacker", budget_style_med: "Standard", budget_style_high: "Luxury", budget_result: "Estimated budget:", budget_daily: "per day", insurance_title: "Travel Insurance", insurance_subtitle: "Health Coverage", insurance_desc: "Medical costs can be huge.", btn_get_quote: "Get Quote", feedback_title: "Contact", feedback_desc: "Bug report or feedback?", btn_send: "Send", passport_power: "Passport Power", access_text: "Visa-free access to", countries_text: "countries", duration_calc: "Duration:", days: "days", donate_title: "Free Project", donate_text: "If we helped you, buy us a coffee!", donate_btn: "Donate" },
             CN: { app_name: "GoGateDocs", subtitle: "V2.0 Global", menu_home: "Home", menu_budget: "Budget", menu_insurance: "Insurance", menu_feedback: "Help", hero_title: "Prepare your trip", hero_highlight: "simply", hero_desc: "Visas, local taxes, vaccines and official documents.", label_nationality: "Your Nationality", label_origin: "Departure", label_destination: "Destination", label_start_date: "Start", label_end_date: "End", label_age: "Age", placeholder_select: "Select...", btn_analyze: "Analyze", loading_title: "Checking Formalities", loading_text: "Searching for visas and taxes...", result_back: "Edit", docs_title: "Documents & Requirements", docs_disclaimer: "Links redirect to official government websites.", doc_mandatory: "Mandatory", cost: "Cost", btn_official_link: "Official Site", health_title: "Health", vaccine_mandatory: "Mandatory Vaccine:", water_safe: "Tap water safe", water_unsafe: "Tap water UNSAFE", customs_title: "Customs & Bans", forbidden_items: "Strictly Forbidden:", services_title: "Essentials", service_esim: "eSIM (Data)", service_esim_desc: "No roaming fees.", service_activities: "Activities", service_activities_desc: "Skip-the-line.", action_title: "Book Now", action_flight: "✈️ Secret Flight Deals (-30%)", action_hotel: "🏨 Exclusive Hotel Rates (-40%)", offer_expires: "Offer expires in", budget_title: "Budget Calculator", budget_desc: "Estimate excluding flights", budget_style_low: "Budget / Backpacker", budget_style_med: "Standard", budget_style_high: "Luxury", budget_result: "Estimated budget:", budget_daily: "per day", insurance_title: "Travel Insurance", insurance_subtitle: "Health Coverage", insurance_desc: "Medical costs can be huge.", btn_get_quote: "Get Quote", feedback_title: "Contact", feedback_desc: "Bug report or feedback?", btn_send: "Send", passport_power: "Passport Power", access_text: "Visa-free access to", countries_text: "countries", duration_calc: "Duration:", days: "days", donate_title: "Free Project", donate_text: "If we helped you, buy us a coffee!", donate_btn: "Donate" },
             JP: { app_name: "GoGateDocs", subtitle: "V2.0 Global", menu_home: "Home", menu_budget: "Budget", menu_insurance: "Insurance", menu_feedback: "Help", hero_title: "Prepare your trip", hero_highlight: "simply", hero_desc: "Visas, local taxes, vaccines and official documents.", label_nationality: "Your Nationality", label_origin: "Departure", label_destination: "Destination", label_start_date: "Start", label_end_date: "End", label_age: "Age", placeholder_select: "Select...", btn_analyze: "Analyze", loading_title: "Checking Formalities", loading_text: "Searching for visas and taxes...", result_back: "Edit", docs_title: "Documents & Requirements", docs_disclaimer: "Links redirect to official government websites.", doc_mandatory: "Mandatory", cost: "Cost", btn_official_link: "Official Site", health_title: "Health", vaccine_mandatory: "Mandatory Vaccine:", water_safe: "Tap water safe", water_unsafe: "Tap water UNSAFE", customs_title: "Customs & Bans", forbidden_items: "Strictly Forbidden:", services_title: "Essentials", service_esim: "eSIM (Data)", service_esim_desc: "No roaming fees.", service_activities: "Activities", service_activities_desc: "Skip-the-line.", action_title: "Book Now", action_flight: "✈️ Secret Flight Deals (-30%)", action_hotel: "🏨 Exclusive Hotel Rates (-40%)", offer_expires: "Offer expires in", budget_title: "Budget Calculator", budget_desc: "Estimate excluding flights", budget_style_low: "Budget / Backpacker", budget_style_med: "Standard", budget_style_high: "Luxury", budget_result: "Estimated budget:", budget_daily: "per day", insurance_title: "Travel Insurance", insurance_subtitle: "Health Coverage", insurance_desc: "Medical costs can be huge.", btn_get_quote: "Get Quote", feedback_title: "Contact", feedback_desc: "Bug report or feedback?", btn_send: "Send", passport_power: "Passport Power", access_text: "Visa-free access to", countries_text: "countries", duration_calc: "Duration:", days: "days", donate_title: "Free Project", donate_text: "If we helped you, buy us a coffee!", donate_btn: "Donate" }
@@ -891,18 +912,35 @@
             const [localDest, setLocalDest] = useState("");
             const [days, setDays] = useState(7);
             const [style, setStyle] = useState("med");
+            const [travelers, setTravelers] = useState(1);
+            const [season, setSeason] = useState("mid");
             const [res, setRes] = useState(null);
             const [daily, setDaily] = useState(null);
+            const [flightEst, setFlightEst] = useState(null);
             
             const calc = () => {
                 if(!localDest) return;
                 const c = countriesData.find(x => x.code === localDest);
                 const base = 60; 
                 const factor = c ? (c.costFactor || 1) : 1;
-                let mult = style === 'low' ? 0.6 : (style === 'high' ? 2.5 : 1);
-                const dCost = Math.round(base * factor * mult);
-                setDaily(dCost);
-                setRes(dCost * days);
+                
+                // Multipliers
+                const styleMult = style === 'low' ? 0.6 : (style === 'high' ? 2.5 : 1);
+                const seasonMult = season === 'low' ? 0.8 : (season === 'high' ? 1.4 : 1);
+                
+                // Flight Heuristic (Based on Continent match - assuming Origin is Europe for this logic or generic)
+                // Note: In a real app, we'd need origin state here too, but simplified for this component:
+                // If destination is Europe -> cheap flight. Else -> expensive.
+                const isLongHaul = c && c.continent !== "Europe"; 
+                const baseFlight = isLongHaul ? 800 : 150;
+                const flightCost = Math.round(baseFlight * seasonMult * travelers);
+
+                const dailyPerPerson = Math.round(base * factor * styleMult * seasonMult);
+                const totalLiving = dailyPerPerson * days * travelers;
+                
+                setDaily(dailyPerPerson);
+                setFlightEst(flightCost);
+                setRes(totalLiving + flightCost);
             };
 
             return (
@@ -910,14 +948,25 @@
                     <div className="text-center mb-6"><div className="mx-auto w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mb-3"><Icons.Calculator className="text-green-600" size={24} /></div><h2 className="text-2xl font-bold text-slate-800">{t.budget_title}</h2><p className="text-slate-500 text-sm">{t.budget_desc}</p></div>
                     <div className="space-y-4">
                         <InputField label={t.label_destination} icon={Icons.MapPin}><CountrySelect value={localDest} onChange={(e) => setLocalDest(e.target.value)} placeholder={t.placeholder_select} /></InputField>
-                        <InputField label={t.duration_calc} icon={Icons.Clock}><input type="number" value={days} onChange={(e) => setDays(e.target.value)} className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3" /></InputField>
-                        <div className="grid grid-cols-3 gap-2 mb-4">{['low', 'med', 'high'].map(s => <button key={s} onClick={() => setStyle(s)} className={`p-2 rounded-lg text-xs font-bold border ${style === s ? 'bg-blue-100 border-blue-500 text-blue-700' : 'bg-white border-slate-200 text-slate-500'}`}>{t[`budget_style_${s}`]}</button>)}</div>
+                        
+                        <div className="grid grid-cols-2 gap-4">
+                            <InputField label={t.duration_calc} icon={Icons.Clock}><input type="number" value={days} onChange={(e) => setDays(e.target.value)} className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3" /></InputField>
+                            <InputField label={t.budget_travelers} icon={Icons.Users}><input type="number" min="1" value={travelers} onChange={(e) => setTravelers(e.target.value)} className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3" /></InputField>
+                        </div>
+
+                        <div className="grid grid-cols-3 gap-2 mb-2">{['low', 'med', 'high'].map(s => <button key={s} onClick={() => setStyle(s)} className={`p-2 rounded-lg text-xs font-bold border ${style === s ? 'bg-blue-100 border-blue-500 text-blue-700' : 'bg-white border-slate-200 text-slate-500'}`}>{t[`budget_style_${s}`]}</button>)}</div>
+                        
+                        <div className="grid grid-cols-3 gap-2 mb-4">{['low', 'mid', 'high'].map(s => <button key={s} onClick={() => setSeason(s)} className={`p-2 rounded-lg text-xs font-bold border ${season === s ? 'bg-orange-100 border-orange-500 text-orange-700' : 'bg-white border-slate-200 text-slate-500'}`}>{t[`budget_season_${s}`]}</button>)}</div>
+
                         <button onClick={calc} className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-xl transition-all">Calculer</button>
                         {res && (
                             <div className="mt-6 p-4 bg-green-50 border border-green-200 rounded-xl text-center fade-in">
-                                <span className="text-slate-500 text-sm block mb-1">{t.budget_result}</span>
-                                <span className="text-3xl font-extrabold text-green-700">{res} €</span>
-                                <span className="text-xs text-green-600 font-bold block mt-1">~ {daily} € / {t.budget_daily}</span>
+                                <span className="text-slate-500 text-xs font-bold uppercase tracking-wider mb-1">{t.budget_result_total}</span>
+                                <span className="text-4xl font-extrabold text-green-700 block mb-2">{res} €</span>
+                                <div className="flex justify-between text-xs text-slate-500 border-t border-green-200 pt-2 mt-2">
+                                    <span>{t.budget_result_daily}: <b>{daily}€</b></span>
+                                    <span>{t.budget_flight_estimate}: <b>~{flightEst}€</b></span>
+                                </div>
                             </div>
                         )}
                     </div>
@@ -1048,7 +1097,7 @@
                                             <InputField label={t.label_destination} icon={Icons.MapPin}><CountrySelect value={formData.destination} onChange={(e) => setFormData({...formData, destination: e.target.value})} placeholder={t.placeholder_select} excludeCode={formData.origin} /></InputField>
                                             
                                             {/* CORRECTION DATE MOBILE: min-w-0 et grid ajustée */}
-                                            <div className="grid grid-cols-2 gap-3 sm:gap-4">
+                                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                                                 <InputField label={t.label_start_date} icon={Icons.Calendar}>
                                                     <input type="date" className="w-full min-w-0 bg-slate-50 border border-slate-200 rounded-xl p-3 sm:p-4 text-sm" value={formData.startDate} onChange={(e) => setFormData({...formData, startDate: e.target.value})} />
                                                 </InputField>
@@ -1097,7 +1146,7 @@
                                         <div className="mb-10">
                                             <h3 className="text-xl font-bold text-slate-800 mb-5">{t.services_title}</h3>
                                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                                <ServiceCard icon={Icons.Wifi} title={t.service_esim} desc={t.service_esim_desc} colorClass="bg-teal-500 text-teal-500" link={`https://www.airalo.com/?ref=${AFFILIATE_CONFIG.esim_id}`} />
+                                                <ServiceCard icon={Icons.Wifi} title={t.service_esim} desc={t.service_esim_desc} colorClass="bg-teal-500 text-teal-500" link={AFFILIATE_CONFIG.esim_link} />
                                                 <ServiceCard icon={Icons.Ticket} title={t.service_activities} desc={t.service_activities_desc} colorClass="bg-purple-500 text-purple-500" link={`https://www.getyourguide.com/?partner_id=${AFFILIATE_CONFIG.activities_id}`} />
                                             </div>
                                         </div>
