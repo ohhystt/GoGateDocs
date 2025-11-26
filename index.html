@@ -12,39 +12,85 @@
     
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
-    <script src="https://unpkg.com/lucide-react@latest/dist/umd/lucide-react.js"></script>
+    <script src="https://unpkg.com/lucide-react@0.263.1/dist/umd/lucide-react.min.js"></script>
 
     <style>
         body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
-        /* Animation fluide pour les menus */
         .fade-in { animation: fadeIn 0.5s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* Style pour l'écran d'erreur */
+        #error-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #fee2e2; padding: 20px; z-index: 9999; color: #991b1b; }
     </style>
 </head>
 <body>
 
-    <div id="root"></div>
+    <div id="error-overlay">
+        <h1 class="text-2xl font-bold mb-2">Oups, une erreur est survenue</h1>
+        <p id="error-message">Vérifiez la console (F12) pour plus de détails.</p>
+    </div>
+
+    <div id="root">
+        <div class="flex items-center justify-center h-screen text-slate-500 font-sans animate-pulse">
+            Chargement de GoGateDocs...
+        </div>
+    </div>
+
+    <script>
+        window.onerror = function(message, source, lineno, colno, error) {
+            document.getElementById('error-overlay').style.display = 'block';
+            document.getElementById('error-message').innerText = message + " (Ligne: " + lineno + ")";
+            document.getElementById('root').style.display = 'none';
+        };
+    </script>
 
     <script type="text/babel">
 
-        // --- IMPORTATIONS SIMULÉES (Destructuring depuis les globales) ---
+        // --- IMPORTATIONS SÉCURISÉES ---
         const { useState, useEffect } = React;
         
-        // Récupération des icônes depuis la librairie chargée via CDN
-        const { 
-            Plane, MapPin, Calendar, ShieldCheck, Trophy, ArrowRight, Heart, Globe, 
-            ExternalLink, CheckCircle, AlertTriangle, Info, Languages, Clock, Copyright, 
-            Navigation, Link: LinkIcon, Stethoscope, Droplets, Siren, Wifi, Ticket, 
-            Timer, MessageSquare, Umbrella, Calculator, Mail, Menu, X, Wallet 
-        } = lucideReact;
+        // Récupération sécurisée des icônes
+        const Icons = window.lucideReact || {};
+        
+        // Fallback si une icône manque pour éviter le crash
+        const getIcon = (name) => {
+            return Icons[name] || function() { return <span>?</span> };
+        };
 
-        // --- CONFIGURATION AFFILIATION (A MODIFIER ICI) ---
+        // Extraction des icônes utilisées
+        const Plane = getIcon('Plane');
+        const MapPin = getIcon('MapPin');
+        const Calendar = getIcon('Calendar');
+        const ShieldCheck = getIcon('ShieldCheck');
+        const Trophy = getIcon('Trophy');
+        const ArrowRight = getIcon('ArrowRight');
+        const Heart = getIcon('Heart');
+        const Globe = getIcon('Globe');
+        const ExternalLink = getIcon('ExternalLink');
+        const CheckCircle = getIcon('CheckCircle');
+        const AlertTriangle = getIcon('AlertTriangle');
+        const Info = getIcon('Info');
+        const Languages = getIcon('Languages');
+        const Clock = getIcon('Clock');
+        const Copyright = getIcon('Copyright');
+        const Navigation = getIcon('Navigation');
+        const Stethoscope = getIcon('Stethoscope');
+        const Droplets = getIcon('Droplets');
+        const Siren = getIcon('Siren');
+        const Wifi = getIcon('Wifi');
+        const Ticket = getIcon('Ticket');
+        const MessageSquare = getIcon('MessageSquare');
+        const Umbrella = getIcon('Umbrella');
+        const Calculator = getIcon('Calculator');
+        const Mail = getIcon('Mail');
+
+        // --- CONFIGURATION AFFILIATION ---
         const AFFILIATE_CONFIG = {
             flight_marker: "YOUR_ID", 
             hotel_aid: "YOUR_ID",
             esim_id: "YOUR_ID", 
             activities_id: "YOUR_ID",
-            insurance_link: "YOUR_INSURANCE_LINK" // Mettre ton lien Axa/Chapka/SafetyWing ici
+            insurance_link: "YOUR_INSURANCE_LINK"
         };
 
         // --- TRADUCTIONS ---
@@ -187,7 +233,7 @@
             }
         };
 
-        // --- BASE DE DONNÉES PAYS (ORIGINALE) ---
+        // --- BASE DE DONNÉES PAYS ---
         const countries = [
             // --- EUROPE ---
             { code: "FR", name: "France", region: "EU", continent: "Europe", power: 128, water: "safe", costFactor: 1.8 },
