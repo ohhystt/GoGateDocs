@@ -4,7 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GoGateDocs - Préparez votre voyage</title>
-    
+
+    <script data-noptimize="1" data-cfasync="false" data-wpfc-render="false">
+      (function () {
+          var script = document.createElement("script");
+          script.async = 1;
+          script.src = 'https://emrld.ltd/NDc3MjA5.js?t=477209';
+          document.head.appendChild(script);
+      })();
+    </script>
     <script src="https://cdn.tailwindcss.com"></script>
     
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
@@ -138,10 +146,10 @@
                 label_start_date: "Start",
                 label_end_date: "End",
                 label_age: "Age",
-                placeholder_select: "Select...",
-                btn_analyze: "Analyze",
-                loading_title: "Checking Formalities",
-                loading_text: "Searching for visas and taxes...",
+                placeholder_select: "Select a country...",
+                btn_analyze: "Start Analysis",
+                loading_title: "Analyzing Itinerary",
+                loading_text: "Checking visas, taxes and formalities...",
                 result_back: "Edit",
                 docs_title: "Documents & Requirements",
                 docs_disclaimer: "Links redirect to official government websites.",
@@ -479,6 +487,9 @@
                 requirements: [{ type: "form", title: "SAG Affidavit", description: "Déclaration douanière stricte.", cost: "Gratuit", mandatory: true }] 
             },
             { 
+                code: "AR", name: "Argentine", region: "SA", continent: "Amériques", power: 98, water: "unsafe", costFactor: 0.8 
+            },
+            { 
                 code: "CR", name: "Costa Rica", region: "SA", continent: "Amériques", power: 95, water: "safe", costFactor: 1.4 
             },
             { 
@@ -540,9 +551,6 @@
                     { type: "tax", title: "IVL Tax", description: "Taxe conservation et tourisme.", cost: "35 NZD", mandatory: true }
                 ]
             },
-            { code: "FJ", name: "Fidji", region: "OC", continent: "Océanie", power: 80, water: "unsafe", costFactor: 1.4 },
-            { code: "PF", name: "Polynésie Française", region: "OC", continent: "Océanie", power: 128, water: "safe", costFactor: 2.5 },
-            { code: "NC", name: "Nouvelle-Calédonie", region: "OC", continent: "Océanie", power: 128, water: "safe", costFactor: 2.2 },
 
             // ------------------------------------------
             // AFRIQUE & MOYEN-ORIENT
@@ -653,7 +661,10 @@
             { code: "BA_BOS", name: "Bosnie-Herzégovine", region: "EU_EAST", continent: "Europe", power: 95, water: "unsafe", costFactor: 0.7 }
         ].sort((a, b) => a.name.localeCompare(b.name));
 
-        // --- FONCTIONS UTILITAIRES ---
+        // ==========================================================================================
+        // 5. FONCTIONS UTILITAIRES
+        // ==========================================================================================
+        
         const groupCountriesByContinent = (list) => {
             return list.reduce((groups, country) => {
                 const continent = country.continent;
@@ -681,7 +692,9 @@
             return `https://www.booking.com/searchresults.html?ss=${destName}&checkin_year=${sYear}&checkin_month=${sMonth}&checkin_monthday=${sDay}&checkout_year=${eYear}&checkout_month=${eMonth}&checkout_monthday=${eDay}&aid=${AFFILIATE_CONFIG.hotel_aid}`;
         };
 
-        // --- COMPOSANTS UI ---
+        // ==========================================================================================
+        // 6. COMPOSANTS UI
+        // ==========================================================================================
 
         const Header = ({ lang, setLang, t, setView }) => {
             const languageNames = { EN: "English", FR: "Français", ES: "Español", CN: "中文 (简体)", JP: "日本語" };
@@ -691,6 +704,7 @@
                     <div className="bg-gradient-to-br from-blue-600 to-indigo-600 text-white p-2.5 rounded-xl shadow-blue-200 shadow-lg transform -rotate-6 group-hover:rotate-0 transition-transform">
                         <Icons.Plane size={22} />
                     </div>
+                    {/* LOGO CORRIGÉ POUR MOBILE : suppression de 'hidden sm:inline' pour 'inline' */}
                     <span className="tracking-tight inline font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-slate-800 to-slate-600">{t.app_name}.</span>
                 </div>
                 <div className="flex items-center gap-3">
@@ -1033,7 +1047,7 @@
                                             </div>
                                             <InputField label={t.label_destination} icon={Icons.MapPin}><CountrySelect value={formData.destination} onChange={(e) => setFormData({...formData, destination: e.target.value})} placeholder={t.placeholder_select} excludeCode={formData.origin} /></InputField>
                                             
-                                            {/* CORRECTION DATE MOBILE: Ajout de min-w-0 pour forcer la largeur et gap ajusté */}
+                                            {/* CORRECTION DATE MOBILE: min-w-0 et grid ajustée */}
                                             <div className="grid grid-cols-2 gap-3 sm:gap-4">
                                                 <InputField label={t.label_start_date} icon={Icons.Calendar}>
                                                     <input type="date" className="w-full min-w-0 bg-slate-50 border border-slate-200 rounded-xl p-3 sm:p-4 text-sm" value={formData.startDate} onChange={(e) => setFormData({...formData, startDate: e.target.value})} />
