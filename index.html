@@ -32,7 +32,7 @@
         const { useState, useEffect } = React;
 
         // ==========================================================================================
-        // 1. SYSTÈME D'ICÔNES SVG (INTÉGRÉ EN DUR)
+        // 1. SYSTÈME D'ICÔNES SVG (INTÉGRÉ EN DUR - SANS DÉPENDANCE)
         // ==========================================================================================
         
         const IconBase = ({ children, size = 24, className = "", ...props }) => (
@@ -54,7 +54,7 @@
         );
 
         const Icons = {
-            // --- ICÔNE AVION (PAPER PLANE STYLE) ---
+            // --- NOUVELLE ICÔNE AVION (STYLE PAPIER / SEND) ---
             Plane: (props) => (
                 <IconBase {...props}>
                     <line x1="22" x2="11" y1="2" y2="13"/>
@@ -106,7 +106,7 @@
         } = Icons;
 
         // ==========================================================================================
-        // 2. CONFIGURATION & CONSTANTES
+        // 2. CONFIGURATION AFFILIATION
         // ==========================================================================================
         
         const AFFILIATE_CONFIG = {
@@ -114,7 +114,7 @@
             hotel_aid: "YOUR_ID",
             esim_id: "YOUR_ID", 
             activities_id: "YOUR_ID",
-            insurance_link: "https://www.chapkadirect.com/" // Lien Chapka
+            insurance_link: "https://www.chapkadirect.com/" 
         };
 
         // ==========================================================================================
@@ -138,10 +138,10 @@
                 label_start_date: "Start",
                 label_end_date: "End",
                 label_age: "Age",
-                placeholder_select: "Select a country...",
-                btn_analyze: "Start Analysis",
-                loading_title: "Analyzing Itinerary",
-                loading_text: "Checking visas, taxes and formalities...",
+                placeholder_select: "Select...",
+                btn_analyze: "Analyze",
+                loading_title: "Checking Formalities",
+                loading_text: "Searching for visas and taxes...",
                 result_back: "Edit",
                 docs_title: "Documents & Requirements",
                 docs_disclaimer: "Links redirect to official government websites.",
@@ -230,7 +230,7 @@
                 offer_expires: "Offre expire dans",
                 budget_title: "Calculateur de Budget",
                 budget_desc: "Estimation quotidienne (Logement + Repas + Transport local).",
-                budget_style_low: "Backpacker",
+                budget_style_low: "Eco / Backpacker",
                 budget_style_med: "Standard",
                 budget_style_high: "Luxe",
                 budget_result: "Budget Total Estimé :",
@@ -252,7 +252,6 @@
                 donate_text: "Si nous vous avons aidé, vous pouvez nous offrir un café !",
                 donate_btn: "Faire un don"
             },
-            // Placeholders pour les autres langues
             ES: { app_name: "GoGateDocs", subtitle: "V2.0 Global", menu_home: "Home", menu_budget: "Budget", menu_insurance: "Insurance", menu_feedback: "Help", hero_title: "Prepare your trip", hero_highlight: "simply", hero_desc: "Visas, local taxes, vaccines and official documents.", label_nationality: "Your Nationality", label_origin: "Departure", label_destination: "Destination", label_start_date: "Start", label_end_date: "End", label_age: "Age", placeholder_select: "Select...", btn_analyze: "Analyze", loading_title: "Checking Formalities", loading_text: "Searching for visas and taxes...", result_back: "Edit", docs_title: "Documents & Requirements", docs_disclaimer: "Links redirect to official government websites.", doc_mandatory: "Mandatory", cost: "Cost", btn_official_link: "Official Site", health_title: "Health", vaccine_mandatory: "Mandatory Vaccine:", water_safe: "Tap water safe", water_unsafe: "Tap water UNSAFE", customs_title: "Customs & Bans", forbidden_items: "Strictly Forbidden:", services_title: "Essentials", service_esim: "eSIM (Data)", service_esim_desc: "No roaming fees.", service_activities: "Activities", service_activities_desc: "Skip-the-line.", action_title: "Book Now", action_flight: "✈️ Secret Flight Deals (-30%)", action_hotel: "🏨 Exclusive Hotel Rates (-40%)", offer_expires: "Offer expires in", budget_title: "Budget Calculator", budget_desc: "Estimate excluding flights", budget_style_low: "Budget / Backpacker", budget_style_med: "Standard", budget_style_high: "Luxury", budget_result: "Estimated budget:", budget_daily: "per day", insurance_title: "Travel Insurance", insurance_subtitle: "Health Coverage", insurance_desc: "Medical costs can be huge.", btn_get_quote: "Get Quote", feedback_title: "Contact", feedback_desc: "Bug report or feedback?", btn_send: "Send", passport_power: "Passport Power", access_text: "Visa-free access to", countries_text: "countries", duration_calc: "Duration:", days: "days", donate_title: "Free Project", donate_text: "If we helped you, buy us a coffee!", donate_btn: "Donate" },
             CN: { app_name: "GoGateDocs", subtitle: "V2.0 Global", menu_home: "Home", menu_budget: "Budget", menu_insurance: "Insurance", menu_feedback: "Help", hero_title: "Prepare your trip", hero_highlight: "simply", hero_desc: "Visas, local taxes, vaccines and official documents.", label_nationality: "Your Nationality", label_origin: "Departure", label_destination: "Destination", label_start_date: "Start", label_end_date: "End", label_age: "Age", placeholder_select: "Select...", btn_analyze: "Analyze", loading_title: "Checking Formalities", loading_text: "Searching for visas and taxes...", result_back: "Edit", docs_title: "Documents & Requirements", docs_disclaimer: "Links redirect to official government websites.", doc_mandatory: "Mandatory", cost: "Cost", btn_official_link: "Official Site", health_title: "Health", vaccine_mandatory: "Mandatory Vaccine:", water_safe: "Tap water safe", water_unsafe: "Tap water UNSAFE", customs_title: "Customs & Bans", forbidden_items: "Strictly Forbidden:", services_title: "Essentials", service_esim: "eSIM (Data)", service_esim_desc: "No roaming fees.", service_activities: "Activities", service_activities_desc: "Skip-the-line.", action_title: "Book Now", action_flight: "✈️ Secret Flight Deals (-30%)", action_hotel: "🏨 Exclusive Hotel Rates (-40%)", offer_expires: "Offer expires in", budget_title: "Budget Calculator", budget_desc: "Estimate excluding flights", budget_style_low: "Budget / Backpacker", budget_style_med: "Standard", budget_style_high: "Luxury", budget_result: "Estimated budget:", budget_daily: "per day", insurance_title: "Travel Insurance", insurance_subtitle: "Health Coverage", insurance_desc: "Medical costs can be huge.", btn_get_quote: "Get Quote", feedback_title: "Contact", feedback_desc: "Bug report or feedback?", btn_send: "Send", passport_power: "Passport Power", access_text: "Visa-free access to", countries_text: "countries", duration_calc: "Duration:", days: "days", donate_title: "Free Project", donate_text: "If we helped you, buy us a coffee!", donate_btn: "Donate" },
             JP: { app_name: "GoGateDocs", subtitle: "V2.0 Global", menu_home: "Home", menu_budget: "Budget", menu_insurance: "Insurance", menu_feedback: "Help", hero_title: "Prepare your trip", hero_highlight: "simply", hero_desc: "Visas, local taxes, vaccines and official documents.", label_nationality: "Your Nationality", label_origin: "Departure", label_destination: "Destination", label_start_date: "Start", label_end_date: "End", label_age: "Age", placeholder_select: "Select...", btn_analyze: "Analyze", loading_title: "Checking Formalities", loading_text: "Searching for visas and taxes...", result_back: "Edit", docs_title: "Documents & Requirements", docs_disclaimer: "Links redirect to official government websites.", doc_mandatory: "Mandatory", cost: "Cost", btn_official_link: "Official Site", health_title: "Health", vaccine_mandatory: "Mandatory Vaccine:", water_safe: "Tap water safe", water_unsafe: "Tap water UNSAFE", customs_title: "Customs & Bans", forbidden_items: "Strictly Forbidden:", services_title: "Essentials", service_esim: "eSIM (Data)", service_esim_desc: "No roaming fees.", service_activities: "Activities", service_activities_desc: "Skip-the-line.", action_title: "Book Now", action_flight: "✈️ Secret Flight Deals (-30%)", action_hotel: "🏨 Exclusive Hotel Rates (-40%)", offer_expires: "Offer expires in", budget_title: "Budget Calculator", budget_desc: "Estimate excluding flights", budget_style_low: "Budget / Backpacker", budget_style_med: "Standard", budget_style_high: "Luxury", budget_result: "Estimated budget:", budget_daily: "per day", insurance_title: "Travel Insurance", insurance_subtitle: "Health Coverage", insurance_desc: "Medical costs can be huge.", btn_get_quote: "Get Quote", feedback_title: "Contact", feedback_desc: "Bug report or feedback?", btn_send: "Send", passport_power: "Passport Power", access_text: "Visa-free access to", countries_text: "countries", duration_calc: "Duration:", days: "days", donate_title: "Free Project", donate_text: "If we helped you, buy us a coffee!", donate_btn: "Donate" }
@@ -294,7 +293,7 @@
                     { type: "visa", title: "e-VOA (Visa on Arrival)", description: "Visa 30 jours (Renouvelable 1 fois).", cost: "~32€ (500k IDR)", link: "https://molina.imigrasi.go.id/", mandatory: true },
                     { type: "tax", title: "Taxe Touristique 'Love Bali'", description: "Taxe régionale obligatoire pour entrer à Bali.", cost: "~9€ (150k IDR)", link: "https://lovebali.baliprov.go.id/", mandatory: true },
                     { type: "form", title: "Douane (ECD)", description: "Code QR obligatoire à l'arrivée.", cost: "Gratuit", link: "https://ecd.beacukai.go.id/", mandatory: true },
-                    { type: "form", title: "SATUSEHAT Health Pass", description: "Formulaire santé Mpox (Nouveau 2024).", cost: "Gratuit", link: "https://sshp.kemkes.go.id/", mandatory: true }
+                    { type: "form", title: "SATUSEHAT Health Pass", description: "Nouveau formulaire santé obligatoire.", cost: "Gratuit", link: "https://sshp.kemkes.go.id/", mandatory: true }
                 ]
             },
             { 
@@ -441,7 +440,7 @@
                 costFactor: 1.4,
                 customs: ["Cigarettes électroniques (Réglementé)"],
                 requirements: [
-                    { type: "tax", title: "Visitax", description: "Taxe touristique locale obligatoire.", cost: "~11 USD", link: "https://www.visitax.gob.mx/", mandatory: true },
+                    { type: "tax", title: "Visitax", description: "Taxe touristique locale obligatoire Quintana Roo.", cost: "~11 USD", link: "https://www.visitax.gob.mx/", mandatory: true },
                     { type: "form", title: "Formulaire Migratoire (FMM)", description: "Souvent dématérialisé ou dans l'avion.", cost: "Gratuit", mandatory: true }
                 ]
             },
@@ -535,7 +534,7 @@
                 power: 119, 
                 water: "safe", 
                 costFactor: 2.0,
-                customs: ["Matériel de randonnée sale", "Nourriture"],
+                customs: ["Matériel de rando sale", "Nourriture"],
                 requirements: [
                     { type: "visa", title: "NZeTA", description: "Autorisation électronique de voyage.", cost: "17-23 NZD", link: "https://nzeta.immigration.govt.nz/", mandatory: true },
                     { type: "tax", title: "IVL Tax", description: "Taxe conservation et tourisme.", cost: "35 NZD", mandatory: true }
@@ -698,7 +697,7 @@
                     <div className="bg-gradient-to-br from-blue-600 to-indigo-600 text-white p-2.5 rounded-xl shadow-blue-200 shadow-lg transform -rotate-6 group-hover:rotate-0 transition-transform">
                         <Icons.Plane size={22} />
                     </div>
-                    <span className="tracking-tight hidden sm:inline font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-slate-800 to-slate-600">{t.app_name}.</span>
+                    <span className="tracking-tight inline font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-slate-800 to-slate-600">{t.app_name}.</span>
                 </div>
                 <div className="flex items-center gap-3">
                     <div className="relative group">
@@ -1040,7 +1039,7 @@
                                                 <InputField label={t.label_origin} icon={Icons.Navigation}><CountrySelect value={formData.origin} onChange={(e) => setFormData({...formData, origin: e.target.value})} placeholder={t.placeholder_select} /></InputField>
                                             </div>
                                             <InputField label={t.label_destination} icon={Icons.MapPin}><CountrySelect value={formData.destination} onChange={(e) => setFormData({...formData, destination: e.target.value})} placeholder={t.placeholder_select} excludeCode={formData.origin} /></InputField>
-                                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                            <div className="grid grid-cols-2 gap-4">
                                                 <InputField label={t.label_start_date} icon={Icons.Calendar}><input type="date" className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-sm" value={formData.startDate} onChange={(e) => setFormData({...formData, startDate: e.target.value})} /></InputField>
                                                 <InputField label={t.label_end_date} icon={Icons.Calendar}><input type="date" className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-sm" value={formData.endDate} onChange={(e) => setFormData({...formData, endDate: e.target.value})} /></InputField>
                                             </div>
