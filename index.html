@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GoGateDocs - Préparez votre voyage</title>
+    <title>GoGateDocs - Travel Requirements Checklist</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     
@@ -32,7 +32,7 @@
         const { useState, useEffect } = React;
 
         // ==============================================
-        // 1. SYSTÈME D'ICÔNES SVG (OFFICIEL & CONFORME)
+        // 1. SYSTÈME D'ICÔNES SVG (NOUVEL AVION)
         // ==============================================
         
         const IconBase = ({ children, size = 24, className = "", ...props }) => (
@@ -42,12 +42,10 @@
         );
 
         const Icons = {
-            // --- ICÔNES CORRIGÉES SELON TA DEMANDE ---
+            // --- NOUVELLE ICÔNE AVION (Paper Plane Style) ---
+            Plane: (props) => <IconBase {...props}><line x1="22" x2="11" y1="2" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></IconBase>,
             
-            // Avion Standard (Lucide Original)
-            Plane: (props) => <IconBase {...props}><path d="M2 22h20"/><path d="M13 6l-7-7 3-3 16 16-3 3-7-7"/><path d="M6 13L2 15l4 4 2-4"/></IconBase>,
-            
-            // Stéthoscope (Lucide Original - Santé)
+            // Stéthoscope (Reste le même car il était correct dans la dernière version)
             Stethoscope: (props) => <IconBase {...props}><path d="M4.8 2.3A10 10 0 0 1 20 10c0 5.5-4.5 10-10 10s-10-4.5-10-10"/><path d="M4 10v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-9"/><path d="M12 10V2"/><circle cx="12" cy="2" r="2"/></IconBase>,
             
             // --- AUTRES ICÔNES ---
@@ -85,8 +83,72 @@
             insurance_link: "YOUR_INSURANCE_LINK"
         };
 
-        // --- 3. TRADUCTIONS ---
+        // --- 3. TRADUCTIONS (AJOUT ES, CN, JP) ---
+        // NOTE: Les langues ES, CN, JP utilisent l'anglais comme placeholder pour l'instant.
         const translations = {
+            EN: {
+                app_name: "GoGateDocs",
+                subtitle: "V2.0 Global",
+                menu_home: "Home",
+                menu_budget: "Budget",
+                menu_insurance: "Insurance",
+                menu_feedback: "Help",
+                hero_title: "Prepare your trip",
+                hero_highlight: "simply",
+                hero_desc: "Visas, local taxes, vaccines and official documents.",
+                label_nationality: "Your Nationality",
+                label_origin: "Departure",
+                label_destination: "Destination",
+                label_start_date: "Start",
+                label_end_date: "End",
+                label_age: "Age",
+                placeholder_select: "Select...",
+                btn_analyze: "Analyze",
+                loading_title: "Checking Formalities",
+                loading_text: "Searching for visas and taxes...",
+                result_back: "Edit",
+                docs_title: "Documents & Requirements",
+                docs_disclaimer: "Links redirect to official government websites.",
+                doc_mandatory: "Mandatory",
+                cost: "Cost",
+                btn_official_link: "Official Site",
+                health_title: "Health",
+                vaccine_mandatory: "Mandatory Vaccine:",
+                water_safe: "Tap water safe",
+                water_unsafe: "Tap water UNSAFE",
+                customs_title: "Customs & Bans",
+                forbidden_items: "Strictly Forbidden:",
+                services_title: "Essentials",
+                service_esim: "eSIM (Data)",
+                service_esim_desc: "No roaming fees.",
+                service_activities: "Activities",
+                service_activities_desc: "Skip-the-line.",
+                action_title: "Book Now",
+                action_flight: "Flights (-30%)",
+                action_hotel: "Hotels (-40%)",
+                offer_expires: "Offer expires in",
+                budget_title: "Budget Calculator",
+                budget_desc: "Estimate excluding flights (Stay + Food + Fun)",
+                budget_style_low: "Budget / Backpacker",
+                budget_style_med: "Standard",
+                budget_style_high: "Luxury",
+                budget_result: "Estimated budget:",
+                insurance_title: "Travel Insurance",
+                insurance_subtitle: "Health Coverage",
+                insurance_desc: "Medical costs can be huge. Don't travel without it.",
+                btn_get_quote: "Get Quote",
+                feedback_title: "Contact",
+                feedback_desc: "Bug report or feedback?",
+                btn_send: "Send",
+                passport_power: "Passport Power",
+                access_text: "Visa-free access to",
+                countries_text: "countries",
+                duration_calc: "Duration:",
+                days: "days",
+                donate_title: "Free Project",
+                donate_text: "Support GoGateDocs with a coffee!",
+                donate_btn: "Donate"
+            },
             FR: {
                 app_name: "GoGateDocs",
                 subtitle: "V2.0 Mondiale",
@@ -113,7 +175,7 @@
                 countries_text: "pays",
                 docs_title: "Documents & Liens Officiels",
                 health_title: "Santé & Hygiène",
-                customs_title: "Douanes & Interdits (Attention !)",
+                customs_title: "Douanes & Interdits",
                 docs_disclaimer: "Les liens redirigent vers les sites gouvernementaux officiels.",
                 action_title: "Réserver au meilleur prix",
                 action_flight: "Vols : Accéder aux tarifs secrets (-30%)",
@@ -158,79 +220,19 @@
                 btn_send: "Envoyer",
                 days: "jours"
             },
-            EN: {
-                app_name: "GoGateDocs",
-                subtitle: "V2.0 Global",
-                menu_home: "Home",
-                menu_budget: "Budget",
-                menu_insurance: "Insurance",
-                menu_feedback: "Help & Feedback",
-                hero_title: "Prepare your trip",
-                hero_highlight: "simply",
-                hero_desc: "Visas, local taxes, vaccines and official documents.",
-                label_nationality: "Your Nationality",
-                label_origin: "Departure",
-                label_destination: "Destination",
-                label_start_date: "Start",
-                label_end_date: "End",
-                label_age: "Age",
-                placeholder_select: "Select a country...",
-                btn_analyze: "Analyze",
-                loading_title: "Analyzing Itinerary",
-                loading_text: "Checking formalities...",
-                result_back: "Edit",
-                passport_power: "Passport Power",
-                access_text: "Easy access to",
-                countries_text: "countries",
-                docs_title: "Documents & Official Links",
-                health_title: "Health & Hygiene",
-                customs_title: "Customs & Bans",
-                docs_disclaimer: "Links redirect to official government websites.",
-                doc_mandatory: "Mandatory",
-                cost: "Cost",
-                btn_official_link: "Official Site",
-                health_title: "Health",
-                vaccine_mandatory: "Mandatory Vaccine:",
-                water_safe: "Tap water safe",
-                water_unsafe: "Tap water UNSAFE",
-                customs_title: "Customs & Forbidden Items",
-                forbidden_items: "Strictly Forbidden:",
-                services_title: "Essentials",
-                service_esim: "eSIM (Data)",
-                service_esim_desc: "No roaming fees.",
-                service_activities: "Activities",
-                service_activities_desc: "Skip-the-line.",
-                action_title: "Book Now",
-                action_flight: "Flights (-30%)",
-                action_hotel: "Hotels (-40%)",
-                offer_expires: "Offer expires in",
-                budget_title: "Budget Calculator",
-                budget_desc: "Estimate excluding flights (Stay + Food + Fun)",
-                budget_style_low: "Budget / Backpacker",
-                budget_style_med: "Standard",
-                budget_style_high: "Luxury",
-                budget_result: "Estimated budget:",
-                insurance_title: "Travel Insurance",
-                insurance_subtitle: "Health Coverage",
-                insurance_desc: "Medical costs can be huge. Don't travel without it.",
-                btn_get_quote: "Get Quote",
-                feedback_title: "Need Help?",
-                feedback_desc: "Bug report or feedback?",
-                feedback_placeholder: "Your message...",
-                btn_send: "Send",
-                passport_power: "Passport Power",
-                access_text: "Visa-free access to",
-                countries_text: "countries",
-                duration_calc: "Duration:",
-                days: "days",
-                donate_title: "Free Project",
-                donate_text: "Support GoGateDocs with a coffee!",
-                donate_btn: "Donate"
+            ES: {
+                app_name: "GoGateDocs", subtitle: "V2.0 Global", menu_home: "Home", menu_budget: "Budget", menu_insurance: "Insurance", menu_feedback: "Help", hero_title: "Prepare your trip", hero_highlight: "simply", hero_desc: "Visas, local taxes, vaccines and official documents.", label_nationality: "Your Nationality", label_origin: "Departure", label_destination: "Destination", label_start_date: "Start", label_end_date: "End", label_age: "Age", placeholder_select: "Select...", btn_analyze: "Analyze", loading_title: "Checking Formalities", loading_text: "Searching for visas and taxes...", result_back: "Edit", docs_title: "Documents & Requirements", docs_disclaimer: "Links redirect to official government websites.", doc_mandatory: "Mandatory", cost: "Cost", btn_official_link: "Official Site", health_title: "Health", vaccine_mandatory: "Mandatory Vaccine:", water_safe: "Tap water safe", water_unsafe: "Tap water UNSAFE", customs_title: "Customs & Bans", forbidden_items: "Strictly Forbidden:", services_title: "Essentials", service_esim: "eSIM (Data)", service_esim_desc: "No roaming fees.", service_activities: "Activities", service_activities_desc: "Skip-the-line.", action_title: "Book Now", action_flight: "Flights (-30%)", action_hotel: "Hotels (-40%)", offer_expires: "Offer expires in", budget_title: "Budget Calculator", budget_desc: "Estimate excluding flights (Stay + Food + Fun)", budget_style_low: "Budget / Backpacker", budget_style_med: "Standard", budget_style_high: "Luxury", budget_result: "Estimated budget:", insurance_title: "Travel Insurance", insurance_subtitle: "Health Coverage", insurance_desc: "Medical costs can be huge. Don't travel without it.", btn_get_quote: "Get Quote", feedback_title: "Contact", feedback_desc: "Bug report or feedback?", btn_send: "Send", passport_power: "Passport Power", access_text: "Visa-free access to", countries_text: "countries", duration_calc: "Duration:", days: "days", donate_title: "Free Project", donate_text: "Support GoGateDocs with a coffee!", donate_btn: "Donate"
+            },
+            CN: {
+                 app_name: "GoGateDocs", subtitle: "V2.0 Global", menu_home: "Home", menu_budget: "Budget", menu_insurance: "Insurance", menu_feedback: "Help", hero_title: "Prepare your trip", hero_highlight: "simply", hero_desc: "Visas, local taxes, vaccines and official documents.", label_nationality: "Your Nationality", label_origin: "Departure", label_destination: "Destination", label_start_date: "Start", label_end_date: "End", label_age: "Age", placeholder_select: "Select...", btn_analyze: "Analyze", loading_title: "Checking Formalities", loading_text: "Searching for visas and taxes...", result_back: "Edit", docs_title: "Documents & Requirements", docs_disclaimer: "Links redirect to official government websites.", doc_mandatory: "Mandatory", cost: "Cost", btn_official_link: "Official Site", health_title: "Health", vaccine_mandatory: "Mandatory Vaccine:", water_safe: "Tap water safe", water_unsafe: "Tap water UNSAFE", customs_title: "Customs & Bans", forbidden_items: "Strictly Forbidden:", services_title: "Essentials", service_esim: "eSIM (Data)", service_esim_desc: "No roaming fees.", service_activities: "Activities", service_activities_desc: "Skip-the-line.", action_title: "Book Now", action_flight: "Flights (-30%)", action_hotel: "Hotels (-40%)", offer_expires: "Offer expires in", budget_title: "Budget Calculator", budget_desc: "Estimate excluding flights (Stay + Food + Fun)", budget_style_low: "Budget / Backpacker", budget_style_med: "Standard", budget_style_high: "Luxury", budget_result: "Estimated budget:", insurance_title: "Travel Insurance", insurance_subtitle: "Health Coverage", insurance_desc: "Medical costs can be huge. Don't travel without it.", btn_get_quote: "Get Quote", feedback_title: "Contact", feedback_desc: "Bug report or feedback?", btn_send: "Send", passport_power: "Passport Power", access_text: "Visa-free access to", countries_text: "countries", duration_calc: "Duration:", days: "days", donate_title: "Free Project", donate_text: "Support GoGateDocs with a coffee!", donate_btn: "Donate"
+            },
+            JP: {
+                 app_name: "GoGateDocs", subtitle: "V2.0 Global", menu_home: "Home", menu_budget: "Budget", menu_insurance: "Insurance", menu_feedback: "Help", hero_title: "Prepare your trip", hero_highlight: "simply", hero_desc: "Visas, local taxes, vaccines and official documents.", label_nationality: "Your Nationality", label_origin: "Departure", label_destination: "Destination", label_start_date: "Start", label_end_date: "End", label_age: "Age", placeholder_select: "Select...", btn_analyze: "Analyze", loading_title: "Checking Formalities", loading_text: "Searching for visas and taxes...", result_back: "Edit", docs_title: "Documents & Requirements", docs_disclaimer: "Links redirect to official government websites.", doc_mandatory: "Mandatory", cost: "Cost", btn_official_link: "Official Site", health_title: "Health", vaccine_mandatory: "Mandatory Vaccine:", water_safe: "Tap water safe", water_unsafe: "Tap water UNSAFE", customs_title: "Customs & Bans", forbidden_items: "Strictly Forbidden:", services_title: "Essentials", service_esim: "eSIM (Data)", service_esim_desc: "No roaming fees.", service_activities: "Activities", service_activities_desc: "Skip-the-line.", action_title: "Book Now", action_flight: "Flights (-30%)", action_hotel: "Hotels (-40%)", offer_expires: "Offer expires in", budget_title: "Budget Calculator", budget_desc: "Estimate excluding flights (Stay + Food + Fun)", budget_style_low: "Budget / Backpacker", budget_style_med: "Standard", budget_style_high: "Luxury", budget_result: "Estimated budget:", insurance_title: "Travel Insurance", insurance_subtitle: "Health Coverage", insurance_desc: "Medical costs can be huge. Don't travel without it.", btn_get_quote: "Get Quote", feedback_title: "Contact", feedback_desc: "Bug report or feedback?", btn_send: "Send", passport_power: "Passport Power", access_text: "Visa-free access to", countries_text: "countries", duration_calc: "Duration:", days: "days", donate_title: "Free Project", donate_text: "Support GoGateDocs with a coffee!", donate_btn: "Donate"
             }
         };
 
         // ==============================================
-        // 4. BASE DE DONNÉES PAYS MASSIVE & DÉTAILLÉE
+        // 4. BASE DE DONNÉES PAYS
         // ==============================================
         
         const countriesData = [
@@ -455,7 +457,17 @@
 
         // --- COMPOSANTS UI ---
 
-        const Header = ({ lang, setLang, t, setView }) => (
+        const Header = ({ lang, setLang, t, setView }) => {
+            // Mapping des codes langues vers les noms affichés
+            const languageNames = {
+                EN: "English",
+                FR: "Français",
+                ES: "Español",
+                CN: "中文 (简体)",
+                JP: "日本語"
+            };
+
+            return (
             <header className="w-full p-6 flex justify-between items-center max-w-4xl mx-auto border-b border-slate-100 bg-white/80 backdrop-blur-sm sticky top-0 z-50">
                 <div className="flex items-center gap-2 text-slate-800 font-bold text-xl cursor-pointer" onClick={() => setView('home')}>
                     <div className="bg-gradient-to-br from-blue-600 to-indigo-600 text-white p-2.5 rounded-xl shadow-blue-200 shadow-lg transform -rotate-6">
@@ -466,16 +478,21 @@
                 <div className="flex items-center gap-3">
                     <div className="relative group">
                         <button className="flex items-center gap-2 text-sm font-sans font-medium text-slate-600 bg-slate-50 px-3 py-2 rounded-lg hover:bg-slate-100 transition-colors">
-                            <Icons.Languages size={16} />{lang}
+                            <Icons.Languages size={16} />{languageNames[lang]}
                         </button>
-                        <div className="absolute right-0 mt-2 w-32 bg-white rounded-xl shadow-xl border border-slate-100 p-1 hidden group-hover:block fade-in">
-                            {Object.keys(translations).map((l) => (<button key={l} onClick={() => setLang(l)} className={`w-full text-left px-3 py-2 rounded-lg text-sm font-sans ${lang === l ? 'bg-blue-50 text-blue-600 font-bold' : 'text-slate-600 hover:bg-slate-50'}`}>{l === 'FR' ? 'Français' : 'English'}</button>))}
+                        <div className="absolute right-0 mt-2 w-36 bg-white rounded-xl shadow-xl border border-slate-100 p-1 hidden group-hover:block fade-in">
+                            {Object.keys(translations).map((l) => (
+                                <button key={l} onClick={() => setLang(l)} className={`w-full text-left px-3 py-2 rounded-lg text-sm font-sans ${lang === l ? 'bg-blue-50 text-blue-600 font-bold' : 'text-slate-600 hover:bg-slate-50'}`}>
+                                    {languageNames[l]}
+                                </button>
+                            ))}
                         </div>
                     </div>
                     <div className="text-xs font-bold text-blue-600 bg-blue-50 px-3 py-2 rounded-full border border-blue-100 hidden sm:block">{t.subtitle}</div>
                 </div>
             </header>
-        );
+            );
+        };
 
         const DesktopNav = ({ t, currentView, setView }) => {
             const navItems = [
@@ -684,13 +701,15 @@
         };
 
         function App() {
-            const [lang, setLang] = useState('FR');
+            // MODIFICATION LANGUE : Anglais par défaut, plus de détection automatique
+            const [lang, setLang] = useState('EN');
             const [currentView, setView] = useState('home'); 
             const [step, setStep] = useState(0); 
             const [formData, setFormData] = useState({ nationality: "FR", origin: "FR", destination: "", age: 25, startDate: new Date().toISOString().split('T')[0], endDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0] });
             const [result, setResult] = useState(null);
 
-            useEffect(() => { const userLang = navigator.language || navigator.userLanguage; const code = userLang.split('-')[0].toUpperCase(); if (['FR', 'EN'].includes(code)) setLang(code); else setLang('EN'); }, []);
+            // Removed useEffect for auto-detection
+
             const t = translations[lang] || translations.EN;
 
             const handleSearch = () => {
@@ -711,14 +730,14 @@
                     let docs = [];
                     let isEuToEu = passportInfo.region === 'EU' && destInfo.region === 'EU';
 
-                    // 1. Identité de base
+                    // 1. Identité de base - MODIFICATION : Coût supprimé (null)
                     if (isEuToEu) {
-                        docs.push({ title: "CNI ou Passeport", status: "ok", description: "Zone Schengen/EU : Libre circulation.", mandatory: true, cost: "Gratuit" });
+                        docs.push({ title: "CNI ou Passeport", status: "ok", description: "Zone Schengen/EU : Libre circulation.", mandatory: true, cost: null });
                     } else {
-                        docs.push({ title: "Passeport Valide", status: "ok", description: "Validité min. 6 mois après le retour.", mandatory: true, cost: "-" });
+                        docs.push({ title: "Passeport Valide", status: "ok", description: "Validité min. 6 mois après le retour.", mandatory: true, cost: null });
                     }
 
-                    // 2. Visas & Taxes Spécifiques (Depuis la nouvelle DB)
+                    // 2. Visas & Taxes Spécifiques
                     if (destInfo.requirements) {
                         destInfo.requirements.forEach(req => {
                             let status = "info";
@@ -756,40 +775,6 @@
             };
 
             const reset = () => { setStep(0); setResult(null); };
-
-            // COMPONENTS (Internes à App pour accès simple au contexte si besoin)
-            
-            // ... (Copie des composants simplifiés pour la structure)
-            const BudgetComponent = () => {
-                const [localDest, setLocalDest] = useState("");
-                const [days, setDays] = useState(7);
-                const [style, setStyle] = useState("med");
-                const [res, setRes] = useState(null);
-                
-                const calc = () => {
-                    if(!localDest) return;
-                    const c = countriesData.find(x => x.code === localDest);
-                    const base = 60; 
-                    const factor = c ? (c.costFactor || 1) : 1;
-                    let mult = style === 'low' ? 0.6 : (style === 'high' ? 2.5 : 1);
-                    setRes(Math.round(base * factor * mult * days));
-                };
-
-                return (
-                    <div className="w-full max-w-lg mx-auto bg-white p-6 rounded-3xl shadow-xl border border-slate-100 fade-in">
-                        <div className="text-center mb-6"><div className="mx-auto w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mb-3"><Icons.Calculator className="text-green-600" size={24} /></div><h2 className="text-2xl font-bold text-slate-800">{t.budget_title}</h2><p className="text-slate-500 text-sm">{t.budget_desc}</p></div>
-                        <div className="space-y-4">
-                            <InputField label={t.label_destination} icon={Icons.MapPin}><CountrySelect value={localDest} onChange={(e) => setLocalDest(e.target.value)} placeholder={t.placeholder_select} /></InputField>
-                            <InputField label={t.duration_calc} icon={Icons.Clock}><input type="number" value={days} onChange={(e) => setDays(e.target.value)} className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3" /></InputField>
-                            <div className="grid grid-cols-3 gap-2 mb-4">
-                                {['low', 'med', 'high'].map(s => <button key={s} onClick={() => setStyle(s)} className={`p-2 rounded-lg text-xs font-bold border ${style === s ? 'bg-blue-100 border-blue-500 text-blue-700' : 'bg-white border-slate-200 text-slate-500'}`}>{t[`budget_style_${s}`]}</button>)}
-                            </div>
-                            <button onClick={calc} className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-xl transition-all">Calculer</button>
-                            {res && <div className="mt-6 p-4 bg-green-50 border border-green-200 rounded-xl text-center fade-in"><span className="text-slate-500 text-sm block mb-1">{t.budget_result}</span><span className="text-3xl font-extrabold text-green-700">{res} €</span></div>}
-                        </div>
-                    </div>
-                );
-            };
 
             return (
                 <div className="min-h-screen bg-slate-50 font-sans text-slate-900 flex flex-col">
