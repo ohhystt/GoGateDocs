@@ -22,28 +22,21 @@
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #f0f9ff; overflow-x: hidden; }
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
         .fade-in { animation: fadeIn 0.5s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* Animations d'arrière-plan */
-        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-20px); } 100% { transform: translateY(0px); } }
-        @keyframes drift { 0% { transform: translateX(0px); } 50% { transform: translateX(15px); } 100% { transform: translateX(0px); } }
-        @keyframes spin-slow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-
-        .animate-float { animation: float 6s ease-in-out infinite; }
-        .animate-drift { animation: drift 8s ease-in-out infinite; }
-        .animate-spin-slow { animation: spin-slow 20s linear infinite; }
-        
-        .delay-1000 { animation-delay: 1s; }
-        .delay-2000 { animation-delay: 2s; }
-        .delay-3000 { animation-delay: 3s; }
-
         /* Scrollbar Custom */
         ::-webkit-scrollbar { width: 10px; }
         ::-webkit-scrollbar-track { background: #f1f1f1; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 5px; }
         ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
     </style>
 </head>
 <body>
@@ -155,25 +148,42 @@
                 customs_title: "Customs & Bans",
                 forbidden_items: "Strictly Forbidden:",
                 services_title: "Essentials",
-                service_esim: "Stay Connected (eSIM)", 
-                service_esim_desc: "Get instant internet. No roaming fees.",
-                service_activities: "Unforgettable Experiences", 
-                service_activities_desc: "Reserve tours & skip-the-line tickets.",
+                service_esim: "Get Instant Internet (eSIM)", 
+                service_esim_desc: "No roaming fees. Easy install.",
+                service_activities: "Book Unforgettable Moments", 
+                service_activities_desc: "Tours, tickets & experiences.",
                 action_title: "Book at Best Prices",
                 action_flight: "✈️ Find Secret Fares (-30%)",
                 action_hotel: "🏨 See Exclusive Deals (-40%)",
                 offer_expires: "Offer expires in",
-                budget_title: "Travel Budget Estimator",
-                budget_desc: "Estimated daily cost including Accommodation, Food & Local Transport.",
+                
+                // Budget
+                budget_title: "Smart Budget Estimator",
+                budget_desc: "Estimated costs including Accommodation, Food, Transport & Flights.",
+                budget_travelers: "Travelers",
+                budget_season: "Seasonality",
+                budget_season_low: "Low Season",
+                budget_season_mid: "Standard",
+                budget_season_high: "High Season",
                 budget_style_low: "Backpacker",
                 budget_style_med: "Standard",
                 budget_style_high: "Luxury",
-                budget_result: "Estimated Total:",
-                budget_daily: "per day",
-                insurance_title: "Chapka Insurance",
-                insurance_subtitle: "Why Credit Cards aren't enough",
-                insurance_desc: "Credit card insurance usually stops after 90 days, has high deductibles and you must advance costs. Chapka covers you fully.",
-                btn_get_quote: "Get a Free Quote",
+                budget_result_total: "Total Estimated Budget",
+                budget_breakdown: "Breakdown",
+                budget_daily: "Daily per person (on-site)",
+                budget_flights: "Flight Estimate",
+                budget_living: "Living Costs",
+                
+                // Insurance
+                insurance_title: "Find Your Chapka Insurance",
+                insurance_subtitle: "The best coverage for your specific trip",
+                insurance_desc: "Select your destination to see the recommended Chapka plan.",
+                insurance_select_dest: "Where are you going?",
+                insurance_recommended: "Recommended Plan",
+                insurance_public_price: "Public Price",
+                insurance_your_price: "Your Price",
+                btn_get_quote: "See Privileged Rate",
+                
                 feedback_title: "Help & Contact",
                 feedback_desc: "Report a bug or request a new country.",
                 feedback_placeholder: "Message (e.g., Please add Japan to the list...)",
@@ -221,24 +231,41 @@
                 forbidden_items: "Strictement Interdit :",
                 services_title: "Indispensables",
                 service_esim: "Internet Instantané (eSIM)", 
-                service_esim_desc: "Zéro frais de roaming. Activation immédiate.",
+                service_esim_desc: "Zéro frais de roaming.",
                 service_activities: "Moments Inoubliables", 
                 service_activities_desc: "Réservez vos activités à l'avance.",
                 action_title: "Réserver au meilleur prix",
                 action_flight: "✈️ Trouver des vols secrets (-30%)",
                 action_hotel: "🏨 Voir les offres exclusives (-40%)",
                 offer_expires: "Offre expire dans",
+                
+                // Budget
                 budget_title: "Calculateur de Budget",
-                budget_desc: "Estimation quotidienne (Logement + Repas + Transport local).",
+                budget_desc: "Estimation incluant Logement, Repas, Transport et Vols.",
+                budget_travelers: "Voyageurs",
+                budget_season: "Saisonnalité",
+                budget_season_low: "Basse Saison",
+                budget_season_mid: "Standard",
+                budget_season_high: "Haute Saison",
                 budget_style_low: "Eco / Backpacker",
                 budget_style_med: "Standard",
                 budget_style_high: "Luxe",
-                budget_result: "Budget Total Estimé :",
-                budget_daily: "par jour",
-                insurance_title: "Assurance Voyage Chapka",
-                insurance_subtitle: "Pourquoi votre CB ne suffit pas",
-                insurance_desc: "L'assurance de votre carte bancaire s'arrête souvent après 90 jours, comporte des franchises élevées et nécessite l'avance des frais. Chapka vous couvre à 100%.",
-                btn_get_quote: "Voir le devis Chapka",
+                budget_result_total: "Budget Total Estimé",
+                budget_breakdown: "Détails",
+                budget_daily: "Journalier par pers. (sur place)",
+                budget_flights: "Estimation Vols",
+                budget_living: "Coût Vie (Hébergement+Repas)",
+
+                // Assurance
+                insurance_title: "Trouvez votre Assurance Chapka",
+                insurance_subtitle: "La couverture adaptée à votre destination",
+                insurance_desc: "Sélectionnez votre destination pour voir le contrat Chapka recommandé.",
+                insurance_select_dest: "Quelle est votre destination ?",
+                insurance_recommended: "Contrat Recommandé",
+                insurance_public_price: "Prix Public",
+                insurance_your_price: "Tarif Privilégié",
+                btn_get_quote: "Voir mon tarif",
+
                 feedback_title: "Aide & Contact",
                 feedback_desc: "Une erreur ? Vous voulez ajouter un pays ?",
                 feedback_placeholder: "Votre message (ex: Ajoutez le Pérou svp...)",
@@ -262,17 +289,9 @@
         // ==========================================================================================
         
         const countriesData = [
-            // ------------------------------------------
-            // ASIE
-            // ------------------------------------------
+            // --- ASIE ---
             { 
-                code: "ID", 
-                name: "Indonésie (Général)", 
-                region: "AS", 
-                continent: "Asie", 
-                power: 70, 
-                water: "unsafe", 
-                costFactor: 0.7,
+                code: "ID", name: "Indonésie (Général)", region: "AS", continent: "Asie", power: 70, water: "unsafe", costFactor: 0.7,
                 customs: ["Drogues (Peine de mort)", "Plus de 1L d'alcool"],
                 requirements: [
                     { type: "visa", title: "e-VOA (Visa on Arrival)", description: "Visa tourisme 30 jours. Payable en ligne ou à l'arrivée.", cost: "~32€ (500k IDR)", link: "https://molina.imigrasi.go.id/", mandatory: true },
@@ -281,13 +300,7 @@
                 ]
             },
             { 
-                code: "BA", 
-                name: "Bali (Indonésie)", 
-                region: "AS", 
-                continent: "Asie", 
-                power: 70, 
-                water: "unsafe", 
-                costFactor: 1.0,
+                code: "BA", name: "Bali (Indonésie)", region: "AS", continent: "Asie", power: 70, water: "unsafe", costFactor: 1.0,
                 customs: ["Drogues (Tolérance Zéro)", "Médicaments (Ordonnance obligatoire)"],
                 requirements: [
                     { type: "visa", title: "e-VOA (Visa on Arrival)", description: "Visa 30 jours (Renouvelable 1 fois).", cost: "~32€ (500k IDR)", link: "https://molina.imigrasi.go.id/", mandatory: true },
@@ -297,39 +310,21 @@
                 ]
             },
             { 
-                code: "JP", 
-                name: "Japon", 
-                region: "AS", 
-                continent: "Asie", 
-                power: 130, 
-                water: "safe", 
-                costFactor: 1.6,
+                code: "JP", name: "Japon", region: "AS", continent: "Asie", power: 130, water: "safe", costFactor: 1.6,
                 customs: ["Viande/Fruits frais interdits", "Certains médicaments (Codeine)", "Couteaux de poche"],
                 requirements: [
                     { type: "form", title: "Visit Japan Web", description: "QR Code pour l'immigration et les douanes (Recommandé).", cost: "Gratuit", link: "https://vjw-lp.digital.go.jp/en/", mandatory: false }
                 ]
             },
             {
-                code: "TH", 
-                name: "Thaïlande", 
-                region: "AS", 
-                continent: "Asie", 
-                power: 75, 
-                water: "unsafe", 
-                costFactor: 0.8,
+                code: "TH", name: "Thaïlande", region: "AS", continent: "Asie", power: 75, water: "unsafe", costFactor: 0.8,
                 customs: ["Cigarettes électroniques (Interdit/Prison)", "Plus de 200 cigarettes"],
                 requirements: [
                     { type: "visa", title: "Exemption de Visa (60 jours)", description: "Pour FR, BE, CH, CA. Tampon gratuit à l'arrivée.", cost: "Gratuit", mandatory: false }
                 ]
             },
             {
-                code: "VN", 
-                name: "Vietnam", 
-                region: "AS", 
-                continent: "Asie", 
-                power: 65, 
-                water: "unsafe", 
-                costFactor: 0.6,
+                code: "VN", name: "Vietnam", region: "AS", continent: "Asie", power: 65, water: "unsafe", costFactor: 0.6,
                 customs: ["Drones (Déclaration complexe)", "Littérature politique"],
                 requirements: [
                     { type: "visa", title: "E-Visa (90 jours)", description: "Obligatoire pour séjours > 45 jours (ou si hors exemption).", cost: "~25 USD", link: "https://evisa.xuatnhapcanh.gov.vn/", mandatory: true },
@@ -337,13 +332,7 @@
                 ]
             },
             {
-                code: "CN", 
-                name: "Chine", 
-                region: "AS", 
-                continent: "Asie", 
-                power: 80, 
-                water: "unsafe", 
-                costFactor: 1.1,
+                code: "CN", name: "Chine", region: "AS", continent: "Asie", power: 80, water: "unsafe", costFactor: 1.1,
                 customs: ["VPN (Interdits)", "Nourriture"],
                 requirements: [
                     { type: "info", title: "Exemption 15 jours (Essai)", description: "Pour FR, DE, IT, ES, NL (Jusqu'à fin 2025).", cost: "Gratuit", mandatory: false },
@@ -351,26 +340,14 @@
                 ]
             },
             {
-                code: "LK", 
-                name: "Sri Lanka", 
-                region: "AS", 
-                continent: "Asie", 
-                power: 50, 
-                water: "unsafe", 
-                costFactor: 0.6,
+                code: "LK", name: "Sri Lanka", region: "AS", continent: "Asie", power: 50, water: "unsafe", costFactor: 0.6,
                 requirements: [
                     { type: "visa", title: "ETA / E-Visa", description: "Autorisation électronique obligatoire avant départ.", cost: "~50 USD", link: "https://www.srilankaevisa.lk/", mandatory: true },
                     { type: "form", title: "Arrival Card", description: "A remplir en ligne 3j avant.", cost: "Gratuit", link: "https://eservices.immigration.gov.lk/", mandatory: false }
                 ]
             },
             {
-                code: "IN", 
-                name: "Inde", 
-                region: "AS", 
-                continent: "Asie", 
-                power: 60, 
-                water: "unsafe", 
-                costFactor: 0.5,
+                code: "IN", name: "Inde", region: "AS", continent: "Asie", power: 60, water: "unsafe", costFactor: 0.5,
                 requirements: [
                     { type: "visa", title: "E-Visa", description: "Obligatoire (Tourist, Business, Medical).", cost: "~25-80 USD", link: "https://indianvisaonline.gov.in/evisa/tvoa.html", mandatory: true }
                 ]
@@ -401,43 +378,23 @@
                 requirements: [{ type: "visa", title: "K-ETA", description: "Temporairement suspendu pour 22 pays (dont FR) jusqu'à fin 2024.", cost: "Gratuit", mandatory: false }] 
             },
 
-            // ------------------------------------------
-            // AMÉRIQUES
-            // ------------------------------------------
+            // --- AMÉRIQUES ---
             {
-                code: "US", 
-                name: "États-Unis", 
-                region: "NA", 
-                continent: "Amériques", 
-                power: 116, 
-                water: "safe", 
-                costFactor: 2.2,
+                code: "US", name: "États-Unis", region: "NA", continent: "Amériques", power: 116, water: "safe", costFactor: 2.2,
                 customs: ["Kinder Surprise", "Fruits/Viandes", "Fromages non pasteurisés"],
                 requirements: [
                     { type: "visa", title: "ESTA", description: "Autorisation voyage électronique. Min 72h avant.", cost: "21 USD", link: "https://esta.cbp.dhs.gov/", mandatory: true }
                 ]
             },
             {
-                code: "CA", 
-                name: "Canada", 
-                region: "NA", 
-                continent: "Amériques", 
-                power: 115, 
-                water: "safe", 
-                costFactor: 2.0,
+                code: "CA", name: "Canada", region: "NA", continent: "Amériques", power: 115, water: "safe", costFactor: 2.0,
                 customs: ["Cannabis (Déclaration obligatoire frontières)"],
                 requirements: [
                     { type: "visa", title: "AVE (eTA)", description: "Autorisation de voyage électronique.", cost: "7 CAD", link: "https://www.canada.ca/fr/immigration-refugies-citoyennete/services/visiter-canada/ave.html", mandatory: true }
                 ]
             },
             {
-                code: "CQ", 
-                name: "Cancún / Quintana Roo (Mexique)", 
-                region: "NA", 
-                continent: "Amériques", 
-                power: 90, 
-                water: "unsafe", 
-                costFactor: 1.4,
+                code: "CQ", name: "Cancún / Quintana Roo (Mexique)", region: "NA", continent: "Amériques", power: 90, water: "unsafe", costFactor: 1.4,
                 customs: ["Cigarettes électroniques (Réglementé)"],
                 requirements: [
                     { type: "tax", title: "Visitax", description: "Taxe touristique locale obligatoire Quintana Roo.", cost: "~11 USD", link: "https://www.visitax.gob.mx/", mandatory: true },
@@ -449,24 +406,11 @@
                 requirements: [{ type: "form", title: "FMM (Formulaire)", description: "Formulaire d'immigration.", cost: "Gratuit", mandatory: true }]
             },
             {
-                code: "BR", 
-                name: "Brésil", 
-                region: "SA", 
-                continent: "Amériques", 
-                power: 100, 
-                water: "unsafe", 
-                costFactor: 1.1, 
-                health: { yellowFever: true }, 
-                customs: ["Espèces protégées"]
+                code: "BR", name: "Brésil", region: "SA", continent: "Amériques", power: 100, water: "unsafe", costFactor: 1.1, 
+                health: { yellowFever: true }, customs: ["Espèces protégées"]
             },
             { 
-                code: "CO", 
-                name: "Colombie", 
-                region: "SA", 
-                continent: "Amériques", 
-                power: 80, 
-                water: "unsafe", 
-                costFactor: 0.8, 
+                code: "CO", name: "Colombie", region: "SA", continent: "Amériques", power: 80, water: "unsafe", costFactor: 0.8, 
                 health: { yellowFever: true },
                 requirements: [{ type: "form", title: "Check-Mig", description: "Formulaire migratoire obligatoire (24h avant).", cost: "Gratuit", link: "https://apps.migracioncolombia.gov.co/pre-registro/public/preregistro.jsf", mandatory: true }]
             },
@@ -478,31 +422,14 @@
                 code: "CL", name: "Chili", region: "SA", continent: "Amériques", power: 118, water: "safe", costFactor: 1.3, 
                 requirements: [{ type: "form", title: "SAG Affidavit", description: "Déclaration douanière stricte.", cost: "Gratuit", mandatory: true }] 
             },
+            { code: "AR", name: "Argentine", region: "SA", continent: "Amériques", power: 98, water: "unsafe", costFactor: 0.8 },
+            { code: "CR", name: "Costa Rica", region: "SA", continent: "Amériques", power: 95, water: "safe", costFactor: 1.4 },
             { 
-                code: "AR", name: "Argentine", region: "SA", continent: "Amériques", power: 98, water: "unsafe", costFactor: 0.8 
-            },
-            { 
-                code: "CR", name: "Costa Rica", region: "SA", continent: "Amériques", power: 95, water: "safe", costFactor: 1.4 
-            },
-            { 
-                code: "DO", 
-                name: "République Dominicaine", 
-                region: "NA", 
-                continent: "Amériques", 
-                power: 65, 
-                water: "unsafe", 
-                costFactor: 1.1,
+                code: "DO", name: "République Dominicaine", region: "NA", continent: "Amériques", power: 65, water: "unsafe", costFactor: 1.1,
                 requirements: [{ type: "form", title: "E-Ticket", description: "Formulaire entrée/sortie obligatoire.", cost: "Gratuit", link: "https://eticket.migracion.gob.do/", mandatory: true }]
             },
             { 
-                code: "CU", 
-                name: "Cuba", 
-                region: "NA", 
-                continent: "Amériques", 
-                power: 55, 
-                water: "unsafe", 
-                costFactor: 0.9, 
-                customs: ["Drones", "GPS Satellite"],
+                code: "CU", name: "Cuba", region: "NA", continent: "Amériques", power: 55, water: "unsafe", costFactor: 0.9, customs: ["Drones", "GPS Satellite"],
                 requirements: [
                     { type: "form", title: "D'Viajeros", description: "Formulaire numérique obligatoire.", cost: "Gratuit", link: "https://dviajeros.mitrans.gob.cu/", mandatory: true },
                     { type: "visa", title: "Carte de Touriste", description: "Visa papier obligatoire (via agence ou consulat).", cost: "~25€", mandatory: true }
@@ -512,17 +439,9 @@
             { code: "BS", name: "Bahamas", region: "NA", continent: "Amériques", power: 85, water: "unsafe", costFactor: 2.5 },
             { code: "BB", name: "Barbade", region: "NA", continent: "Amériques", power: 90, water: "safe", costFactor: 2.2 },
 
-            // ------------------------------------------
-            // OCÉANIE
-            // ------------------------------------------
+            // --- OCÉANIE ---
             {
-                code: "AU", 
-                name: "Australie", 
-                region: "OC", 
-                continent: "Océanie", 
-                power: 120, 
-                water: "safe", 
-                costFactor: 2.1,
+                code: "AU", name: "Australie", region: "OC", continent: "Océanie", power: 120, water: "safe", costFactor: 2.1,
                 customs: ["Nourriture (Bio-sécurité extrême)", "Terres/Sables"],
                 requirements: [
                     { type: "visa", title: "eVisitor (651)", description: "Visa gratuit pour Européens. Demande en ligne.", cost: "Gratuit", link: "https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing/evisitor-651", mandatory: true },
@@ -530,31 +449,20 @@
                 ]
             },
             {
-                code: "NZ", 
-                name: "Nouvelle-Zélande", 
-                region: "OC", 
-                continent: "Océanie", 
-                power: 119, 
-                water: "safe", 
-                costFactor: 2.0,
+                code: "NZ", name: "Nouvelle-Zélande", region: "OC", continent: "Océanie", power: 119, water: "safe", costFactor: 2.0,
                 customs: ["Matériel de rando sale", "Nourriture"],
                 requirements: [
                     { type: "visa", title: "NZeTA", description: "Autorisation électronique de voyage.", cost: "17-23 NZD", link: "https://nzeta.immigration.govt.nz/", mandatory: true },
                     { type: "tax", title: "IVL Tax", description: "Taxe conservation et tourisme.", cost: "35 NZD", mandatory: true }
                 ]
             },
+            { code: "FJ", name: "Fidji", region: "OC", continent: "Océanie", power: 80, water: "unsafe", costFactor: 1.4 },
+            { code: "PF", name: "Polynésie Française", region: "OC", continent: "Océanie", power: 128, water: "safe", costFactor: 2.5 },
+            { code: "NC", name: "Nouvelle-Calédonie", region: "OC", continent: "Océanie", power: 128, water: "safe", costFactor: 2.2 },
 
-            // ------------------------------------------
-            // AFRIQUE & MOYEN-ORIENT
-            // ------------------------------------------
+            // --- AFRIQUE & MOYEN-ORIENT ---
             {
-                code: "AE", 
-                name: "Dubaï (Émirats)", 
-                region: "ME", 
-                continent: "Afrique / M-O", 
-                power: 110, 
-                water: "safe", 
-                costFactor: 2.0,
+                code: "AE", name: "Dubaï (Émirats)", region: "ME", continent: "Afrique / M-O", power: 110, water: "safe", costFactor: 2.0,
                 customs: ["Médicaments (Codéine)", "Graines de pavot"],
                 requirements: [
                     { type: "info", title: "Visa Touristique", description: "Tampon gratuit de 30 jours à l'arrivée (FR/EU).", cost: "Gratuit", mandatory: false },
@@ -562,42 +470,22 @@
                 ]
             },
             {
-                code: "EG", 
-                name: "Égypte", 
-                region: "AF", 
-                continent: "Afrique / M-O", 
-                power: 50, 
-                water: "unsafe", 
-                costFactor: 0.6,
+                code: "EG", name: "Égypte", region: "AF", continent: "Afrique / M-O", power: 50, water: "unsafe", costFactor: 0.6,
                 customs: ["Drones (Interdit - Prison)"],
                 requirements: [
                     { type: "visa", title: "E-Visa / Visa On Arrival", description: "25$ à la banque avant la douane ou en ligne.", cost: "25 USD", link: "https://visa2egypt.gov.eg/", mandatory: true }
                 ]
             },
             {
-                code: "KE", 
-                name: "Kenya", 
-                region: "AF", 
-                continent: "Afrique / M-O", 
-                power: 55, 
-                water: "unsafe", 
-                costFactor: 1.1,
-                health: { yellowFever: true },
-                customs: ["Sacs plastiques", "Drones"],
+                code: "KE", name: "Kenya", region: "AF", continent: "Afrique / M-O", power: 55, water: "unsafe", costFactor: 1.1,
+                health: { yellowFever: true }, customs: ["Sacs plastiques", "Drones"],
                 requirements: [
                     { type: "visa", title: "eTA Kenya", description: "Remplace le visa. Obligatoire pour TOUS.", cost: "~30 USD", link: "https://www.etakenya.go.ke/", mandatory: true }
                 ]
             },
             {
-                code: "ZN", 
-                name: "Zanzibar (Tanzanie)", 
-                region: "AF", 
-                continent: "Afrique / M-O", 
-                power: 52, 
-                water: "unsafe", 
-                costFactor: 1.2,
-                health: { yellowFever: true },
-                customs: ["Sacs plastiques (Interdit)", "Coquillages"],
+                code: "ZN", name: "Zanzibar (Tanzanie)", region: "AF", continent: "Afrique / M-O", power: 52, water: "unsafe", costFactor: 1.2,
+                health: { yellowFever: true }, customs: ["Sacs plastiques (Interdit)", "Coquillages"],
                 requirements: [
                     { type: "visa", title: "E-Visa Tanzanie", description: "E-Visa ou visa à l'arrivée requis.", cost: "50 USD", link: "https://eservices.immigration.go.tz/visa/", mandatory: true },
                     { type: "tax", title: "Assurance Inbound", description: "Nouvelle assurance obligatoire (Oct 2024).", cost: "44 USD", link: "https://visitzanzibar.go.tz/", mandatory: true }
@@ -605,15 +493,13 @@
             },
             { code: "MA", name: "Maroc", region: "AF", continent: "Afrique / M-O", power: 65, water: "unsafe", costFactor: 0.7, customs: ["Drones (Confiscation)"] },
             { code: "SA", name: "Arabie Saoudite", region: "ME", continent: "Afrique / M-O", power: 85, water: "unsafe", costFactor: 1.8, customs: ["Alcool (Tolérance Zéro)", "Symboles religieux"], requirements: [{ type: "visa", title: "E-Visa", description: "Obligatoire pour tourisme.", cost: "~120€", link: "https://visa.visitsaudi.com/", mandatory: true }] },
-            { code: "JO", name: "Jordanie", region: "ME", continent: "Afrique / M-O", power: 75, water: "unsafe", costFactor: 1.3, requirements: [{ type: "visa", title: "Jordan Pass", description: "Inclut Visa + Petra. Très avantageux.", cost: "70-80 JOD", link: "https://www.jordanpass.jo/", mandatory: false }] },
+            { code: "JO", name: "Jordanie", region: "ME", continent: "Afrique / M-O", power: 75, water: "unsafe", costFactor: 1.3, customs: ["Drones (Interdit)"], requirements: [{ type: "visa", title: "Jordan Pass", description: "Inclut Visa + Petra. Très avantageux.", cost: "70-80 JOD", link: "https://www.jordanpass.jo/", mandatory: false }] },
             { code: "ZA", name: "Afrique du Sud", region: "AF", continent: "Afrique / M-O", power: 95, water: "unsafe", costFactor: 1.0 },
             { code: "MU", name: "Île Maurice", region: "AF", continent: "Afrique / M-O", power: 90, water: "unsafe", costFactor: 1.4, requirements: [{ type: "form", title: "All-in-One Form", description: "Formulaire santé/immigration obligatoire.", cost: "Gratuit", link: "https://safemauritius.govmu.org/", mandatory: true }] },
             { code: "SC", name: "Seychelles", region: "AF", continent: "Afrique / M-O", power: 85, water: "safe", costFactor: 2.5, requirements: [{ type: "form", title: "Travel Authorization", description: "Obligatoire avant départ.", cost: "10€", link: "https://seychelles.govtas.com/", mandatory: true }] },
             { code: "MD", name: "Madagascar", region: "AF", continent: "Afrique / M-O", power: 50, water: "unsafe", costFactor: 0.6, requirements: [{ type: "visa", title: "Visa Arrivée", description: "35€ pour 30 jours.", cost: "35€", mandatory: true }] },
             
-            // ------------------------------------------
-            // EUROPE
-            // ------------------------------------------
+            // --- EUROPE ---
             { code: "FR", name: "France", region: "EU", continent: "Europe", power: 128, water: "safe", costFactor: 1.8 },
             { code: "DE", name: "Allemagne", region: "EU", continent: "Europe", power: 129, water: "safe", costFactor: 1.7 },
             { code: "IT", name: "Italie", region: "EU", continent: "Europe", power: 129, water: "safe", costFactor: 1.6 },
@@ -685,48 +571,13 @@
         };
 
         // ==========================================================================================
-        // 6. COMPOSANTS UI (BACKGROUND DÉCORATIF AJOUTÉ)
+        // 6. COMPOSANTS UI
         // ==========================================================================================
-
-        // NOUVEAU : Composant de fond animé (Desktop seulement)
-        const BackgroundDecor = () => (
-            <div className="fixed inset-0 pointer-events-none overflow-hidden hidden lg:block z-0">
-                {/* Soleil Coin Haut Gauche */}
-                <div className="absolute top-20 left-20 text-yellow-400 opacity-20 animate-spin-slow">
-                    <Icons.Sun size={120} />
-                </div>
-                
-                {/* Nuage Flottant 1 */}
-                <div className="absolute top-40 right-1/4 text-blue-200 opacity-30 animate-drift delay-1000">
-                    <Icons.Cloud size={100} />
-                </div>
-
-                {/* Avion traversant */}
-                <div className="absolute top-1/3 left-10 text-blue-300 opacity-10 animate-float">
-                    <Icons.Plane size={80} />
-                </div>
-
-                {/* Valise Bas Gauche */}
-                <div className="absolute bottom-20 left-32 text-slate-300 opacity-20">
-                    <Icons.Briefcase size={90} />
-                </div>
-
-                {/* Montagne Bas Droite */}
-                <div className="absolute bottom-0 right-0 text-emerald-100 opacity-40">
-                    <Icons.Mountain size={300} />
-                </div>
-
-                {/* Passeport/Document volant */}
-                <div className="absolute top-1/2 right-20 text-indigo-200 opacity-20 animate-float delay-2000">
-                    <Icons.Ticket size={70} />
-                </div>
-            </div>
-        );
 
         const Header = ({ lang, setLang, t, setView }) => {
             const languageNames = { EN: "English", FR: "Français", ES: "Español", CN: "中文 (简体)", JP: "日本語" };
             return (
-            <header className="w-full p-6 flex justify-between items-center max-w-6xl mx-auto border-b border-slate-100 bg-white/80 backdrop-blur-sm sticky top-0 z-50 relative">
+            <header className="w-full p-6 flex justify-between items-center max-w-4xl mx-auto border-b border-slate-100 bg-white/80 backdrop-blur-sm sticky top-0 z-50">
                 <div className="flex items-center gap-2 text-slate-800 font-bold text-xl cursor-pointer group" onClick={() => { setView('home'); window.location.reload(); }}>
                     <div className="bg-gradient-to-br from-blue-600 to-indigo-600 text-white p-2.5 rounded-xl shadow-blue-200 shadow-lg transform -rotate-6 group-hover:rotate-0 transition-transform">
                         <Icons.Plane size={22} />
@@ -738,7 +589,7 @@
                         <button className="flex items-center gap-2 text-sm font-sans font-medium text-slate-600 bg-slate-50 px-3 py-2 rounded-lg hover:bg-slate-100 transition-colors">
                             <Icons.Languages size={16} />{languageNames[lang]}
                         </button>
-                        <div className="absolute right-0 mt-2 w-36 bg-white rounded-xl shadow-xl border border-slate-100 p-1 hidden group-hover:block fade-in bg-white z-50">
+                        <div className="absolute right-0 mt-2 w-36 bg-white rounded-xl shadow-xl border border-slate-100 p-1 hidden group-hover:block fade-in">
                             {Object.keys(translations).map((l) => (
                                 <button key={l} onClick={() => setLang(l)} className={`w-full text-left px-3 py-2 rounded-lg text-sm font-sans ${lang === l ? 'bg-blue-50 text-blue-600 font-bold' : 'text-slate-600 hover:bg-slate-50'}`}>
                                     {languageNames[l]}
@@ -760,7 +611,7 @@
                 { id: 'feedback', icon: Icons.MessageSquare, label: t.menu_feedback },
             ];
             return (
-                <div className="hidden sm:flex justify-center gap-4 mb-8 relative z-10">
+                <div className="hidden sm:flex justify-center gap-4 mb-8">
                 {navItems.map((item) => (
                     <button key={item.id} onClick={() => setView(item.id)} className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-bold transition-all ${currentView === item.id ? 'bg-blue-600 text-white shadow-lg shadow-blue-200' : 'bg-white text-slate-500 hover:bg-slate-50'}`}>
                         <item.icon size={16} />{item.label}
@@ -837,6 +688,7 @@
                         </div>
                         <p className="text-sm text-slate-500 mt-1 leading-relaxed">{description}</p>
                         <div className="flex flex-wrap items-center gap-3 mt-3">
+                            {/* Suppression du coût si null */}
                             {cost && <div className="inline-flex items-center text-xs font-bold text-slate-700 bg-slate-50 px-2.5 py-1 rounded-md border border-slate-200">{t.cost}: {cost}</div>}
                             {link && <a href={link} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 px-3 py-1.5 rounded-md transition-colors shadow-sm">{t.btn_official_link}<Icons.ExternalLink size={12} /></a>}
                         </div>
@@ -972,13 +824,24 @@
                                 <div className="bg-green-50 border border-green-200 rounded-2xl p-8 text-center fade-in h-full flex flex-col justify-center">
                                     <span className="text-slate-500 text-sm font-bold uppercase tracking-wider mb-2">{t.budget_result_total}</span>
                                     <span className="text-5xl font-extrabold text-green-700 block mb-6">{res} €</span>
-                                    <div className="space-y-3 text-sm text-slate-600 border-t border-green-200 pt-6">
-                                        <div className="flex justify-between"><span>{t.budget_result_daily}</span><b>{daily}€</b></div>
-                                        <div className="flex justify-between"><span>{t.budget_flight_estimate}</span><b>~{flightEst}€</b></div>
+                                    
+                                    <div className="grid grid-cols-1 gap-3 text-sm text-left border-t border-green-200 pt-4">
+                                        <div className="flex justify-between p-2 bg-white rounded-lg">
+                                            <span className="text-slate-500">{t.budget_flight_estimate}</span>
+                                            <span className="font-bold text-slate-800">~{flightEst}€</span>
+                                        </div>
+                                        <div className="flex justify-between p-2 bg-white rounded-lg">
+                                            <span className="text-slate-500">{t.budget_living}</span>
+                                            <span className="font-bold text-slate-800">{res - flightEst}€</span>
+                                        </div>
+                                        <div className="flex justify-between p-2 bg-blue-50 text-blue-700 rounded-lg mt-2 font-bold">
+                                            <span>{t.budget_result_daily}</span>
+                                            <span>{daily}€ /j</span>
+                                        </div>
                                     </div>
                                 </div>
                             ) : (
-                                <div className="h-full flex items-center justify-center text-slate-300 border-2 border-dashed border-slate-200 rounded-2xl">
+                                <div className="h-full flex items-center justify-center text-slate-300 border-2 border-dashed border-slate-200 rounded-2xl min-h-[200px] bg-slate-50">
                                     <Icons.Calculator size={64} />
                                 </div>
                             )}
@@ -988,36 +851,74 @@
             );
         };
 
-        const InsurancePage = ({ t }) => (
-            <div className="w-full max-w-4xl mx-auto bg-white p-8 rounded-3xl shadow-xl border border-slate-100 text-center fade-in relative z-10">
-                <div className="mx-auto w-20 h-20 bg-rose-100 rounded-full flex items-center justify-center mb-6"><Icons.Umbrella className="text-rose-600" size={40} /></div>
-                <h2 className="text-3xl font-bold text-slate-800 mb-2">{t.insurance_title}</h2><h3 className="text-rose-600 font-bold uppercase tracking-wider text-sm mb-6">{t.insurance_subtitle}</h3><p className="text-slate-600 mb-10 leading-relaxed max-w-2xl mx-auto">{t.insurance_desc}</p>
+        // --- COMPOSANT ASSURANCE INTELLIGENT ---
+        const InsurancePage = ({ t }) => {
+            const [dest, setDest] = useState("");
+            const [plans, setPlans] = useState([]);
+
+            useEffect(() => {
+                if (!dest) { setPlans([]); return; }
+                const country = countriesData.find(c => c.code === dest);
                 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10 text-left">
-                    <div className="bg-slate-50 p-6 rounded-2xl border border-slate-200 hover-card">
-                        <div className="flex items-center gap-3 mb-4 text-slate-400 font-bold text-sm uppercase"><div className="p-2 bg-white rounded-lg border border-slate-200"><Icons.CreditCard size={20}/></div> Carte Bancaire</div>
-                        <ul className="text-sm text-slate-500 space-y-3 list-disc list-inside">
-                            <li>Max 90 jours</li>
-                            <li>Franchises élevées (souvent &gt; 50€)</li>
-                            <li>Avance de frais obligatoire</li>
-                            <li>Plafonds limités</li>
-                        </ul>
+                // Logique de recommandation Chapka
+                let p = [];
+                const whvCountries = ["AU", "NZ", "JP", "CA", "KR", "AR", "BR", "CL", "CO", "MX", "PE", "UY", "HK", "TW"]; // Pays PVT courants
+                
+                if (whvCountries.includes(dest)) {
+                    p.push({ name: "Cap Working Holiday", desc: "Spécial PVT : Frais médicaux illimités, RC, Retour anticipé.", price: "36€/mois", promo: "33€/mois" });
+                }
+                
+                if (country && country.region === "EU") {
+                     p.push({ name: "Cap Assistance 24/7", desc: "Idéal courts séjours (< 90j) en Europe. Rapatriement inclus.", price: "22€", promo: "20€" });
+                } else {
+                     p.push({ name: "Cap Assistance 24/7", desc: "Vacances < 90 jours. Plafond médical élevé pour USA/Monde.", price: "30€", promo: "28€" });
+                }
+
+                p.push({ name: "Cap Aventure", desc: "Pour les longs voyages (> 3 mois) ou tour du monde.", price: "46€/mois", promo: "44€/mois" });
+                
+                setPlans(p);
+            }, [dest]);
+
+            return (
+                <div className="w-full max-w-4xl mx-auto bg-white p-8 rounded-3xl shadow-xl border border-slate-100 text-center fade-in relative z-10">
+                    <div className="mx-auto w-20 h-20 bg-rose-100 rounded-full flex items-center justify-center mb-6"><Icons.Umbrella className="text-rose-600" size={40} /></div>
+                    <h2 className="text-3xl font-bold text-slate-800 mb-2">{t.insurance_title}</h2>
+                    <p className="text-slate-500 mb-8">{t.insurance_desc}</p>
+
+                    <div className="max-w-md mx-auto mb-10 text-left">
+                        <InputField label={t.insurance_select_dest} icon={Icons.MapPin}>
+                            <CountrySelect value={dest} onChange={(e) => setDest(e.target.value)} placeholder="Selectionner..." />
+                        </InputField>
                     </div>
-                    <div className="bg-rose-50 p-6 rounded-2xl border border-rose-200 hover-card relative overflow-hidden">
-                        <div className="absolute top-0 right-0 bg-rose-500 text-white text-[10px] font-bold px-3 py-1 rounded-bl-xl">RECOMMANDÉ</div>
-                        <div className="flex items-center gap-3 mb-4 text-rose-600 font-bold text-sm uppercase"><div className="p-2 bg-white rounded-lg border border-rose-100"><Icons.Umbrella size={20}/></div> Chapka</div>
-                        <ul className="text-sm text-slate-700 space-y-3 list-disc list-inside font-medium">
-                            <li>Jusqu'à 2 ans de couverture</li>
-                            <li>0€ de Franchise</li>
-                            <li>Frais réels (100%) sans avance</li>
-                            <li>Téléconsultation incluse</li>
-                        </ul>
+
+                    {dest && (
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10 fade-in">
+                            {plans.map((plan, idx) => (
+                                <div key={idx} className="bg-white border-2 border-rose-100 p-5 rounded-2xl hover:border-rose-400 transition-all shadow-sm hover:shadow-md flex flex-col">
+                                    <div className="font-bold text-slate-800 text-lg mb-2">{plan.name}</div>
+                                    <div className="text-xs text-slate-500 mb-4 flex-grow">{plan.desc}</div>
+                                    <div className="mt-auto">
+                                        <div className="text-slate-400 line-through text-xs">{plan.price}</div>
+                                        <div className="text-rose-600 font-extrabold text-xl">{plan.promo}</div>
+                                        <a href={AFFILIATE_CONFIG.insurance_link} target="_blank" className="block w-full mt-3 bg-rose-600 text-white py-2 rounded-lg text-sm font-bold hover:bg-rose-700 transition-colors">Voir l'offre</a>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                    
+                    <div className="bg-slate-50 p-6 rounded-2xl border border-slate-200 text-left">
+                        <h4 className="font-bold text-slate-700 mb-4 flex items-center gap-2"><Icons.CreditCard size={20}/> Pourquoi la Carte Bancaire ne suffit pas ?</h4>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm text-slate-600">
+                            <div className="flex items-center gap-2 text-red-500"><Icons.X size={16}/> Limité à 90 jours consécutifs</div>
+                            <div className="flex items-center gap-2 text-red-500"><Icons.X size={16}/> Franchise élevée (souvent 50-70€)</div>
+                            <div className="flex items-center gap-2 text-red-500"><Icons.X size={16}/> Avance de frais obligatoire</div>
+                            <div className="flex items-center gap-2 text-red-500"><Icons.X size={16}/> Plafonds de remboursement bas</div>
+                        </div>
                     </div>
                 </div>
-
-                <a href={AFFILIATE_CONFIG.insurance_link} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-3 bg-rose-600 hover:bg-rose-700 text-white font-bold py-4 px-8 rounded-xl shadow-lg shadow-rose-200 hover:shadow-rose-300 transition-all transform hover:-translate-y-1 text-lg">{t.btn_get_quote} <Icons.ArrowRight size={20}/></a>
-            </div>
-        );
+            );
+        };
 
         const FeedbackPage = ({ t }) => {
             const [sent, setSent] = useState(false);
@@ -1035,8 +936,6 @@
                 </div>
             );
         };
-
-        // --- APPLICATION PRINCIPALE ---
 
         function App() {
             const [lang, setLang] = useState('EN'); // Anglais par défaut
@@ -1093,9 +992,7 @@
             const reset = () => { setStep(0); setResult(null); };
 
             return (
-                <div className="min-h-screen font-sans text-slate-900 flex flex-col relative">
-                    <BackgroundDecor />
-                    
+                <div className="min-h-screen bg-slate-50 font-sans text-slate-900 flex flex-col">
                     <Header lang={lang} setLang={setLang} t={t} setView={(v) => { setView(v); setStep(0); }} />
                     <DesktopNav t={t} currentView={currentView} setView={(v) => { setView(v); setStep(0); }} />
 
@@ -1103,13 +1000,12 @@
                         {currentView === 'home' && (
                             <>
                                 {step === 0 && (
-                                    <div className="w-full max-w-4xl fade-in"> {/* ÉLARGISSEMENT ICI: max-w-4xl au lieu de lg */}
+                                    <div className="w-full max-w-4xl fade-in">
                                         <div className="text-center mb-10">
                                             <h1 className="text-4xl sm:text-5xl font-extrabold text-slate-900 mb-4 tracking-tight">{t.hero_title} <span className="text-blue-600">{t.hero_highlight}</span>.</h1>
                                             <p className="text-slate-500 text-lg sm:text-xl max-w-2xl mx-auto">{t.hero_desc}</p>
                                         </div>
                                         <div className="bg-white p-8 rounded-3xl shadow-2xl shadow-blue-100/50 border border-white/50 relative overflow-hidden backdrop-blur-sm">
-                                            {/* LAYOUT DESKTOP: 2 COLONNES POUR OPTIMISER L'ESPACE */}
                                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                                                 <div className="space-y-6">
                                                     <InputField label={t.label_nationality} icon={Icons.ShieldCheck}><CountrySelect value={formData.nationality} onChange={(e) => setFormData({...formData, nationality: e.target.value})} placeholder={t.placeholder_select} /></InputField>
@@ -1118,16 +1014,14 @@
                                                 <div className="space-y-6">
                                                     <InputField label={t.label_destination} icon={Icons.MapPin}><CountrySelect value={formData.destination} onChange={(e) => setFormData({...formData, destination: e.target.value})} placeholder={t.placeholder_select} excludeCode={formData.origin} /></InputField>
                                                     
-                                                    {/* DATE FIX: Vertical on mobile (col-span-2 in grid), Horizontal on desktop */}
-                                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                                        <div className="min-w-0">
-                                                            <label className="text-slate-500 text-[10px] sm:text-xs uppercase tracking-wider font-bold mb-2 flex items-center gap-2"><Icons.Calendar size={14} className="text-blue-500" /> {t.label_start_date}</label>
-                                                            <input type="date" className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-sm" value={formData.startDate} onChange={(e) => setFormData({...formData, startDate: e.target.value})} />
-                                                        </div>
-                                                        <div className="min-w-0">
-                                                            <label className="text-slate-500 text-[10px] sm:text-xs uppercase tracking-wider font-bold mb-2 flex items-center gap-2"><Icons.Calendar size={14} className="text-blue-500" /> {t.label_end_date}</label>
-                                                            <input type="date" className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-sm" value={formData.endDate} onChange={(e) => setFormData({...formData, endDate: e.target.value})} />
-                                                        </div>
+                                                    {/* CORRECTION DATE MOBILE: min-w-0 et grid ajustée */}
+                                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                                                        <InputField label={t.label_start_date} icon={Icons.Calendar}>
+                                                            <input type="date" className="w-full min-w-0 bg-slate-50 border border-slate-200 rounded-xl p-3 sm:p-4 text-sm" value={formData.startDate} onChange={(e) => setFormData({...formData, startDate: e.target.value})} />
+                                                        </InputField>
+                                                        <InputField label={t.label_end_date} icon={Icons.Calendar}>
+                                                            <input type="date" className="w-full min-w-0 bg-slate-50 border border-slate-200 rounded-xl p-3 sm:p-4 text-sm" value={formData.endDate} onChange={(e) => setFormData({...formData, endDate: e.target.value})} />
+                                                        </InputField>
                                                     </div>
                                                 </div>
                                             </div>
