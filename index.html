@@ -7,45 +7,84 @@
     
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
-    <script src="https://unpkg.com/lucide-react@0.292.0/dist/umd/lucide-react.min.js"></script>
+    <script src="https://unpkg.com/lucide-react@0.263.1/dist/umd/lucide-react.min.js"></script>
 
     <style>
         body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
         .fade-in { animation: fadeIn 0.5s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* Ajustement taille icônes */
-        .lucide { vertical-align: middle; }
+        /* Error Overlay Style */
+        #error-box { display: none; background: #fee2e2; color: #991b1b; padding: 20px; position: fixed; top:0; left:0; width: 100%; z-index: 9999; border-bottom: 2px solid #ef4444; }
     </style>
 </head>
 <body>
 
+    <div id="error-box">
+        <strong>Une erreur technique empêche le site de charger :</strong>
+        <pre id="error-content" style="margin-top: 10px; font-size: 12px;"></pre>
+    </div>
+
+    <script>
+        window.onerror = function(message, source, lineno, colno, error) {
+            document.getElementById('root').style.display = 'none';
+            document.getElementById('error-box').style.display = 'block';
+            document.getElementById('error-content').innerText = message + "\nLine: " + lineno;
+        };
+    </script>
+
     <div id="root">
-        <div class="flex items-center justify-center h-screen text-slate-500 font-sans animate-pulse">
-            Chargement de l'application...
+        <div class="flex flex-col items-center justify-center h-screen text-slate-500 font-sans">
+            <div class="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mb-4"></div>
+            Chargement de GoGateDocs...
         </div>
     </div>
 
     <script type="text/babel">
 
-        // --- RECUPERATION SECURISEE DES ICONES ---
-        // On récupère l'objet global exposé par le script Lucide
-        const LucideIcons = window.lucideReact;
+        // --- 1. SYSTEME DE SECURITE ICONES ---
+        // On vérifie si Lucide est chargé, sinon on crée des composants vides pour éviter le crash
+        const L = window.lucideReact || {};
+        
+        const getIcon = (name) => {
+            if (L[name]) return L[name];
+            // Fallback si l'icône manque : on retourne un simple carré vide
+            return (props) => <span style={{width: 20, height: 20, display:'inline-block', background:'#eee', borderRadius: 4}} title={name}></span>;
+        };
 
-        // On déstructure les icônes dont on a besoin
-        const { 
-            Plane, MapPin, Calendar, ShieldCheck, Trophy, ArrowRight, Heart, Globe, 
-            ExternalLink, CheckCircle, AlertTriangle, Info, Languages, Clock, Copyright, 
-            Navigation, Link: LinkIcon, Stethoscope, Droplets, Siren, Wifi, Ticket, 
-            Timer, MessageSquare, Umbrella, Calculator, Mail, Menu, X, Wallet 
-        } = LucideIcons;
+        // Extraction sécurisée des icônes
+        const Plane = getIcon('Plane');
+        const MapPin = getIcon('MapPin');
+        const Calendar = getIcon('Calendar');
+        const ShieldCheck = getIcon('ShieldCheck');
+        const Trophy = getIcon('Trophy');
+        const ArrowRight = getIcon('ArrowRight');
+        const Heart = getIcon('Heart');
+        const Globe = getIcon('Globe');
+        const ExternalLink = getIcon('ExternalLink');
+        const CheckCircle = getIcon('CheckCircle');
+        const AlertTriangle = getIcon('AlertTriangle');
+        const Info = getIcon('Info');
+        const Languages = getIcon('Languages');
+        const Clock = getIcon('Clock');
+        const Copyright = getIcon('Copyright');
+        const Navigation = getIcon('Navigation');
+        const Stethoscope = getIcon('Stethoscope');
+        const Droplets = getIcon('Droplets');
+        const Siren = getIcon('Siren');
+        const Wifi = getIcon('Wifi');
+        const Ticket = getIcon('Ticket');
+        const MessageSquare = getIcon('MessageSquare');
+        const Umbrella = getIcon('Umbrella');
+        const Calculator = getIcon('Calculator');
+        const Mail = getIcon('Mail');
 
-        // --- CONFIGURATION AFFILIATION ---
+        // --- 2. CONFIGURATION ---
         const AFFILIATE_CONFIG = {
             flight_marker: "YOUR_ID", 
             hotel_aid: "YOUR_ID",
@@ -56,7 +95,7 @@
 
         const { useState, useEffect } = React;
 
-        // --- TRADUCTIONS ---
+        // --- 3. TRADUCTIONS ---
         const translations = {
             FR: {
                 subtitle: "V2.0 Mondiale",
@@ -196,7 +235,7 @@
             }
         };
 
-        // --- BASE DE DONNÉES PAYS ---
+        // --- 4. BASE DE DONNÉES PAYS ---
         const countries = [
             // --- EUROPE ---
             { code: "FR", name: "France", region: "EU", continent: "Europe", power: 128, water: "safe", costFactor: 1.8 },
