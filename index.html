@@ -12,77 +12,38 @@
     
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
-    <script src="https://unpkg.com/lucide-react@0.263.1/dist/umd/lucide-react.min.js"></script>
+    <script src="https://unpkg.com/lucide-react@0.292.0/dist/umd/lucide-react.min.js"></script>
 
     <style>
         body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
         .fade-in { animation: fadeIn 0.5s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* Style pour l'écran d'erreur */
-        #error-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #fee2e2; padding: 20px; z-index: 9999; color: #991b1b; }
+        /* Ajustement taille icônes */
+        .lucide { vertical-align: middle; }
     </style>
 </head>
 <body>
 
-    <div id="error-overlay">
-        <h1 class="text-2xl font-bold mb-2">Oups, une erreur est survenue</h1>
-        <p id="error-message">Vérifiez la console (F12) pour plus de détails.</p>
-    </div>
-
     <div id="root">
         <div class="flex items-center justify-center h-screen text-slate-500 font-sans animate-pulse">
-            Chargement de GoGateDocs...
+            Chargement de l'application...
         </div>
     </div>
 
-    <script>
-        window.onerror = function(message, source, lineno, colno, error) {
-            document.getElementById('error-overlay').style.display = 'block';
-            document.getElementById('error-message').innerText = message + " (Ligne: " + lineno + ")";
-            document.getElementById('root').style.display = 'none';
-        };
-    </script>
-
     <script type="text/babel">
 
-        // --- IMPORTATIONS SÉCURISÉES ---
-        const { useState, useEffect } = React;
-        
-        // Récupération sécurisée des icônes
-        const Icons = window.lucideReact || {};
-        
-        // Fallback si une icône manque pour éviter le crash
-        const getIcon = (name) => {
-            return Icons[name] || function() { return <span>?</span> };
-        };
+        // --- RECUPERATION SECURISEE DES ICONES ---
+        // On récupère l'objet global exposé par le script Lucide
+        const LucideIcons = window.lucideReact;
 
-        // Extraction des icônes utilisées
-        const Plane = getIcon('Plane');
-        const MapPin = getIcon('MapPin');
-        const Calendar = getIcon('Calendar');
-        const ShieldCheck = getIcon('ShieldCheck');
-        const Trophy = getIcon('Trophy');
-        const ArrowRight = getIcon('ArrowRight');
-        const Heart = getIcon('Heart');
-        const Globe = getIcon('Globe');
-        const ExternalLink = getIcon('ExternalLink');
-        const CheckCircle = getIcon('CheckCircle');
-        const AlertTriangle = getIcon('AlertTriangle');
-        const Info = getIcon('Info');
-        const Languages = getIcon('Languages');
-        const Clock = getIcon('Clock');
-        const Copyright = getIcon('Copyright');
-        const Navigation = getIcon('Navigation');
-        const Stethoscope = getIcon('Stethoscope');
-        const Droplets = getIcon('Droplets');
-        const Siren = getIcon('Siren');
-        const Wifi = getIcon('Wifi');
-        const Ticket = getIcon('Ticket');
-        const MessageSquare = getIcon('MessageSquare');
-        const Umbrella = getIcon('Umbrella');
-        const Calculator = getIcon('Calculator');
-        const Mail = getIcon('Mail');
+        // On déstructure les icônes dont on a besoin
+        const { 
+            Plane, MapPin, Calendar, ShieldCheck, Trophy, ArrowRight, Heart, Globe, 
+            ExternalLink, CheckCircle, AlertTriangle, Info, Languages, Clock, Copyright, 
+            Navigation, Link: LinkIcon, Stethoscope, Droplets, Siren, Wifi, Ticket, 
+            Timer, MessageSquare, Umbrella, Calculator, Mail, Menu, X, Wallet 
+        } = LucideIcons;
 
         // --- CONFIGURATION AFFILIATION ---
         const AFFILIATE_CONFIG = {
@@ -92,6 +53,8 @@
             activities_id: "YOUR_ID",
             insurance_link: "YOUR_INSURANCE_LINK"
         };
+
+        const { useState, useEffect } = React;
 
         // --- TRADUCTIONS ---
         const translations = {
@@ -381,6 +344,7 @@
         };
 
         const generateFlightLink = (origin, dest, startDate, endDate) => {
+            // Skyscanner attend YYMMDD
             const formatDates = (d) => d.slice(2,4) + d.slice(5,7) + d.slice(8,10);
             const startStr = formatDates(startDate);
             const endStr = formatDates(endDate);
@@ -393,8 +357,14 @@
             return `https://www.skyscanner.fr/transport/vols/${origin.toLowerCase()}/${destCode}/${startStr}/${endStr}?associateid=${AFFILIATE_CONFIG.flight_marker}`;
         };
 
-        const generateHotelLink = (destName, checkin, checkout) => {
-            return `https://www.booking.com/searchresults.html?ss=${destName}&checkin=${checkin}&checkout=${checkout}&aid=${AFFILIATE_CONFIG.hotel_aid}`;
+        // --- CORRECTION DATES BOOKING.COM ---
+        const generateHotelLink = (destName, start, end) => {
+            // start et end sont au format YYYY-MM-DD
+            const [sYear, sMonth, sDay] = start.split('-');
+            const [eYear, eMonth, eDay] = end.split('-');
+
+            // On utilise les paramètres explicites que Booking.com comprend toujours
+            return `https://www.booking.com/searchresults.html?ss=${destName}&checkin_year=${sYear}&checkin_month=${sMonth}&checkin_monthday=${sDay}&checkout_year=${eYear}&checkout_month=${eMonth}&checkout_monthday=${eDay}&aid=${AFFILIATE_CONFIG.hotel_aid}`;
         };
 
         // --- COMPOSANTS INTERFACE UTILISATEUR (UI) ---
@@ -833,6 +803,7 @@
                     }
                     
                     const flightLink = generateFlightLink(formData.origin, formData.destination, formData.startDate, formData.endDate);
+                    // Génération du lien Booking avec les dates corrigées
                     const hotelLink = generateHotelLink(destInfo.name, formData.startDate, formData.endDate);
 
                     setResult({
@@ -994,7 +965,6 @@
             );
         }
 
-        // Rendu de l'application
         const root = ReactDOM.createRoot(document.getElementById('root'));
         root.render(<App />);
 
