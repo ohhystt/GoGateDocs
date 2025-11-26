@@ -13,6 +13,7 @@
             document.head.appendChild(script);
         })();
     </script>
+    
     <script src="https://cdn.tailwindcss.com"></script>
     
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
@@ -21,10 +22,23 @@
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+        body { font-family: 'Inter', sans-serif; background-color: #f0f9ff; overflow-x: hidden; }
         .fade-in { animation: fadeIn 0.5s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
+        /* Animations d'arrière-plan */
+        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-20px); } 100% { transform: translateY(0px); } }
+        @keyframes drift { 0% { transform: translateX(0px); } 50% { transform: translateX(15px); } 100% { transform: translateX(0px); } }
+        @keyframes spin-slow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        .animate-float { animation: float 6s ease-in-out infinite; }
+        .animate-drift { animation: drift 8s ease-in-out infinite; }
+        .animate-spin-slow { animation: spin-slow 20s linear infinite; }
+        
+        .delay-1000 { animation-delay: 1s; }
+        .delay-2000 { animation-delay: 2s; }
+        .delay-3000 { animation-delay: 3s; }
+
         /* Scrollbar Custom */
         ::-webkit-scrollbar { width: 10px; }
         ::-webkit-scrollbar-track { background: #f1f1f1; }
@@ -44,40 +58,14 @@
         // ==========================================================================================
         
         const IconBase = ({ children, size = 24, className = "", ...props }) => (
-            <svg 
-                xmlns="http://www.w3.org/2000/svg" 
-                width={size} 
-                height={size} 
-                viewBox="0 0 24 24" 
-                fill="none" 
-                stroke="currentColor" 
-                strokeWidth="2" 
-                strokeLinecap="round" 
-                strokeLinejoin="round" 
-                className={`lucide ${className}`} 
-                {...props}
-            >
+            <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={`lucide ${className}`} {...props}>
                 {children}
             </svg>
         );
 
         const Icons = {
-            // AVION PAPIER (Nouvelle version demandée)
-            Plane: (props) => (
-                <IconBase {...props}>
-                    <line x1="22" x2="11" y1="2" y2="13"/>
-                    <polygon points="22 2 15 22 11 13 2 9 22 2"/>
-                </IconBase>
-            ),
-            
-            // CŒUR (Pour la Santé)
-            Heart: (props) => (
-                <IconBase {...props}>
-                    <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
-                </IconBase>
-            ),
-            
-            // AUTRES
+            Plane: (props) => <IconBase {...props}><line x1="22" x2="11" y1="2" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></IconBase>,
+            Heart: (props) => <IconBase {...props}><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></IconBase>,
             MapPin: (props) => <IconBase {...props}><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></IconBase>,
             Calendar: (props) => <IconBase {...props}><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></IconBase>,
             ShieldCheck: (props) => <IconBase {...props}><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/><path d="m9 12 2 2 4-4"/></IconBase>,
@@ -104,15 +92,17 @@
             Menu: (props) => <IconBase {...props}><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></IconBase>,
             X: (props) => <IconBase {...props}><path d="M18 6 6 18"/><path d="m6 6 12 12"/></IconBase>,
             Users: (props) => <IconBase {...props}><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></IconBase>,
-            Sun: (props) => <IconBase {...props}><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></IconBase>
+            Sun: (props) => <IconBase {...props}><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></IconBase>,
+            Mountain: (props) => <IconBase {...props}><path d="m8 3 4 8 5-5 5 15H2L8 3z"/></IconBase>,
+            Briefcase: (props) => <IconBase {...props}><rect width="20" height="14" x="2" y="7" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></IconBase>,
+            Cloud: (props) => <IconBase {...props}><path d="M17.5 19c0-1.7-1.3-3-3-3h-11a4 4 0 0 0 0 8h14a4.5 4.5 0 1 0 0-9 3.5 3.5 0 0 0-3.5 3.5c0 .3.06.6.15.84"/></IconBase>
         };
 
-        // Destructuring simple
         const { 
             Plane, MapPin, Calendar, ShieldCheck, Trophy, ArrowRight, Heart, Globe, 
             ExternalLink, CheckCircle, AlertTriangle, Info, Languages, Clock, Copyright, 
             Navigation, Droplets, Siren, Wifi, Ticket, 
-            MessageSquare, Umbrella, Calculator, Mail, CreditCard, Users, Sun
+            MessageSquare, Umbrella, Calculator, Mail, CreditCard, Users, Sun, Mountain, Briefcase, Cloud
         } = Icons;
 
         // ==========================================================================================
@@ -122,7 +112,7 @@
         const AFFILIATE_CONFIG = {
             flight_marker: "YOUR_ID", 
             hotel_aid: "YOUR_ID",
-            esim_link: "https://saily.tpo.li/SY9ICcCg", // Nouveau lien Saily
+            esim_link: "https://saily.tpo.li/SY9ICcCg", 
             activities_id: "YOUR_ID",
             insurance_link: "https://www.chapkadirect.com/" 
         };
@@ -165,30 +155,21 @@
                 customs_title: "Customs & Bans",
                 forbidden_items: "Strictly Forbidden:",
                 services_title: "Essentials",
-                service_esim: "Stay Connected (eSIM)", // Catchy
+                service_esim: "Stay Connected (eSIM)", 
                 service_esim_desc: "Get instant internet. No roaming fees.",
-                service_activities: "Unforgettable Experiences", // Catchy
+                service_activities: "Unforgettable Experiences", 
                 service_activities_desc: "Reserve tours & skip-the-line tickets.",
                 action_title: "Book at Best Prices",
                 action_flight: "✈️ Find Secret Fares (-30%)",
                 action_hotel: "🏨 See Exclusive Deals (-40%)",
                 offer_expires: "Offer expires in",
-                
-                // Budget Translation
-                budget_title: "Smart Budget Estimator",
-                budget_desc: "Get a realistic estimate for accommodation, food, local transport and flights.",
-                budget_travelers: "Travelers",
-                budget_season: "Seasonality",
-                budget_season_low: "Low Season (Cheaper)",
-                budget_season_mid: "Standard Season",
-                budget_season_high: "High Season (+40%)",
+                budget_title: "Travel Budget Estimator",
+                budget_desc: "Estimated daily cost including Accommodation, Food & Local Transport.",
                 budget_style_low: "Backpacker",
                 budget_style_med: "Standard",
                 budget_style_high: "Luxury",
-                budget_result_total: "Total Estimated Cost",
-                budget_result_daily: "Daily cost per person (excluding flights)",
-                budget_flight_estimate: "Estimated Flights",
-                
+                budget_result: "Estimated Total:",
+                budget_daily: "per day",
                 insurance_title: "Chapka Insurance",
                 insurance_subtitle: "Why Credit Cards aren't enough",
                 insurance_desc: "Credit card insurance usually stops after 90 days, has high deductibles and you must advance costs. Chapka covers you fully.",
@@ -239,36 +220,27 @@
                 customs_title: "Douanes & Interdits",
                 forbidden_items: "Strictement Interdit :",
                 services_title: "Indispensables",
-                service_esim: "Internet Instantané (eSIM)", // Catchy
+                service_esim: "Internet Instantané (eSIM)", 
                 service_esim_desc: "Zéro frais de roaming. Activation immédiate.",
-                service_activities: "Moments Inoubliables", // Catchy
+                service_activities: "Moments Inoubliables", 
                 service_activities_desc: "Réservez vos activités à l'avance.",
                 action_title: "Réserver au meilleur prix",
                 action_flight: "✈️ Trouver des vols secrets (-30%)",
                 action_hotel: "🏨 Voir les offres exclusives (-40%)",
                 offer_expires: "Offre expire dans",
-                
-                // Budget Translation
-                budget_title: "Calculateur de Budget Intelligent",
-                budget_desc: "Estimation réaliste incluant logement, repas, transport et vols.",
-                budget_travelers: "Voyageurs",
-                budget_season: "Saisonnalité",
-                budget_season_low: "Basse Saison (Moins cher)",
-                budget_season_mid: "Saison Standard",
-                budget_season_high: "Haute Saison (+40%)",
+                budget_title: "Calculateur de Budget",
+                budget_desc: "Estimation quotidienne (Logement + Repas + Transport local).",
                 budget_style_low: "Eco / Backpacker",
                 budget_style_med: "Standard",
                 budget_style_high: "Luxe",
-                budget_result_total: "Budget Total Estimé",
-                budget_result_daily: "Coût par jour/pers (hors vols)",
-                budget_flight_estimate: "Estimation Vols",
-
+                budget_result: "Budget Total Estimé :",
+                budget_daily: "par jour",
                 insurance_title: "Assurance Voyage Chapka",
                 insurance_subtitle: "Pourquoi votre CB ne suffit pas",
                 insurance_desc: "L'assurance de votre carte bancaire s'arrête souvent après 90 jours, comporte des franchises élevées et nécessite l'avance des frais. Chapka vous couvre à 100%.",
                 btn_get_quote: "Voir le devis Chapka",
                 feedback_title: "Aide & Contact",
-                feedback_desc: "Une erreur ? Vous voulez voir un pays ajouté ?",
+                feedback_desc: "Une erreur ? Vous voulez ajouter un pays ?",
                 feedback_placeholder: "Votre message (ex: Ajoutez le Pérou svp...)",
                 btn_send: "Envoyer",
                 passport_power: "Puissance Passeport",
@@ -280,7 +252,6 @@
                 donate_text: "Si nous vous avons aidé, vous pouvez nous offrir un café !",
                 donate_btn: "Faire un don"
             },
-            // ... (Autres langues conservées comme placeholder)
             ES: { app_name: "GoGateDocs", subtitle: "V2.0 Global", menu_home: "Home", menu_budget: "Budget", menu_insurance: "Insurance", menu_feedback: "Help", hero_title: "Prepare your trip", hero_highlight: "simply", hero_desc: "Visas, local taxes, vaccines and official documents.", label_nationality: "Your Nationality", label_origin: "Departure", label_destination: "Destination", label_start_date: "Start", label_end_date: "End", label_age: "Age", placeholder_select: "Select...", btn_analyze: "Analyze", loading_title: "Checking Formalities", loading_text: "Searching for visas and taxes...", result_back: "Edit", docs_title: "Documents & Requirements", docs_disclaimer: "Links redirect to official government websites.", doc_mandatory: "Mandatory", cost: "Cost", btn_official_link: "Official Site", health_title: "Health", vaccine_mandatory: "Mandatory Vaccine:", water_safe: "Tap water safe", water_unsafe: "Tap water UNSAFE", customs_title: "Customs & Bans", forbidden_items: "Strictly Forbidden:", services_title: "Essentials", service_esim: "eSIM (Data)", service_esim_desc: "No roaming fees.", service_activities: "Activities", service_activities_desc: "Skip-the-line.", action_title: "Book Now", action_flight: "✈️ Secret Flight Deals (-30%)", action_hotel: "🏨 Exclusive Hotel Rates (-40%)", offer_expires: "Offer expires in", budget_title: "Budget Calculator", budget_desc: "Estimate excluding flights", budget_style_low: "Budget / Backpacker", budget_style_med: "Standard", budget_style_high: "Luxury", budget_result: "Estimated budget:", budget_daily: "per day", insurance_title: "Travel Insurance", insurance_subtitle: "Health Coverage", insurance_desc: "Medical costs can be huge.", btn_get_quote: "Get Quote", feedback_title: "Contact", feedback_desc: "Bug report or feedback?", btn_send: "Send", passport_power: "Passport Power", access_text: "Visa-free access to", countries_text: "countries", duration_calc: "Duration:", days: "days", donate_title: "Free Project", donate_text: "If we helped you, buy us a coffee!", donate_btn: "Donate" },
             CN: { app_name: "GoGateDocs", subtitle: "V2.0 Global", menu_home: "Home", menu_budget: "Budget", menu_insurance: "Insurance", menu_feedback: "Help", hero_title: "Prepare your trip", hero_highlight: "simply", hero_desc: "Visas, local taxes, vaccines and official documents.", label_nationality: "Your Nationality", label_origin: "Departure", label_destination: "Destination", label_start_date: "Start", label_end_date: "End", label_age: "Age", placeholder_select: "Select...", btn_analyze: "Analyze", loading_title: "Checking Formalities", loading_text: "Searching for visas and taxes...", result_back: "Edit", docs_title: "Documents & Requirements", docs_disclaimer: "Links redirect to official government websites.", doc_mandatory: "Mandatory", cost: "Cost", btn_official_link: "Official Site", health_title: "Health", vaccine_mandatory: "Mandatory Vaccine:", water_safe: "Tap water safe", water_unsafe: "Tap water UNSAFE", customs_title: "Customs & Bans", forbidden_items: "Strictly Forbidden:", services_title: "Essentials", service_esim: "eSIM (Data)", service_esim_desc: "No roaming fees.", service_activities: "Activities", service_activities_desc: "Skip-the-line.", action_title: "Book Now", action_flight: "✈️ Secret Flight Deals (-30%)", action_hotel: "🏨 Exclusive Hotel Rates (-40%)", offer_expires: "Offer expires in", budget_title: "Budget Calculator", budget_desc: "Estimate excluding flights", budget_style_low: "Budget / Backpacker", budget_style_med: "Standard", budget_style_high: "Luxury", budget_result: "Estimated budget:", budget_daily: "per day", insurance_title: "Travel Insurance", insurance_subtitle: "Health Coverage", insurance_desc: "Medical costs can be huge.", btn_get_quote: "Get Quote", feedback_title: "Contact", feedback_desc: "Bug report or feedback?", btn_send: "Send", passport_power: "Passport Power", access_text: "Visa-free access to", countries_text: "countries", duration_calc: "Duration:", days: "days", donate_title: "Free Project", donate_text: "If we helped you, buy us a coffee!", donate_btn: "Donate" },
             JP: { app_name: "GoGateDocs", subtitle: "V2.0 Global", menu_home: "Home", menu_budget: "Budget", menu_insurance: "Insurance", menu_feedback: "Help", hero_title: "Prepare your trip", hero_highlight: "simply", hero_desc: "Visas, local taxes, vaccines and official documents.", label_nationality: "Your Nationality", label_origin: "Departure", label_destination: "Destination", label_start_date: "Start", label_end_date: "End", label_age: "Age", placeholder_select: "Select...", btn_analyze: "Analyze", loading_title: "Checking Formalities", loading_text: "Searching for visas and taxes...", result_back: "Edit", docs_title: "Documents & Requirements", docs_disclaimer: "Links redirect to official government websites.", doc_mandatory: "Mandatory", cost: "Cost", btn_official_link: "Official Site", health_title: "Health", vaccine_mandatory: "Mandatory Vaccine:", water_safe: "Tap water safe", water_unsafe: "Tap water UNSAFE", customs_title: "Customs & Bans", forbidden_items: "Strictly Forbidden:", services_title: "Essentials", service_esim: "eSIM (Data)", service_esim_desc: "No roaming fees.", service_activities: "Activities", service_activities_desc: "Skip-the-line.", action_title: "Book Now", action_flight: "✈️ Secret Flight Deals (-30%)", action_hotel: "🏨 Exclusive Hotel Rates (-40%)", offer_expires: "Offer expires in", budget_title: "Budget Calculator", budget_desc: "Estimate excluding flights", budget_style_low: "Budget / Backpacker", budget_style_med: "Standard", budget_style_high: "Luxury", budget_result: "Estimated budget:", budget_daily: "per day", insurance_title: "Travel Insurance", insurance_subtitle: "Health Coverage", insurance_desc: "Medical costs can be huge.", btn_get_quote: "Get Quote", feedback_title: "Contact", feedback_desc: "Bug report or feedback?", btn_send: "Send", passport_power: "Passport Power", access_text: "Visa-free access to", countries_text: "countries", duration_calc: "Duration:", days: "days", donate_title: "Free Project", donate_text: "If we helped you, buy us a coffee!", donate_btn: "Donate" }
@@ -714,13 +685,48 @@
         };
 
         // ==========================================================================================
-        // 6. COMPOSANTS UI
+        // 6. COMPOSANTS UI (BACKGROUND DÉCORATIF AJOUTÉ)
         // ==========================================================================================
+
+        // NOUVEAU : Composant de fond animé (Desktop seulement)
+        const BackgroundDecor = () => (
+            <div className="fixed inset-0 pointer-events-none overflow-hidden hidden lg:block z-0">
+                {/* Soleil Coin Haut Gauche */}
+                <div className="absolute top-20 left-20 text-yellow-400 opacity-20 animate-spin-slow">
+                    <Icons.Sun size={120} />
+                </div>
+                
+                {/* Nuage Flottant 1 */}
+                <div className="absolute top-40 right-1/4 text-blue-200 opacity-30 animate-drift delay-1000">
+                    <Icons.Cloud size={100} />
+                </div>
+
+                {/* Avion traversant */}
+                <div className="absolute top-1/3 left-10 text-blue-300 opacity-10 animate-float">
+                    <Icons.Plane size={80} />
+                </div>
+
+                {/* Valise Bas Gauche */}
+                <div className="absolute bottom-20 left-32 text-slate-300 opacity-20">
+                    <Icons.Briefcase size={90} />
+                </div>
+
+                {/* Montagne Bas Droite */}
+                <div className="absolute bottom-0 right-0 text-emerald-100 opacity-40">
+                    <Icons.Mountain size={300} />
+                </div>
+
+                {/* Passeport/Document volant */}
+                <div className="absolute top-1/2 right-20 text-indigo-200 opacity-20 animate-float delay-2000">
+                    <Icons.Ticket size={70} />
+                </div>
+            </div>
+        );
 
         const Header = ({ lang, setLang, t, setView }) => {
             const languageNames = { EN: "English", FR: "Français", ES: "Español", CN: "中文 (简体)", JP: "日本語" };
             return (
-            <header className="w-full p-6 flex justify-between items-center max-w-4xl mx-auto border-b border-slate-100 bg-white/80 backdrop-blur-sm sticky top-0 z-50">
+            <header className="w-full p-6 flex justify-between items-center max-w-6xl mx-auto border-b border-slate-100 bg-white/80 backdrop-blur-sm sticky top-0 z-50 relative">
                 <div className="flex items-center gap-2 text-slate-800 font-bold text-xl cursor-pointer group" onClick={() => { setView('home'); window.location.reload(); }}>
                     <div className="bg-gradient-to-br from-blue-600 to-indigo-600 text-white p-2.5 rounded-xl shadow-blue-200 shadow-lg transform -rotate-6 group-hover:rotate-0 transition-transform">
                         <Icons.Plane size={22} />
@@ -732,7 +738,7 @@
                         <button className="flex items-center gap-2 text-sm font-sans font-medium text-slate-600 bg-slate-50 px-3 py-2 rounded-lg hover:bg-slate-100 transition-colors">
                             <Icons.Languages size={16} />{languageNames[lang]}
                         </button>
-                        <div className="absolute right-0 mt-2 w-36 bg-white rounded-xl shadow-xl border border-slate-100 p-1 hidden group-hover:block fade-in">
+                        <div className="absolute right-0 mt-2 w-36 bg-white rounded-xl shadow-xl border border-slate-100 p-1 hidden group-hover:block fade-in bg-white z-50">
                             {Object.keys(translations).map((l) => (
                                 <button key={l} onClick={() => setLang(l)} className={`w-full text-left px-3 py-2 rounded-lg text-sm font-sans ${lang === l ? 'bg-blue-50 text-blue-600 font-bold' : 'text-slate-600 hover:bg-slate-50'}`}>
                                     {languageNames[l]}
@@ -754,7 +760,7 @@
                 { id: 'feedback', icon: Icons.MessageSquare, label: t.menu_feedback },
             ];
             return (
-                <div className="hidden sm:flex justify-center gap-4 mb-8">
+                <div className="hidden sm:flex justify-center gap-4 mb-8 relative z-10">
                 {navItems.map((item) => (
                     <button key={item.id} onClick={() => setView(item.id)} className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-bold transition-all ${currentView === item.id ? 'bg-blue-600 text-white shadow-lg shadow-blue-200' : 'bg-white text-slate-500 hover:bg-slate-50'}`}>
                         <item.icon size={16} />{item.label}
@@ -822,7 +828,7 @@
                 return <Icons.CheckCircle size={20} />;
             };
             return (
-                <div className="bg-white border border-slate-100 rounded-xl p-5 mb-3 shadow-sm hover-card flex flex-row items-start gap-4 group">
+                <div className="bg-white border border-slate-100 rounded-xl p-5 mb-3 shadow-sm hover-card flex flex-row items-start gap-4 group relative z-10">
                     <div className={`p-3 rounded-xl shrink-0 border ${getStatusColor()} transition-colors`}>{getIcon()}</div>
                     <div className="flex-1 w-full">
                         <div className="flex justify-between items-start">
@@ -831,7 +837,6 @@
                         </div>
                         <p className="text-sm text-slate-500 mt-1 leading-relaxed">{description}</p>
                         <div className="flex flex-wrap items-center gap-3 mt-3">
-                            {/* Suppression du coût si null */}
                             {cost && <div className="inline-flex items-center text-xs font-bold text-slate-700 bg-slate-50 px-2.5 py-1 rounded-md border border-slate-200">{t.cost}: {cost}</div>}
                             {link && <a href={link} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 px-3 py-1.5 rounded-md transition-colors shadow-sm">{t.btn_official_link}<Icons.ExternalLink size={12} /></a>}
                         </div>
@@ -853,7 +858,7 @@
             if (score > 100) { tier = "Silver"; colorClass = "bg-slate-400"; }
             if (score > 125) { tier = "Gold"; colorClass = "bg-yellow-500"; trophyColor = "text-yellow-400"; }
             return (
-                <div className="bg-slate-900 text-white rounded-2xl p-6 mb-6 relative overflow-hidden shadow-xl transform transition-all hover:scale-[1.01]">
+                <div className="bg-slate-900 text-white rounded-2xl p-6 mb-6 relative overflow-hidden shadow-xl transform transition-all hover:scale-[1.01] z-10">
                     <div className="absolute top-0 right-0 p-4 opacity-10"><Icons.Globe size={120} /></div>
                     <div className="relative z-10">
                         <div className="flex justify-between items-start mb-4">
@@ -867,9 +872,8 @@
             );
         };
 
-        // MODIFICATION ICI : Remplacement Stethoscope par Heart et changement des couleurs (teal -> rose)
         const HealthCard = ({ water, vaccine, t }) => (
-            <div className="bg-white border border-slate-100 rounded-xl p-5 mb-3 shadow-sm hover-card flex flex-row gap-4 items-start">
+            <div className="bg-white border border-slate-100 rounded-xl p-5 mb-3 shadow-sm hover-card flex flex-row gap-4 items-start relative z-10">
                 <div className="p-3 rounded-xl shrink-0 border bg-rose-50 text-rose-600 border-rose-100"><Icons.Heart size={20} /></div>
                 <div className="flex-1">
                 <h4 className="font-bold text-slate-800 text-lg mb-2">{t.health_title}</h4>
@@ -882,7 +886,7 @@
         );
 
         const CustomsCard = ({ items, t }) => (
-            <div className="bg-white border border-rose-100 rounded-xl p-5 mb-3 shadow-sm hover-card flex flex-row gap-4 items-start">
+            <div className="bg-white border border-rose-100 rounded-xl p-5 mb-3 shadow-sm hover-card flex flex-row gap-4 items-start relative z-10">
                 <div className="p-3 rounded-xl shrink-0 border bg-rose-50 text-rose-600 border-rose-100"><Icons.Siren size={20} /></div>
                 <div className="flex-1">
                 <h4 className="font-bold text-slate-800 text-lg mb-2">{t.customs_title}</h4>
@@ -893,14 +897,14 @@
         );
 
         const ActionButton = ({ icon: Icon, title, subtitle, colorClass, link, isExternal }) => (
-            <a href={link} target={isExternal ? "_blank" : "_self"} rel={isExternal ? "noopener noreferrer" : ""} className="flex items-center justify-between p-4 bg-white border border-slate-200 rounded-xl hover:border-blue-400 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group cursor-pointer">
+            <a href={link} target={isExternal ? "_blank" : "_self"} rel={isExternal ? "noopener noreferrer" : ""} className="flex items-center justify-between p-4 bg-white border border-slate-200 rounded-xl hover:border-blue-400 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group cursor-pointer relative z-10">
                 <div className="flex items-center gap-4"><div className={`${colorClass} p-3 rounded-lg bg-opacity-10`}><Icon size={24} className={colorClass.replace('bg-', 'text-')} /></div><div className="text-left"><div className="font-bold text-slate-800">{title}</div><div className="text-xs text-slate-500">{subtitle}</div></div></div>
                 <Icons.ExternalLink size={16} className="text-slate-300 group-hover:text-blue-500 transition-colors" />
             </a>
         );
 
         const ServiceCard = ({ icon: Icon, title, desc, colorClass, link }) => (
-            <a href={link} target="_blank" rel="noopener noreferrer" className="bg-white border border-slate-100 rounded-xl p-4 shadow-sm hover-card hover:border-blue-300 transition-all duration-300 flex items-center gap-4 group cursor-pointer">
+            <a href={link} target="_blank" rel="noopener noreferrer" className="bg-white border border-slate-100 rounded-xl p-4 shadow-sm hover-card hover:border-blue-300 transition-all duration-300 flex items-center gap-4 group cursor-pointer relative z-10">
                 <div className={`p-3 rounded-xl shrink-0 ${colorClass} bg-opacity-10`}><Icon size={24} className={colorClass.replace('bg-', 'text-')} /></div>
                 <div className="flex-1"><div className="flex justify-between items-center"><h4 className="font-bold text-slate-800 group-hover:text-blue-600 transition-colors">{title}</h4><Icons.ExternalLink size={14} className="text-slate-300 group-hover:text-blue-500" /></div><p className="text-xs text-slate-500 mt-1">{desc}</p></div>
             </a>
@@ -928,9 +932,7 @@
                 const styleMult = style === 'low' ? 0.6 : (style === 'high' ? 2.5 : 1);
                 const seasonMult = season === 'low' ? 0.8 : (season === 'high' ? 1.4 : 1);
                 
-                // Flight Heuristic (Based on Continent match - assuming Origin is Europe for this logic or generic)
-                // Note: In a real app, we'd need origin state here too, but simplified for this component:
-                // If destination is Europe -> cheap flight. Else -> expensive.
+                // Flight Heuristic
                 const isLongHaul = c && c.continent !== "Europe"; 
                 const baseFlight = isLongHaul ? 800 : 150;
                 const flightCost = Math.round(baseFlight * seasonMult * travelers);
@@ -944,61 +946,76 @@
             };
 
             return (
-                <div className="w-full max-w-lg mx-auto bg-white p-6 rounded-3xl shadow-xl border border-slate-100 fade-in">
-                    <div className="text-center mb-6"><div className="mx-auto w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mb-3"><Icons.Calculator className="text-green-600" size={24} /></div><h2 className="text-2xl font-bold text-slate-800">{t.budget_title}</h2><p className="text-slate-500 text-sm">{t.budget_desc}</p></div>
-                    <div className="space-y-4">
-                        <InputField label={t.label_destination} icon={Icons.MapPin}><CountrySelect value={localDest} onChange={(e) => setLocalDest(e.target.value)} placeholder={t.placeholder_select} /></InputField>
-                        
-                        <div className="grid grid-cols-2 gap-4">
-                            <InputField label={t.duration_calc} icon={Icons.Clock}><input type="number" value={days} onChange={(e) => setDays(e.target.value)} className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3" /></InputField>
-                            <InputField label={t.budget_travelers} icon={Icons.Users}><input type="number" min="1" value={travelers} onChange={(e) => setTravelers(e.target.value)} className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3" /></InputField>
+                <div className="w-full max-w-4xl mx-auto bg-white p-8 rounded-3xl shadow-xl border border-slate-100 fade-in relative z-10">
+                    <div className="text-center mb-8"><div className="mx-auto w-14 h-14 bg-green-100 rounded-full flex items-center justify-center mb-4"><Icons.Calculator className="text-green-600" size={28} /></div><h2 className="text-3xl font-bold text-slate-800">{t.budget_title}</h2><p className="text-slate-500 mt-2">{t.budget_desc}</p></div>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div className="space-y-5">
+                            <InputField label={t.label_destination} icon={Icons.MapPin}><CountrySelect value={localDest} onChange={(e) => setLocalDest(e.target.value)} placeholder={t.placeholder_select} /></InputField>
+                            <div className="grid grid-cols-2 gap-4">
+                                <InputField label={t.duration_calc} icon={Icons.Clock}><input type="number" value={days} onChange={(e) => setDays(e.target.value)} className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3" /></InputField>
+                                <InputField label={t.budget_travelers} icon={Icons.Users}><input type="number" min="1" value={travelers} onChange={(e) => setTravelers(e.target.value)} className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3" /></InputField>
+                            </div>
+                            <div>
+                                <label className="text-xs font-bold text-slate-500 uppercase mb-2 block">Style</label>
+                                <div className="grid grid-cols-3 gap-2">{['low', 'med', 'high'].map(s => <button key={s} onClick={() => setStyle(s)} className={`p-3 rounded-xl text-xs font-bold border transition-all ${style === s ? 'bg-blue-600 text-white border-blue-600 shadow-md' : 'bg-white border-slate-200 text-slate-500 hover:bg-slate-50'}`}>{t[`budget_style_${s}`]}</button>)}</div>
+                            </div>
+                            <div>
+                                <label className="text-xs font-bold text-slate-500 uppercase mb-2 block">{t.budget_season}</label>
+                                <div className="grid grid-cols-3 gap-2">{['low', 'mid', 'high'].map(s => <button key={s} onClick={() => setSeason(s)} className={`p-3 rounded-xl text-xs font-bold border transition-all ${season === s ? 'bg-orange-500 text-white border-orange-500 shadow-md' : 'bg-white border-slate-200 text-slate-500 hover:bg-slate-50'}`}>{t[`budget_season_${s}`]}</button>)}</div>
+                            </div>
+                            <button onClick={calc} className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-4 rounded-xl transition-all shadow-lg hover:shadow-green-200 transform hover:-translate-y-1">Calculer</button>
                         </div>
 
-                        <div className="grid grid-cols-3 gap-2 mb-2">{['low', 'med', 'high'].map(s => <button key={s} onClick={() => setStyle(s)} className={`p-2 rounded-lg text-xs font-bold border ${style === s ? 'bg-blue-100 border-blue-500 text-blue-700' : 'bg-white border-slate-200 text-slate-500'}`}>{t[`budget_style_${s}`]}</button>)}</div>
-                        
-                        <div className="grid grid-cols-3 gap-2 mb-4">{['low', 'mid', 'high'].map(s => <button key={s} onClick={() => setSeason(s)} className={`p-2 rounded-lg text-xs font-bold border ${season === s ? 'bg-orange-100 border-orange-500 text-orange-700' : 'bg-white border-slate-200 text-slate-500'}`}>{t[`budget_season_${s}`]}</button>)}</div>
-
-                        <button onClick={calc} className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-xl transition-all">Calculer</button>
-                        {res && (
-                            <div className="mt-6 p-4 bg-green-50 border border-green-200 rounded-xl text-center fade-in">
-                                <span className="text-slate-500 text-xs font-bold uppercase tracking-wider mb-1">{t.budget_result_total}</span>
-                                <span className="text-4xl font-extrabold text-green-700 block mb-2">{res} €</span>
-                                <div className="flex justify-between text-xs text-slate-500 border-t border-green-200 pt-2 mt-2">
-                                    <span>{t.budget_result_daily}: <b>{daily}€</b></span>
-                                    <span>{t.budget_flight_estimate}: <b>~{flightEst}€</b></span>
+                        <div className="flex flex-col justify-center">
+                            {res ? (
+                                <div className="bg-green-50 border border-green-200 rounded-2xl p-8 text-center fade-in h-full flex flex-col justify-center">
+                                    <span className="text-slate-500 text-sm font-bold uppercase tracking-wider mb-2">{t.budget_result_total}</span>
+                                    <span className="text-5xl font-extrabold text-green-700 block mb-6">{res} €</span>
+                                    <div className="space-y-3 text-sm text-slate-600 border-t border-green-200 pt-6">
+                                        <div className="flex justify-between"><span>{t.budget_result_daily}</span><b>{daily}€</b></div>
+                                        <div className="flex justify-between"><span>{t.budget_flight_estimate}</span><b>~{flightEst}€</b></div>
+                                    </div>
                                 </div>
-                            </div>
-                        )}
+                            ) : (
+                                <div className="h-full flex items-center justify-center text-slate-300 border-2 border-dashed border-slate-200 rounded-2xl">
+                                    <Icons.Calculator size={64} />
+                                </div>
+                            )}
+                        </div>
                     </div>
                 </div>
             );
         };
 
         const InsurancePage = ({ t }) => (
-            <div className="w-full max-w-lg mx-auto bg-white p-6 sm:p-8 rounded-3xl shadow-xl border border-slate-100 text-center fade-in">
-                <div className="mx-auto w-16 h-16 bg-rose-100 rounded-full flex items-center justify-center mb-4"><Icons.Umbrella className="text-rose-600" size={32} /></div>
-                <h2 className="text-2xl font-bold text-slate-800 mb-2">{t.insurance_title}</h2><h3 className="text-rose-600 font-bold uppercase tracking-wider text-xs mb-4">{t.insurance_subtitle}</h3><p className="text-slate-600 mb-8 leading-relaxed text-sm">{t.insurance_desc}</p>
+            <div className="w-full max-w-4xl mx-auto bg-white p-8 rounded-3xl shadow-xl border border-slate-100 text-center fade-in relative z-10">
+                <div className="mx-auto w-20 h-20 bg-rose-100 rounded-full flex items-center justify-center mb-6"><Icons.Umbrella className="text-rose-600" size={40} /></div>
+                <h2 className="text-3xl font-bold text-slate-800 mb-2">{t.insurance_title}</h2><h3 className="text-rose-600 font-bold uppercase tracking-wider text-sm mb-6">{t.insurance_subtitle}</h3><p className="text-slate-600 mb-10 leading-relaxed max-w-2xl mx-auto">{t.insurance_desc}</p>
                 
-                <div className="grid grid-cols-2 gap-3 mb-8 text-left">
-                    <div className="bg-slate-50 p-3 rounded-xl border border-slate-200 hover-card">
-                        <div className="flex items-center gap-2 mb-2 text-slate-400 font-bold text-xs uppercase"><Icons.CreditCard size={14}/> CB (Visa/Master)</div>
-                        <ul className="text-[10px] text-slate-500 space-y-1 list-disc list-inside">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10 text-left">
+                    <div className="bg-slate-50 p-6 rounded-2xl border border-slate-200 hover-card">
+                        <div className="flex items-center gap-3 mb-4 text-slate-400 font-bold text-sm uppercase"><div className="p-2 bg-white rounded-lg border border-slate-200"><Icons.CreditCard size={20}/></div> Carte Bancaire</div>
+                        <ul className="text-sm text-slate-500 space-y-3 list-disc list-inside">
                             <li>Max 90 jours</li>
-                            <li>Franchises élevées</li>
-                            <li>Avance de frais</li>
+                            <li>Franchises élevées (souvent &gt; 50€)</li>
+                            <li>Avance de frais obligatoire</li>
+                            <li>Plafonds limités</li>
                         </ul>
                     </div>
-                    <div className="bg-rose-50 p-3 rounded-xl border border-rose-200 hover-card">
-                        <div className="flex items-center gap-2 mb-2 text-rose-600 font-bold text-xs uppercase"><Icons.Umbrella size={14}/> Chapka</div>
-                        <ul className="text-[10px] text-slate-600 space-y-1 list-disc list-inside font-medium">
-                            <li>Jusqu'à 2 ans</li>
-                            <li>0€ Franchise</li>
-                            <li>Frais réels (100%)</li>
+                    <div className="bg-rose-50 p-6 rounded-2xl border border-rose-200 hover-card relative overflow-hidden">
+                        <div className="absolute top-0 right-0 bg-rose-500 text-white text-[10px] font-bold px-3 py-1 rounded-bl-xl">RECOMMANDÉ</div>
+                        <div className="flex items-center gap-3 mb-4 text-rose-600 font-bold text-sm uppercase"><div className="p-2 bg-white rounded-lg border border-rose-100"><Icons.Umbrella size={20}/></div> Chapka</div>
+                        <ul className="text-sm text-slate-700 space-y-3 list-disc list-inside font-medium">
+                            <li>Jusqu'à 2 ans de couverture</li>
+                            <li>0€ de Franchise</li>
+                            <li>Frais réels (100%) sans avance</li>
+                            <li>Téléconsultation incluse</li>
                         </ul>
                     </div>
                 </div>
 
-                <a href={AFFILIATE_CONFIG.insurance_link} target="_blank" rel="noopener noreferrer" className="block w-full bg-rose-600 hover:bg-rose-700 text-white font-bold py-4 rounded-xl shadow-lg shadow-rose-200 hover:shadow-rose-300 transition-all transform hover:-translate-y-1">{t.btn_get_quote}</a>
+                <a href={AFFILIATE_CONFIG.insurance_link} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-3 bg-rose-600 hover:bg-rose-700 text-white font-bold py-4 px-8 rounded-xl shadow-lg shadow-rose-200 hover:shadow-rose-300 transition-all transform hover:-translate-y-1 text-lg">{t.btn_get_quote} <Icons.ArrowRight size={20}/></a>
             </div>
         );
 
@@ -1006,13 +1023,13 @@
             const [sent, setSent] = useState(false);
             const handleSubmit = (e) => { e.preventDefault(); setSent(true); setTimeout(() => setSent(false), 3000); };
             return (
-                <div className="w-full max-w-lg mx-auto bg-white p-6 sm:p-8 rounded-3xl shadow-xl border border-slate-100 fade-in">
-                    <div className="text-center mb-6"><div className="mx-auto w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center mb-3"><Icons.Mail className="text-indigo-600" size={24} /></div><h2 className="text-2xl font-bold text-slate-800">{t.feedback_title}</h2><p className="text-slate-500 text-sm mt-1">{t.feedback_desc}</p></div>
+                <div className="w-full max-w-lg mx-auto bg-white p-8 rounded-3xl shadow-xl border border-slate-100 fade-in relative z-10">
+                    <div className="text-center mb-8"><div className="mx-auto w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mb-4"><Icons.Mail className="text-indigo-600" size={32} /></div><h2 className="text-2xl font-bold text-slate-800">{t.feedback_title}</h2><p className="text-slate-500 mt-2">{t.feedback_desc}</p></div>
                     {sent ? <div className="p-8 text-center text-green-600 font-bold bg-green-50 rounded-xl border border-green-100">Message envoyé ! Merci.</div> : (
-                        <form onSubmit={handleSubmit} className="space-y-4">
-                            <div><label className="block text-xs font-bold text-slate-500 uppercase mb-1">Email</label><input type="email" required className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3" placeholder="hello@example.com" /></div>
-                            <div><label className="block text-xs font-bold text-slate-500 uppercase mb-1">Message</label><textarea required rows="4" className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3" placeholder={t.feedback_placeholder}></textarea></div>
-                            <button type="submit" className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-xl transition-all">{t.btn_send}</button>
+                        <form onSubmit={handleSubmit} className="space-y-6">
+                            <div><label className="block text-xs font-bold text-slate-500 uppercase mb-2">Email</label><input type="email" required className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 focus:ring-2 focus:ring-indigo-500 outline-none transition-all" placeholder="hello@example.com" /></div>
+                            <div><label className="block text-xs font-bold text-slate-500 uppercase mb-2">Message</label><textarea required rows="5" className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 focus:ring-2 focus:ring-indigo-500 outline-none transition-all" placeholder={t.feedback_placeholder}></textarea></div>
+                            <button type="submit" className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 rounded-xl transition-all shadow-lg hover:shadow-indigo-200">{t.btn_send}</button>
                         </form>
                     )}
                 </div>
@@ -1076,38 +1093,49 @@
             const reset = () => { setStep(0); setResult(null); };
 
             return (
-                <div className="min-h-screen bg-slate-50 font-sans text-slate-900 flex flex-col">
+                <div className="min-h-screen font-sans text-slate-900 flex flex-col relative">
+                    <BackgroundDecor />
+                    
                     <Header lang={lang} setLang={setLang} t={t} setView={(v) => { setView(v); setStep(0); }} />
                     <DesktopNav t={t} currentView={currentView} setView={(v) => { setView(v); setStep(0); }} />
 
-                    <main className="flex-grow flex flex-col items-center justify-start pt-4 px-4 w-full max-w-5xl mx-auto pb-40">
+                    <main className="flex-grow flex flex-col items-center justify-start pt-4 px-4 w-full max-w-6xl mx-auto pb-40 relative z-10">
                         {currentView === 'home' && (
                             <>
                                 {step === 0 && (
-                                    <div className="w-full max-w-lg fade-in">
+                                    <div className="w-full max-w-4xl fade-in"> {/* ÉLARGISSEMENT ICI: max-w-4xl au lieu de lg */}
                                         <div className="text-center mb-10">
-                                            <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-800 mb-3 tracking-tight">{t.hero_title} <span className="text-blue-600">{t.hero_highlight}</span>.</h1>
-                                            <p className="text-slate-500 text-base sm:text-lg">{t.hero_desc}</p>
+                                            <h1 className="text-4xl sm:text-5xl font-extrabold text-slate-900 mb-4 tracking-tight">{t.hero_title} <span className="text-blue-600">{t.hero_highlight}</span>.</h1>
+                                            <p className="text-slate-500 text-lg sm:text-xl max-w-2xl mx-auto">{t.hero_desc}</p>
                                         </div>
-                                        <div className="bg-white p-6 sm:p-8 rounded-3xl shadow-xl border border-slate-100 relative overflow-hidden">
-                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                                <InputField label={t.label_nationality} icon={Icons.ShieldCheck}><CountrySelect value={formData.nationality} onChange={(e) => setFormData({...formData, nationality: e.target.value})} placeholder={t.placeholder_select} /></InputField>
-                                                <InputField label={t.label_origin} icon={Icons.Navigation}><CountrySelect value={formData.origin} onChange={(e) => setFormData({...formData, origin: e.target.value})} placeholder={t.placeholder_select} /></InputField>
+                                        <div className="bg-white p-8 rounded-3xl shadow-2xl shadow-blue-100/50 border border-white/50 relative overflow-hidden backdrop-blur-sm">
+                                            {/* LAYOUT DESKTOP: 2 COLONNES POUR OPTIMISER L'ESPACE */}
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                                                <div className="space-y-6">
+                                                    <InputField label={t.label_nationality} icon={Icons.ShieldCheck}><CountrySelect value={formData.nationality} onChange={(e) => setFormData({...formData, nationality: e.target.value})} placeholder={t.placeholder_select} /></InputField>
+                                                    <InputField label={t.label_origin} icon={Icons.Navigation}><CountrySelect value={formData.origin} onChange={(e) => setFormData({...formData, origin: e.target.value})} placeholder={t.placeholder_select} /></InputField>
+                                                </div>
+                                                <div className="space-y-6">
+                                                    <InputField label={t.label_destination} icon={Icons.MapPin}><CountrySelect value={formData.destination} onChange={(e) => setFormData({...formData, destination: e.target.value})} placeholder={t.placeholder_select} excludeCode={formData.origin} /></InputField>
+                                                    
+                                                    {/* DATE FIX: Vertical on mobile (col-span-2 in grid), Horizontal on desktop */}
+                                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                                        <div className="min-w-0">
+                                                            <label className="text-slate-500 text-[10px] sm:text-xs uppercase tracking-wider font-bold mb-2 flex items-center gap-2"><Icons.Calendar size={14} className="text-blue-500" /> {t.label_start_date}</label>
+                                                            <input type="date" className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-sm" value={formData.startDate} onChange={(e) => setFormData({...formData, startDate: e.target.value})} />
+                                                        </div>
+                                                        <div className="min-w-0">
+                                                            <label className="text-slate-500 text-[10px] sm:text-xs uppercase tracking-wider font-bold mb-2 flex items-center gap-2"><Icons.Calendar size={14} className="text-blue-500" /> {t.label_end_date}</label>
+                                                            <input type="date" className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-sm" value={formData.endDate} onChange={(e) => setFormData({...formData, endDate: e.target.value})} />
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <InputField label={t.label_destination} icon={Icons.MapPin}><CountrySelect value={formData.destination} onChange={(e) => setFormData({...formData, destination: e.target.value})} placeholder={t.placeholder_select} excludeCode={formData.origin} /></InputField>
                                             
-                                            {/* CORRECTION DATE MOBILE: min-w-0 et grid ajustée */}
-                                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-                                                <InputField label={t.label_start_date} icon={Icons.Calendar}>
-                                                    <input type="date" className="w-full min-w-0 bg-slate-50 border border-slate-200 rounded-xl p-3 sm:p-4 text-sm" value={formData.startDate} onChange={(e) => setFormData({...formData, startDate: e.target.value})} />
-                                                </InputField>
-                                                <InputField label={t.label_end_date} icon={Icons.Calendar}>
-                                                    <input type="date" className="w-full min-w-0 bg-slate-50 border border-slate-200 rounded-xl p-3 sm:p-4 text-sm" value={formData.endDate} onChange={(e) => setFormData({...formData, endDate: e.target.value})} />
-                                                </InputField>
+                                            <div className="max-w-md mx-auto">
+                                                <InputField label={t.label_age} icon={Icons.Trophy}><input type="number" className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4" value={formData.age} onChange={(e) => setFormData({...formData, age: e.target.value})} /></InputField>
+                                                <button onClick={handleSearch} className="w-full mt-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl shadow-xl shadow-blue-200/50 flex justify-center items-center gap-3 group hover-card transition-all transform active:scale-95">{t.btn_analyze} <Icons.ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" /></button>
                                             </div>
-                                            
-                                            <InputField label={t.label_age} icon={Icons.Trophy}><input type="number" className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4" value={formData.age} onChange={(e) => setFormData({...formData, age: e.target.value})} /></InputField>
-                                            <button onClick={handleSearch} className="w-full mt-6 bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl shadow-lg flex justify-center items-center gap-3 group hover-card">{t.btn_analyze} <Icons.ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" /></button>
                                         </div>
                                     </div>
                                 )}
@@ -1123,7 +1151,7 @@
                                 )}
 
                                 {step === 2 && result && (
-                                    <div className="w-full max-w-2xl fade-in">
+                                    <div className="w-full max-w-3xl fade-in">
                                         <div className="flex items-center justify-between mb-8">
                                             <button onClick={reset} className="text-slate-500 hover:text-slate-800 text-sm font-bold flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-white hover:shadow-sm transition-all">&larr; {t.result_back}</button>
                                             <div className="flex flex-col sm:flex-row sm:items-center gap-2 text-sm font-bold text-slate-800 bg-white px-4 py-2 rounded-xl shadow-sm border border-slate-100">
