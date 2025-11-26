@@ -16,6 +16,12 @@
         body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
         .fade-in { animation: fadeIn 0.5s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* Scrollbar custom pour la liste des pays si elle est longue */
+        select::-webkit-scrollbar { width: 8px; }
+        select::-webkit-scrollbar-track { background: #f1f1f1; }
+        select::-webkit-scrollbar-thumb { background: #888; border-radius: 4px; }
+        select::-webkit-scrollbar-thumb:hover { background: #555; }
     </style>
 </head>
 <body>
@@ -25,7 +31,10 @@
     <script type="text/babel">
         const { useState, useEffect } = React;
 
-        // --- 1. ICONES CORRIGÉES (SVG PATHS OFFICIELS) ---
+        // ==============================================
+        // 1. SYSTÈME D'ICÔNES SVG (FIABLE À 100%)
+        // ==============================================
+        
         const IconBase = ({ children, size = 24, className = "", ...props }) => (
             <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={`lucide ${className}`} {...props}>
                 {children}
@@ -33,12 +42,12 @@
         );
 
         const Icons = {
-            // AVION (Corrigé: version standard Lucide)
+            // AVION (Version standard nette)
             Plane: (props) => <IconBase {...props}><path d="M2 22h20"/><path d="M13 6l-7-7 3-3 16 16-3 3-7-7"/><path d="M6 13L2 15l4 4 2-4"/></IconBase>,
-            // STÉTHOSCOPE (Corrigé: version standard Lucide)
+            // STÉTHOSCOPE (Version simplifiée lisible)
             Stethoscope: (props) => <IconBase {...props}><path d="M4.8 2.3A10 10 0 0 1 20 10c0 5.5-4.5 10-10 10s-10-4.5-10-10"/><path d="M4 10v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-9"/><path d="M12 10V2"/><circle cx="12" cy="2" r="2"/></IconBase>,
             
-            // Autres icônes
+            // Le reste des icônes
             MapPin: (props) => <IconBase {...props}><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></IconBase>,
             Calendar: (props) => <IconBase {...props}><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></IconBase>,
             ShieldCheck: (props) => <IconBase {...props}><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/><path d="m9 12 2 2 4-4"/></IconBase>,
@@ -61,7 +70,9 @@
             MessageSquare: (props) => <IconBase {...props}><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></IconBase>,
             Umbrella: (props) => <IconBase {...props}><path d="M22 12a10.06 10.06 0 0 0-20 0Z"/><path d="M12 12v8a2 2 0 0 0 4 0"/><path d="M12 2v1"/></IconBase>,
             Calculator: (props) => <IconBase {...props}><rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" x2="16" y1="6" y2="6"/><line x1="16" x2="16" y1="14" y2="18"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/></IconBase>,
-            Mail: (props) => <IconBase {...props}><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></IconBase>
+            Mail: (props) => <IconBase {...props}><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></IconBase>,
+            Menu: (props) => <IconBase {...props}><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></IconBase>,
+            X: (props) => <IconBase {...props}><path d="M18 6 6 18"/><path d="m6 6 12 12"/></IconBase>
         };
 
         const { 
@@ -71,7 +82,9 @@
             MessageSquare, Umbrella, Calculator, Mail 
         } = Icons;
 
-        // --- CONFIGURATION ---
+        // ==============================================
+        // 2. CONFIGURATION AFFILIATION
+        // ==============================================
         const AFFILIATE_CONFIG = {
             flight_marker: "YOUR_ID", 
             hotel_aid: "YOUR_ID",
@@ -80,7 +93,9 @@
             insurance_link: "YOUR_INSURANCE_LINK"
         };
 
-        // --- TRADUCTIONS ---
+        // ==============================================
+        // 3. TRADUCTIONS
+        // ==============================================
         const translations = {
             FR: {
                 app_name: "GoGateDocs",
@@ -88,7 +103,7 @@
                 menu_home: "Accueil",
                 menu_budget: "Budget",
                 menu_insurance: "Assurance",
-                menu_feedback: "Aide",
+                menu_feedback: "Aide & Avis",
                 hero_title: "Préparez votre voyage",
                 hero_highlight: "simplement",
                 hero_desc: "Visas, taxes locales, vaccins et documents officiels.",
@@ -98,17 +113,17 @@
                 label_start_date: "Aller",
                 label_end_date: "Retour",
                 label_age: "Âge",
-                placeholder_select: "Sélectionner...",
+                placeholder_select: "Sélectionner un pays...",
                 btn_analyze: "Lancer l'analyse",
-                loading_title: "Vérification des formalités",
-                loading_text: "Recherche des visas et taxes...",
+                loading_title: "Analyse de votre itinéraire",
+                loading_text: "Vérification des visas et taxes...",
                 result_back: "Modifier",
                 docs_title: "Documents & Formalités",
                 docs_disclaimer: "Les liens redirigent vers les sites gouvernementaux officiels.",
                 doc_mandatory: "Obligatoire",
                 cost: "Coût",
                 btn_official_link: "Site Officiel",
-                health_title: "Santé",
+                health_title: "Santé & Vaccins",
                 vaccine_mandatory: "Vaccin Obligatoire :",
                 water_safe: "Eau du robinet potable",
                 water_unsafe: "Eau du robinet NON potable",
@@ -118,7 +133,7 @@
                 service_esim: "eSIM (Internet)",
                 service_esim_desc: "Zéro frais de roaming.",
                 service_activities: "Activités",
-                service_activities_desc: "Coupe-file & Tours.",
+                service_activities_desc: "Billets coupe-file.",
                 action_title: "Réserver",
                 action_flight: "Vols (-30%)",
                 action_hotel: "Hôtels (-40%)",
@@ -128,7 +143,7 @@
                 budget_style_low: "Eco / Backpacker",
                 budget_style_med: "Standard",
                 budget_style_high: "Luxe",
-                budget_result: "Budget estimé :",
+                budget_result: "Budget estimé sur place :",
                 insurance_title: "Assurance Voyage",
                 insurance_subtitle: "Couverture Santé",
                 insurance_desc: "Les frais médicaux peuvent être exorbitants. Partez couvert.",
@@ -210,48 +225,52 @@
             }
         };
 
-        // --- 4. BASE DE DONNÉES PAYS INTELLIGENTE (AVEC LIENS ET TAXES) ---
-        // Structure: requirements = [{ type: 'visa'|'tax'|'form', title, description, cost, link, mandatory }]
+        // ==============================================
+        // 4. BASE DE DONNÉES PAYS MASSIVE & DÉTAILLÉE
+        // ==============================================
+        // Les 'requirements' permettent d'ajouter dynamiquement des visas et taxes.
+        
         const countriesData = [
-            // --- ASIE (FOCUS BALI & POPULAIRES) ---
+            // --- ASIE ---
             { 
-                code: "ID", name: "Indonésie", region: "AS", continent: "Asie", power: 70, water: "unsafe", costFactor: 0.7,
+                code: "ID", name: "Indonésie (Général)", region: "AS", continent: "Asie", power: 70, water: "unsafe", costFactor: 0.7,
                 customs: ["Drogues (Peine de mort)", "Plus de 1L d'alcool"],
                 requirements: [
-                    { type: "visa", title: "e-VOA (Visa on Arrival)", description: "Visa tourisme 30 jours. Payable en ligne ou à l'arrivée.", cost: "~32€ (500k IDR)", link: "https://molina.imigrasi.go.id/", mandatory: true },
-                    { type: "form", title: "Douane (ECD)", description: "QR Code douanier obligatoire (3j avant départ).", cost: "Gratuit", link: "https://ecd.beacukai.go.id/", mandatory: true }
+                    { type: "visa", title: "e-VOA (Visa on Arrival)", description: "Visa 30j. Payable en ligne ou aéroport.", cost: "~32€", link: "https://molina.imigrasi.go.id/", mandatory: true },
+                    { type: "form", title: "Douane (ECD)", description: "QR Code douanier obligatoire (3j avant).", cost: "Gratuit", link: "https://ecd.beacukai.go.id/", mandatory: true },
+                    { type: "form", title: "SATUSEHAT Health Pass", description: "Formulaire santé Mpox (2024).", cost: "Gratuit", link: "https://sshp.kemkes.go.id/", mandatory: true }
                 ]
             },
             { 
                 code: "BA", name: "Bali (Indonésie)", region: "AS", continent: "Asie", power: 70, water: "unsafe", costFactor: 1.0,
-                customs: ["Drogues (Tolérance Zéro)", "Médicaments (Ordonnance obligatoire)"],
+                customs: ["Drogues (Tolérance Zéro)", "Médicaments sur ordonnance"],
                 requirements: [
-                    { type: "visa", title: "e-VOA (Visa on Arrival)", description: "Visa 30 jours (Renouvelable 1 fois).", cost: "~32€ (500k IDR)", link: "https://molina.imigrasi.go.id/", mandatory: true },
-                    { type: "tax", title: "Taxe Touristique 'Love Bali'", description: "Taxe régionale obligatoire pour entrer à Bali.", cost: "~9€ (150k IDR)", link: "https://lovebali.baliprov.go.id/", mandatory: true },
+                    { type: "visa", title: "e-VOA (Visa on Arrival)", description: "Visa 30 jours. Renouvelable 1 fois.", cost: "~32€ (500k IDR)", link: "https://molina.imigrasi.go.id/", mandatory: true },
+                    { type: "tax", title: "Taxe 'Love Bali'", description: "Taxe régionale obligatoire pour entrer à Bali.", cost: "~9€ (150k IDR)", link: "https://lovebali.baliprov.go.id/", mandatory: true },
                     { type: "form", title: "Douane (ECD)", description: "Code QR obligatoire à l'arrivée.", cost: "Gratuit", link: "https://ecd.beacukai.go.id/", mandatory: true },
-                    { type: "form", title: "SATUSEHAT Health Pass", description: "Formulaire santé Mpox (Nouveau 2024).", cost: "Gratuit", link: "https://sshp.kemkes.go.id/", mandatory: true }
+                    { type: "form", title: "SATUSEHAT Health Pass", description: "Nouveau formulaire santé obligatoire.", cost: "Gratuit", link: "https://sshp.kemkes.go.id/", mandatory: true }
                 ]
             },
             { 
                 code: "JP", name: "Japon", region: "AS", continent: "Asie", power: 130, water: "safe", costFactor: 1.6,
-                customs: ["Viande/Fruits interdits", "Certains médicaments (Codeine, Stimulants)"],
+                customs: ["Viande/Fruits frais interdits", "Codeine interdite", "Couteaux de poche"],
                 requirements: [
-                    { type: "form", title: "Visit Japan Web", description: "QR Code pour l'immigration et les douanes.", cost: "Gratuit", link: "https://vjw-lp.digital.go.jp/en/", mandatory: false }
+                    { type: "form", title: "Visit Japan Web", description: "QR Code immigration et douanes (recommandé).", cost: "Gratuit", link: "https://vjw-lp.digital.go.jp/en/", mandatory: false }
                 ]
             },
             {
                 code: "TH", name: "Thaïlande", region: "AS", continent: "Asie", power: 75, water: "unsafe", costFactor: 0.8,
-                customs: ["Cigarettes électroniques (Interdit/Prison)", "Plus de 200 cigarettes"],
+                customs: ["Cigarettes électroniques (Prison possible)", "Plus de 200 cigarettes"],
                 requirements: [
-                    { type: "visa", title: "Exemption de Visa (60 jours)", description: "Pour FR, BE, CH, CA. Tampon gratuit à l'arrivée.", cost: "Gratuit", mandatory: false }
+                    { type: "visa", title: "Exemption de Visa (60 jours)", description: "Nouveau (2024) : 60j sans visa pour FR, BE, CH, CA.", cost: "Gratuit", mandatory: false }
                 ]
             },
             {
                 code: "VN", name: "Vietnam", region: "AS", continent: "Asie", power: 65, water: "unsafe", costFactor: 0.6,
-                customs: ["Drones (Déclaration complexe)", "Littérature politique"],
+                customs: ["Drones (Déclaration très complexe)", "Littérature politique"],
                 requirements: [
-                    { type: "visa", title: "E-Visa (90 jours)", description: "Obligatoire pour séjours > 45 jours (ou si hors exemption).", cost: "~25 USD", link: "https://evisa.xuatnhapcanh.gov.vn/", mandatory: true },
-                    { type: "info", title: "Exemption 45 jours", description: "Pour citoyens FR, DE, IT, ES, UK (entrée simple).", cost: "Gratuit", mandatory: false }
+                    { type: "visa", title: "E-Visa (90 jours)", description: "Pour séjours > 45 jours. Entrées multiples possibles.", cost: "~25 USD", link: "https://evisa.xuatnhapcanh.gov.vn/", mandatory: true },
+                    { type: "info", title: "Exemption 45 jours", description: "Sans visa pour FR, DE, IT, ES, UK (entrée simple).", cost: "Gratuit", mandatory: false }
                 ]
             },
             {
@@ -259,14 +278,14 @@
                 customs: ["VPN (Interdits)", "Nourriture"],
                 requirements: [
                     { type: "info", title: "Exemption 15 jours (Essai)", description: "Pour FR, DE, IT, ES, NL (Jusqu'à fin 2025).", cost: "Gratuit", mandatory: false },
-                    { type: "visa", title: "Visa Tourisme (L)", description: "Si séjour > 15 jours. Empreintes obligatoires.", cost: "~126€", link: "https://www.visaforchina.cn/", mandatory: true }
+                    { type: "visa", title: "Visa Tourisme (L)", description: "Si séjour > 15 jours. Empreintes obligatoires au centre.", cost: "~126€", link: "https://www.visaforchina.cn/", mandatory: true }
                 ]
             },
             {
                 code: "LK", name: "Sri Lanka", region: "AS", continent: "Asie", power: 50, water: "unsafe", costFactor: 0.6,
                 requirements: [
                     { type: "visa", title: "ETA / E-Visa", description: "Autorisation électronique obligatoire avant départ.", cost: "~50 USD", link: "https://www.srilankaevisa.lk/", mandatory: true },
-                    { type: "form", title: "Arrival Card", description: "A remplir en ligne 3j avant.", cost: "Gratuit", link: "https://eservices.immigration.gov.lk/", mandatory: false }
+                    { type: "form", title: "Arrival Card", description: "A remplir en ligne 3j avant pour gagner du temps.", cost: "Gratuit", link: "https://eservices.immigration.gov.lk/", mandatory: false }
                 ]
             },
             {
@@ -275,13 +294,19 @@
                     { type: "visa", title: "E-Visa", description: "Obligatoire (Tourist, Business, Medical).", cost: "~25-80 USD", link: "https://indianvisaonline.gov.in/evisa/tvoa.html", mandatory: true }
                 ]
             },
+            { code: "KH", name: "Cambodge", region: "AS", continent: "Asie", power: 50, water: "unsafe", costFactor: 0.6, requirements: [{ type: "visa", title: "E-Visa", description: "Tourisme 30 jours.", cost: "36 USD", link: "https://www.evisa.gov.kh/", mandatory: true }] },
+            { code: "LA", name: "Laos", region: "AS", continent: "Asie", power: 45, water: "unsafe", costFactor: 0.5, requirements: [{ type: "visa", title: "E-Visa", description: "Tourisme 30 jours.", cost: "50 USD", link: "https://laoevisa.gov.la/", mandatory: true }] },
+            { code: "PH", name: "Philippines", region: "AS", continent: "Asie", power: 66, water: "unsafe", costFactor: 0.7, requirements: [{ type: "form", title: "eTravel", description: "QR Code obligatoire 72h avant.", cost: "Gratuit", link: "https://etravel.gov.ph/", mandatory: true }] },
+            { code: "MY", name: "Malaisie", region: "AS", continent: "Asie", power: 110, water: "unsafe", costFactor: 0.8, requirements: [{ type: "form", title: "MDAC", description: "Digital Arrival Card obligatoire 3j avant.", cost: "Gratuit", link: "https://imigresen-online.imi.gov.my/mdac/main", mandatory: true }] },
+            { code: "SG", name: "Singapour", region: "AS", continent: "Asie", power: 130, water: "safe", costFactor: 2.2, customs: ["Chewing-gum (Interdit)", "Cigarette électronique"], requirements: [{ type: "form", title: "SG Arrival Card", description: "Obligatoire 3j avant.", cost: "Gratuit", link: "https://eservices.ica.gov.sg/sgarrivalcard/", mandatory: true }] },
+            { code: "KR", name: "Corée du Sud", region: "AS", continent: "Asie", power: 129, water: "safe", costFactor: 1.4, requirements: [{ type: "visa", title: "K-ETA", description: "Temporairement suspendu pour 22 pays (dont FR) jusqu'à fin 2024.", cost: "Gratuit", mandatory: false }] },
 
-            // --- AMÉRIQUES (FOCUS USA/CANADA/CANCUN) ---
+            // --- AMÉRIQUES (USA, CANADA, LATAM) ---
             {
                 code: "US", name: "États-Unis", region: "NA", continent: "Amériques", power: 116, water: "safe", costFactor: 2.2,
                 customs: ["Kinder Surprise", "Fruits/Viandes", "Fromages non pasteurisés"],
                 requirements: [
-                    { type: "visa", title: "ESTA", description: "Autorisation voyage électronique. Min 72h avant.", cost: "21 USD", link: "https://esta.cbp.dhs.gov/", mandatory: true }
+                    { type: "visa", title: "ESTA", description: "Autorisation électronique. Min 72h avant départ.", cost: "21 USD", link: "https://esta.cbp.dhs.gov/", mandatory: true }
                 ]
             },
             {
@@ -295,16 +320,19 @@
                 code: "CQ", name: "Cancún / Quintana Roo (Mexique)", region: "NA", continent: "Amériques", power: 90, water: "unsafe", costFactor: 1.4,
                 customs: ["Cigarettes électroniques (Réglementé)"],
                 requirements: [
-                    { type: "tax", title: "Visitax", description: "Taxe touristique locale obligatoire.", cost: "~11 USD", link: "https://www.visitax.gob.mx/", mandatory: true },
-                    { type: "form", title: "Formulaire Migratoire (FMM)", description: "Souvent dématérialisé ou dans l'avion.", cost: "Gratuit", mandatory: true }
+                    { type: "tax", title: "Visitax", description: "Taxe touristique locale obligatoire Quintana Roo.", cost: "~11 USD", link: "https://www.visitax.gob.mx/", mandatory: true },
+                    { type: "form", title: "Formulaire Migratoire (FMM)", description: "Souvent dématérialisé ou donné dans l'avion.", cost: "Gratuit", mandatory: true }
                 ]
             },
-            {
-                code: "MX", name: "Mexique", region: "NA", continent: "Amériques", power: 90, water: "unsafe", costFactor: 1.0,
-                requirements: [
-                    { type: "form", title: "FMM (Formulaire)", description: "Formulaire d'immigration.", cost: "Gratuit", mandatory: true }
-                ]
-            },
+            { code: "MX", name: "Mexique", region: "NA", continent: "Amériques", power: 90, water: "unsafe", costFactor: 1.0, requirements: [{ type: "form", title: "FMM (Formulaire)", description: "Formulaire d'immigration.", cost: "Gratuit", mandatory: true }] },
+            { code: "CO", name: "Colombie", region: "SA", continent: "Amériques", power: 80, water: "unsafe", costFactor: 0.8, health: { yellowFever: true }, requirements: [{ type: "form", title: "Check-Mig", description: "Formulaire migratoire obligatoire (24h avant).", cost: "Gratuit", link: "https://apps.migracioncolombia.gov.co/pre-registro/public/preregistro.jsf", mandatory: true }] },
+            { code: "DO", name: "République Dominicaine", region: "NA", continent: "Amériques", power: 65, water: "unsafe", costFactor: 1.1, requirements: [{ type: "form", title: "E-Ticket", description: "Formulaire entrée/sortie obligatoire.", cost: "Gratuit", link: "https://eticket.migracion.gob.do/", mandatory: true }] },
+            { code: "CU", name: "Cuba", region: "NA", continent: "Amériques", power: 55, water: "unsafe", costFactor: 0.9, requirements: [{ type: "form", title: "D'Viajeros", description: "Formulaire numérique obligatoire.", cost: "Gratuit", link: "https://dviajeros.mitrans.gob.cu/", mandatory: true }, { type: "visa", title: "Carte de Touriste", description: "Visa papier obligatoire (via agence ou consulat).", cost: "~25€", mandatory: true }] },
+            { code: "BR", name: "Brésil", region: "SA", continent: "Amériques", power: 100, water: "unsafe", costFactor: 1.1, health: { yellowFever: true } },
+            { code: "PE", name: "Pérou", region: "SA", continent: "Amériques", power: 85, water: "unsafe", costFactor: 0.9, customs: ["Feuilles de Coca (Quantité limitée)"] },
+            { code: "CL", name: "Chili", region: "SA", continent: "Amériques", power: 118, water: "safe", costFactor: 1.3, requirements: [{ type: "form", title: "SAG Affidavit", description: "Déclaration douanière stricte.", cost: "Gratuit", mandatory: true }] },
+            { code: "AR", name: "Argentine", region: "SA", continent: "Amériques", power: 98, water: "unsafe", costFactor: 0.8 },
+            { code: "CR", name: "Costa Rica", region: "SA", continent: "Amériques", power: 95, water: "safe", costFactor: 1.4 },
 
             // --- OCÉANIE ---
             {
@@ -312,7 +340,7 @@
                 customs: ["Nourriture (Bio-sécurité extrême)", "Terres/Sables"],
                 requirements: [
                     { type: "visa", title: "eVisitor (651)", description: "Visa gratuit pour Européens. Demande en ligne.", cost: "Gratuit", link: "https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing/evisitor-651", mandatory: true },
-                    { type: "form", title: "Digital Passenger Declaration", description: "72h avant le vol.", cost: "Gratuit", mandatory: true }
+                    { type: "form", title: "DPD", description: "Déclaration passager 72h avant.", cost: "Gratuit", mandatory: true }
                 ]
             },
             {
@@ -324,7 +352,7 @@
                 ]
             },
 
-            // --- AFRIQUE / MOYEN ORIENT ---
+            // --- MOYEN ORIENT & AFRIQUE ---
             {
                 code: "AE", name: "Dubaï (EAU)", region: "ME", continent: "Afrique / M-O", power: 110, water: "safe", costFactor: 2.0,
                 customs: ["Médicaments avec codéine", "Graines de pavot"],
@@ -335,14 +363,14 @@
             },
             {
                 code: "EG", name: "Égypte", region: "AF", continent: "Afrique / M-O", power: 50, water: "unsafe", costFactor: 0.6,
-                customs: ["Drones (Interdiction stricte)"],
+                customs: ["Drones (Interdiction stricte/Prison)"],
                 requirements: [
-                    { type: "visa", title: "E-Visa / Visa On Arrival", description: "25$ à la banque avant la douane ou en ligne.", cost: "25 USD", link: "https://visa2egypt.gov.eg/", mandatory: true }
+                    { type: "visa", title: "E-Visa / VOA", description: "25$ à la banque avant la douane ou en ligne.", cost: "25 USD", link: "https://visa2egypt.gov.eg/", mandatory: true }
                 ]
             },
             {
                 code: "KE", name: "Kenya", region: "AF", continent: "Afrique / M-O", power: 55, water: "unsafe", costFactor: 1.1,
-                health: { yellowFever: true },
+                health: { yellowFever: true }, customs: ["Sacs plastiques interdits"],
                 requirements: [
                     { type: "visa", title: "eTA Kenya", description: "Remplace le visa. Obligatoire pour TOUS.", cost: "~30 USD", link: "https://www.etakenya.go.ke/", mandatory: true }
                 ]
@@ -352,24 +380,46 @@
                 health: { yellowFever: true }, customs: ["Sacs plastiques interdits"],
                 requirements: [
                     { type: "visa", title: "E-Visa Tanzanie", description: "Valable pour Zanzibar et continent.", cost: "50 USD", link: "https://eservices.immigration.go.tz/", mandatory: true },
-                    { type: "tax", title: "Assurance Obligatoire", description: "Nouvelle assurance obligatoire (Oct 2024).", cost: "44 USD", link: "https://visitzanzibar.go.tz/", mandatory: true }
+                    { type: "tax", title: "Assurance Inbound", description: "Nouvelle assurance obligatoire (Oct 2024).", cost: "44 USD", link: "https://visitzanzibar.go.tz/", mandatory: true }
                 ]
             },
+            { code: "MA", name: "Maroc", region: "AF", continent: "Afrique / M-O", power: 65, water: "unsafe", costFactor: 0.7, customs: ["Drones (Confiscation)"], requirements: [{ type: "form", title: "Fiche sanitaire", description: "Parfois demandée à l'arrivée.", cost: "Gratuit", mandatory: false }] },
+            { code: "SA", name: "Arabie Saoudite", region: "ME", continent: "Afrique / M-O", power: 85, water: "unsafe", costFactor: 1.8, customs: ["Alcool (Tolérance 0)", "Symboles religieux"], requirements: [{ type: "visa", title: "E-Visa", description: "Obligatoire pour tourisme.", cost: "~120€", link: "https://visa.visitsaudi.com/", mandatory: true }] },
+            { code: "JO", name: "Jordanie", region: "ME", continent: "Afrique / M-O", power: 75, water: "unsafe", costFactor: 1.3, requirements: [{ type: "visa", title: "Jordan Pass", description: "Inclut Visa + Petra. Très avantageux.", cost: "70-80 JOD", link: "https://www.jordanpass.jo/", mandatory: false }] },
             
-            // --- EUROPE (Schengen + Hors Schengen) ---
+            // --- EUROPE ---
             { code: "GB", name: "Royaume-Uni", region: "EU_NON_SCHENGEN", continent: "Europe", power: 125, water: "safe", costFactor: 2.0, requirements: [{ type: "visa", title: "ETA (Fin 2025)", description: "Bientôt obligatoire pour les européens.", cost: "10 GBP", mandatory: false }] },
             { code: "TR", name: "Turquie", region: "EU_EAST", continent: "Europe", power: 85, water: "unsafe", costFactor: 0.8, customs: ["Antiquités (Sortie interdite)"], requirements: [{ type: "info", title: "CNI ou Passeport", description: "Entrée sans visa pour FR/BE/CH (<90j).", cost: "Gratuit", mandatory: false }] },
-            
-            // PAYS STANDARDS (Données génériques)
             { code: "FR", name: "France", region: "EU", continent: "Europe", power: 128, water: "safe", costFactor: 1.8 },
             { code: "DE", name: "Allemagne", region: "EU", continent: "Europe", power: 129, water: "safe", costFactor: 1.7 },
             { code: "IT", name: "Italie", region: "EU", continent: "Europe", power: 129, water: "safe", costFactor: 1.6 },
             { code: "ES", name: "Espagne", region: "EU", continent: "Europe", power: 129, water: "safe", costFactor: 1.5 },
             { code: "PT", name: "Portugal", region: "EU", continent: "Europe", power: 128, water: "safe", costFactor: 1.4 },
             { code: "GR", name: "Grèce", region: "EU", continent: "Europe", power: 125, water: "safe", costFactor: 1.4 },
-            { code: "MA", name: "Maroc", region: "AF", continent: "Afrique / M-O", power: 65, water: "unsafe", costFactor: 0.7, requirements: [{ type: "form", title: "Fiche sanitaire", description: "Parfois demandée à l'arrivée.", cost: "Gratuit", mandatory: false }] },
-            { code: "BR", name: "Brésil", region: "SA", continent: "Amériques", power: 100, water: "unsafe", costFactor: 1.1, health: { yellowFever: true } },
-            { code: "CO", name: "Colombie", region: "SA", continent: "Amériques", power: 80, water: "unsafe", costFactor: 0.8, health: { yellowFever: true }, requirements: [{ type: "form", title: "Check-Mig", description: "Formulaire migratoire obligatoire (24h avant).", cost: "Gratuit", link: "https://apps.migracioncolombia.gov.co/pre-registro/public/preregistro.jsf", mandatory: true }] },
+            { code: "NL", name: "Pays-Bas", region: "EU", continent: "Europe", power: 127, water: "safe", costFactor: 1.9 },
+            { code: "BE", name: "Belgique", region: "EU", continent: "Europe", power: 127, water: "safe", costFactor: 1.8 },
+            { code: "CH", name: "Suisse", region: "EU", continent: "Europe", power: 126, water: "safe", costFactor: 2.5 },
+            { code: "AT", name: "Autriche", region: "EU", continent: "Europe", power: 128, water: "safe", costFactor: 1.7 },
+            { code: "SE", name: "Suède", region: "EU", continent: "Europe", power: 128, water: "safe", costFactor: 1.9 },
+            { code: "NO", name: "Norvège", region: "EU", continent: "Europe", power: 126, water: "safe", costFactor: 2.3 },
+            { code: "DK", name: "Danemark", region: "EU", continent: "Europe", power: 128, water: "safe", costFactor: 2.1 },
+            { code: "FI", name: "Finlande", region: "EU", continent: "Europe", power: 128, water: "safe", costFactor: 2.0 },
+            { code: "IE", name: "Irlande", region: "EU_NON_SCHENGEN", continent: "Europe", power: 126, water: "safe", costFactor: 1.9 },
+            { code: "PL", name: "Pologne", region: "EU", continent: "Europe", power: 124, water: "safe", costFactor: 0.9 },
+            { code: "CZ", name: "République Tchèque", region: "EU", continent: "Europe", power: 124, water: "safe", costFactor: 1.0 },
+            { code: "HU", name: "Hongrie", region: "EU", continent: "Europe", power: 122, water: "safe", costFactor: 0.9 },
+            { code: "IS", name: "Islande", region: "EU_NON_SCHENGEN", continent: "Europe", power: 120, water: "safe", costFactor: 2.4 },
+            { code: "HR", name: "Croatie", region: "EU", continent: "Europe", power: 123, water: "safe", costFactor: 1.2 },
+            { code: "MT", name: "Malte", region: "EU", continent: "Europe", power: 122, water: "safe", costFactor: 1.5 },
+            { code: "CY", name: "Chypre", region: "EU", continent: "Europe", power: 123, water: "safe", costFactor: 1.4 },
+            { code: "RU", name: "Russie", region: "EU_EAST", continent: "Europe", power: 90, water: "unsafe", costFactor: 1.1, requirements: [{ type: "visa", title: "E-Visa", description: "Disponible pour 55 pays (dont UE).", cost: "~50€", link: "https://electronic-visa.kdmid.ru/", mandatory: true }] },
+            { code: "AL", name: "Albanie", region: "EU_EAST", continent: "Europe", power: 95, water: "unsafe", costFactor: 0.7 },
+            { code: "ME", name: "Monténégro", region: "EU_EAST", continent: "Europe", power: 100, water: "unsafe", costFactor: 0.9 },
+            { code: "ZA", name: "Afrique du Sud", region: "AF", continent: "Afrique / M-O", power: 95, water: "unsafe", costFactor: 1.0 },
+            { code: "MU", name: "Île Maurice", region: "AF", continent: "Afrique / M-O", power: 90, water: "unsafe", costFactor: 1.4, requirements: [{ type: "form", title: "All-in-One Form", description: "Formulaire santé/immigration obligatoire.", cost: "Gratuit", link: "https://safemauritius.govmu.org/", mandatory: true }] },
+            { code: "SC", name: "Seychelles", region: "AF", continent: "Afrique / M-O", power: 85, water: "safe", costFactor: 2.5, requirements: [{ type: "form", title: "Travel Authorization", description: "Obligatoire avant départ.", cost: "10€", link: "https://seychelles.govtas.com/", mandatory: true }] },
+            { code: "MD", name: "Madagascar", region: "AF", continent: "Afrique / M-O", power: 50, water: "unsafe", costFactor: 0.6, requirements: [{ type: "visa", title: "Visa Arrivée", description: "35€ pour 30 jours.", cost: "35€", mandatory: true }] },
+            { code: "NP", name: "Népal", region: "AS", continent: "Asie", power: 55, water: "unsafe", costFactor: 0.5, requirements: [{ type: "visa", title: "Visa Arrivée", description: "Visa on Arrival à l'aéroport.", cost: "30-50 USD", mandatory: true }] }
         ].sort((a, b) => a.name.localeCompare(b.name));
 
         // --- FONCTIONS UTILITAIRES ---
@@ -400,29 +450,244 @@
             return `https://www.booking.com/searchresults.html?ss=${destName}&checkin_year=${sYear}&checkin_month=${sMonth}&checkin_monthday=${sDay}&checkout_year=${eYear}&checkout_month=${eMonth}&checkout_monthday=${eDay}&aid=${AFFILIATE_CONFIG.hotel_aid}`;
         };
 
-        // --- APPLICATION PRINCIPALE ---
+        // --- COMPOSANTS UI ---
+
+        const Header = ({ lang, setLang, t, setView }) => (
+            <header className="w-full p-6 flex justify-between items-center max-w-4xl mx-auto border-b border-slate-100 bg-white/80 backdrop-blur-sm sticky top-0 z-50">
+                <div className="flex items-center gap-2 text-slate-800 font-bold text-xl cursor-pointer" onClick={() => setView('home')}>
+                    <div className="bg-gradient-to-br from-blue-600 to-indigo-600 text-white p-2.5 rounded-xl shadow-blue-200 shadow-lg transform -rotate-6">
+                        <Icons.Plane size={22} className="transform rotate-12" />
+                    </div>
+                    <span className="tracking-tight hidden sm:inline font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-slate-800 to-slate-600">{t.app_name}.</span>
+                </div>
+                <div className="flex items-center gap-3">
+                    <div className="relative group">
+                        <button className="flex items-center gap-2 text-sm font-sans font-medium text-slate-600 bg-slate-50 px-3 py-2 rounded-lg hover:bg-slate-100 transition-colors">
+                            <Icons.Languages size={16} />{lang}
+                        </button>
+                        <div className="absolute right-0 mt-2 w-32 bg-white rounded-xl shadow-xl border border-slate-100 p-1 hidden group-hover:block fade-in">
+                            {Object.keys(translations).map((l) => (<button key={l} onClick={() => setLang(l)} className={`w-full text-left px-3 py-2 rounded-lg text-sm font-sans ${lang === l ? 'bg-blue-50 text-blue-600 font-bold' : 'text-slate-600 hover:bg-slate-50'}`}>{l === 'FR' ? 'Français' : 'English'}</button>))}
+                        </div>
+                    </div>
+                    <div className="text-xs font-bold text-blue-600 bg-blue-50 px-3 py-2 rounded-full border border-blue-100 hidden sm:block">{t.subtitle}</div>
+                </div>
+            </header>
+        );
+
+        const DesktopNav = ({ t, currentView, setView }) => {
+            const navItems = [
+                { id: 'home', icon: Icons.MapPin, label: t.menu_home },
+                { id: 'budget', icon: Icons.Calculator, label: t.menu_budget },
+                { id: 'insurance', icon: Icons.Umbrella, label: t.menu_insurance },
+                { id: 'feedback', icon: Icons.MessageSquare, label: t.menu_feedback },
+            ];
+            return (
+                <div className="hidden sm:flex justify-center gap-4 mb-8">
+                {navItems.map((item) => (
+                    <button key={item.id} onClick={() => setView(item.id)} className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-bold transition-all ${currentView === item.id ? 'bg-blue-600 text-white shadow-lg shadow-blue-200' : 'bg-white text-slate-500 hover:bg-slate-50'}`}>
+                        <item.icon size={16} />{item.label}
+                    </button>
+                ))}
+                </div>
+            );
+        };
+
+        const MobileNav = ({ t, currentView, setView }) => {
+            const navItems = [
+                { id: 'home', icon: Icons.MapPin, label: t.menu_home },
+                { id: 'budget', icon: Icons.Calculator, label: t.menu_budget },
+                { id: 'insurance', icon: Icons.Umbrella, label: t.menu_insurance },
+                { id: 'feedback', icon: Icons.MessageSquare, label: t.menu_feedback },
+            ];
+            return (
+                <div className="fixed bottom-0 left-0 w-full bg-white border-t border-slate-200 p-3 sm:hidden z-50 flex justify-around items-center pb-6">
+                {navItems.map((item) => (
+                    <button key={item.id} onClick={() => setView(item.id)} className={`flex flex-col items-center gap-1 text-[10px] font-bold uppercase tracking-wide transition-colors ${currentView === item.id ? 'text-blue-600' : 'text-slate-400'}`}>
+                        <item.icon size={24} className={currentView === item.id ? 'stroke-2' : 'stroke-1'} />{item.label}
+                    </button>
+                ))}
+                </div>
+            );
+        };
+
+        const InputField = ({ label, icon: Icon, children }) => (
+            <div className="mb-5">
+                <label className="text-slate-500 text-[10px] sm:text-xs uppercase tracking-wider font-bold mb-2 flex items-center gap-2">
+                    <Icon size={14} className="text-blue-500" /> {label}
+                </label>
+                {children}
+            </div>
+        );
+
+        const CountrySelect = ({ value, onChange, placeholder, excludeCode }) => {
+            const grouped = groupCountriesByContinent(countriesData);
+            const continentOrder = ["Europe", "Asie", "Amériques", "Afrique / M-O", "Océanie"];
+            return (
+                <select className="w-full bg-slate-50 border border-slate-200 text-slate-700 font-sans font-medium rounded-xl p-4 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all appearance-none cursor-pointer hover:bg-slate-100" value={value} onChange={onChange}>
+                    <option value="">{placeholder}</option>
+                    {continentOrder.map(continent => (
+                        grouped[continent] && (
+                        <optgroup key={continent} label={continent}>
+                            {grouped[continent].filter(c => c.code !== excludeCode).map(c => (
+                                <option key={c.code} value={c.code} className="font-sans">{c.name}</option>
+                            ))}
+                        </optgroup>
+                        )
+                    ))}
+                </select>
+            );
+        };
+
+        const DocumentCard = ({ title, status, description, cost, mandatory, link, t }) => {
+            const getStatusColor = () => {
+                if (status === 'alert' || mandatory) return 'bg-amber-50 text-amber-600 border-amber-100';
+                if (status === 'error') return 'bg-red-50 text-red-600 border-red-100';
+                return 'bg-emerald-50 text-emerald-600 border-emerald-100';
+            };
+            const getIcon = () => {
+                if (status === 'alert' || mandatory) return <Icons.AlertTriangle size={20} />;
+                if (status === 'error') return <Icons.ShieldCheck size={20} />;
+                return <Icons.CheckCircle size={20} />;
+            };
+            return (
+                <div className="bg-white border border-slate-100 rounded-xl p-5 mb-3 shadow-sm hover:shadow-md transition-all duration-300 flex flex-row items-start gap-4 group">
+                    <div className={`p-3 rounded-xl shrink-0 border ${getStatusColor()} transition-colors`}>{getIcon()}</div>
+                    <div className="flex-1 w-full">
+                        <div className="flex justify-between items-start">
+                            <h4 className="font-bold text-slate-800 text-lg group-hover:text-blue-600 transition-colors">{title}</h4>
+                            {mandatory && <span className="bg-rose-50 text-rose-600 border border-rose-100 text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider">{t.doc_mandatory}</span>}
+                        </div>
+                        <p className="text-sm text-slate-500 mt-1 leading-relaxed">{description}</p>
+                        <div className="flex flex-wrap items-center gap-3 mt-3">
+                            {cost && <div className="inline-flex items-center text-xs font-bold text-slate-700 bg-slate-50 px-2.5 py-1 rounded-md border border-slate-200">{t.cost}: {cost}</div>}
+                            {link && <a href={link} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 px-3 py-1.5 rounded-md transition-colors shadow-sm">{t.btn_official_link}<Icons.ExternalLink size={12} /></a>}
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        const OfferCountdown = ({ t }) => {
+            const [timeLeft, setTimeLeft] = useState(600);
+            useEffect(() => { const timer = setInterval(() => setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0)), 1000); return () => clearInterval(timer); }, []);
+            const formatTime = (seconds) => { const m = Math.floor(seconds / 60); const s = seconds % 60; return `${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`; };
+            return <div className="flex items-center justify-center gap-2 mb-4 text-sm font-medium text-rose-600 animate-pulse"><Icons.Clock size={16} /><span>{t.offer_expires} {formatTime(timeLeft)}</span></div>;
+        };
+
+        const PassportPower = ({ score, maxScore = 150, t }) => {
+            const percentage = Math.min((score / maxScore) * 100, 100);
+            let tier = "Bronze", colorClass = "bg-amber-600", trophyColor = "text-slate-300";
+            if (score > 100) { tier = "Silver"; colorClass = "bg-slate-400"; }
+            if (score > 125) { tier = "Gold"; colorClass = "bg-yellow-500"; trophyColor = "text-yellow-400"; }
+            return (
+                <div className="bg-slate-900 text-white rounded-2xl p-6 mb-6 relative overflow-hidden shadow-xl transform transition-all hover:scale-[1.01]">
+                    <div className="absolute top-0 right-0 p-4 opacity-10"><Icons.Globe size={120} /></div>
+                    <div className="relative z-10">
+                        <div className="flex justify-between items-start mb-4">
+                            <div><h3 className="text-slate-400 text-xs uppercase font-bold tracking-widest">{t.passport_power}</h3><div className="text-4xl font-extrabold flex items-center gap-3 mt-2"><Icons.Trophy size={32} className={trophyColor} />{score} <span className="text-lg text-slate-500 font-normal">/ {maxScore}</span></div></div>
+                            <div className={`px-4 py-1.5 rounded-full text-xs font-black text-slate-900 uppercase tracking-wide shadow-lg ${colorClass}`}>{tier} Tier</div>
+                        </div>
+                        <div className="w-full bg-slate-800 h-3 rounded-full overflow-hidden border border-slate-700"><div className={`h-full ${colorClass} transition-all duration-1000 ease-out`} style={{ width: `${percentage}%` }}></div></div>
+                        <p className="text-xs text-slate-400 mt-4 flex items-center gap-2"><Icons.CheckCircle size={12} className="text-green-500" />{t.access_text} {score} {t.countries_text}.</p>
+                    </div>
+                </div>
+            );
+        };
+
+        const HealthCard = ({ water, vaccine, t }) => (
+            <div className="bg-white border border-slate-100 rounded-xl p-5 mb-3 shadow-sm flex flex-row gap-4 items-start">
+                <div className="p-3 rounded-xl shrink-0 border bg-teal-50 text-teal-600 border-teal-100"><Icons.Stethoscope size={20} /></div>
+                <div className="flex-1">
+                <h4 className="font-bold text-slate-800 text-lg mb-2">{t.health_title}</h4>
+                <div className="space-y-2">
+                    <div className={`flex items-center gap-2 text-sm font-medium ${water === 'safe' ? 'text-green-600' : 'text-red-500'}`}><Icons.Droplets size={16} />{water === 'safe' ? t.water_safe : t.water_unsafe}</div>
+                    {vaccine && <div className="flex items-center gap-2 text-sm font-medium text-amber-600"><Icons.AlertTriangle size={16} />{t.vaccine_mandatory} <span className="font-bold">{vaccine}</span></div>}
+                </div>
+                </div>
+            </div>
+        );
+
+        const CustomsCard = ({ items, t }) => (
+            <div className="bg-white border border-rose-100 rounded-xl p-5 mb-3 shadow-sm flex flex-row gap-4 items-start">
+                <div className="p-3 rounded-xl shrink-0 border bg-rose-50 text-rose-600 border-rose-100"><Icons.Siren size={20} /></div>
+                <div className="flex-1">
+                <h4 className="font-bold text-slate-800 text-lg mb-2">{t.customs_title}</h4>
+                <p className="text-xs font-bold uppercase text-rose-500 mb-2">{t.forbidden_items}</p>
+                <ul className="list-disc list-inside text-sm text-slate-600 space-y-1">{items.map((item, idx) => <li key={idx}>{item}</li>)}</ul>
+                </div>
+            </div>
+        );
+
+        const ActionButton = ({ icon: Icon, title, subtitle, colorClass, link, isExternal }) => (
+            <a href={link} target={isExternal ? "_blank" : "_self"} rel={isExternal ? "noopener noreferrer" : ""} className="flex items-center justify-between p-4 bg-white border border-slate-200 rounded-xl hover:border-blue-400 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group cursor-pointer">
+                <div className="flex items-center gap-4"><div className={`${colorClass} p-3 rounded-lg bg-opacity-10`}><Icon size={24} className={colorClass.replace('bg-', 'text-')} /></div><div className="text-left"><div className="font-bold text-slate-800">{title}</div><div className="text-xs text-slate-500">{subtitle}</div></div></div>
+                <Icons.ExternalLink size={16} className="text-slate-300 group-hover:text-blue-500 transition-colors" />
+            </a>
+        );
+
+        const ServiceCard = ({ icon: Icon, title, desc, colorClass, link }) => (
+            <a href={link} target="_blank" rel="noopener noreferrer" className="bg-white border border-slate-100 rounded-xl p-4 shadow-sm hover:shadow-md hover:border-blue-300 transition-all duration-300 flex items-center gap-4 group cursor-pointer">
+                <div className={`p-3 rounded-xl shrink-0 ${colorClass} bg-opacity-10`}><Icon size={24} className={colorClass.replace('bg-', 'text-')} /></div>
+                <div className="flex-1"><div className="flex justify-between items-center"><h4 className="font-bold text-slate-800 group-hover:text-blue-600 transition-colors">{title}</h4><Icons.ExternalLink size={14} className="text-slate-300 group-hover:text-blue-500" /></div><p className="text-xs text-slate-500 mt-1">{desc}</p></div>
+            </a>
+        );
+
+        // --- NOUVELLES PAGES ---
+
+        const BudgetComponent = ({ t }) => {
+            const [localDest, setLocalDest] = useState("");
+            const [days, setDays] = useState(7);
+            const [style, setStyle] = useState("med");
+            const [res, setRes] = useState(null);
+            const calc = () => { if(!localDest) return; const c = countriesData.find(x => x.code === localDest); const base = 60; const factor = c ? (c.costFactor || 1) : 1; let mult = style === 'low' ? 0.6 : (style === 'high' ? 2.5 : 1); setRes(Math.round(base * factor * mult * days)); };
+            return (
+                <div className="w-full max-w-lg mx-auto bg-white p-6 rounded-3xl shadow-xl border border-slate-100 fade-in">
+                    <div className="text-center mb-6"><div className="mx-auto w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mb-3"><Icons.Calculator className="text-green-600" size={24} /></div><h2 className="text-2xl font-bold text-slate-800">{t.budget_title}</h2><p className="text-slate-500 text-sm">{t.budget_desc}</p></div>
+                    <div className="space-y-4">
+                        <InputField label={t.label_destination} icon={Icons.MapPin}><CountrySelect value={localDest} onChange={(e) => setLocalDest(e.target.value)} placeholder={t.placeholder_select} /></InputField>
+                        <InputField label={t.duration_calc} icon={Icons.Clock}><input type="number" value={days} onChange={(e) => setDays(e.target.value)} className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3" /></InputField>
+                        <div className="grid grid-cols-3 gap-2 mb-4">{['low', 'med', 'high'].map(s => <button key={s} onClick={() => setStyle(s)} className={`p-2 rounded-lg text-xs font-bold border ${style === s ? 'bg-blue-100 border-blue-500 text-blue-700' : 'bg-white border-slate-200 text-slate-500'}`}>{t[`budget_style_${s}`]}</button>)}</div>
+                        <button onClick={calc} className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-xl transition-all">Calculer</button>
+                        {res && <div className="mt-6 p-4 bg-green-50 border border-green-200 rounded-xl text-center fade-in"><span className="text-slate-500 text-sm block mb-1">{t.budget_result}</span><span className="text-3xl font-extrabold text-green-700">{res} €</span></div>}
+                    </div>
+                </div>
+            );
+        };
+
+        const InsurancePage = ({ t }) => (
+            <div className="w-full max-w-lg mx-auto bg-white p-6 sm:p-8 rounded-3xl shadow-xl border border-slate-100 text-center fade-in">
+                <div className="mx-auto w-16 h-16 bg-rose-100 rounded-full flex items-center justify-center mb-4"><Icons.Umbrella className="text-rose-600" size={32} /></div>
+                <h2 className="text-2xl font-bold text-slate-800 mb-2">{t.insurance_title}</h2><h3 className="text-rose-600 font-bold uppercase tracking-wider text-xs mb-4">{t.insurance_subtitle}</h3><p className="text-slate-600 mb-8 leading-relaxed">{t.insurance_desc}</p>
+                <a href={AFFILIATE_CONFIG.insurance_link} target="_blank" rel="noopener noreferrer" className="block w-full bg-rose-600 hover:bg-rose-700 text-white font-bold py-4 rounded-xl shadow-lg shadow-rose-200 hover:shadow-rose-300 transition-all transform hover:-translate-y-1">{t.btn_get_quote}</a>
+                <div className="mt-8 flex justify-center gap-4 text-slate-400"><Icons.ShieldCheck size={24} /><Icons.Stethoscope size={24} /><Icons.Siren size={24} /></div>
+            </div>
+        );
+
+        const FeedbackPage = ({ t }) => {
+            const [sent, setSent] = useState(false);
+            const handleSubmit = (e) => { e.preventDefault(); setSent(true); setTimeout(() => setSent(false), 3000); };
+            return (
+                <div className="w-full max-w-lg mx-auto bg-white p-6 sm:p-8 rounded-3xl shadow-xl border border-slate-100 fade-in">
+                    <div className="text-center mb-6"><div className="mx-auto w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center mb-3"><Icons.Mail className="text-indigo-600" size={24} /></div><h2 className="text-2xl font-bold text-slate-800">{t.feedback_title}</h2><p className="text-slate-500 text-sm mt-1">{t.feedback_desc}</p></div>
+                    {sent ? <div className="p-8 text-center text-green-600 font-bold bg-green-50 rounded-xl border border-green-100">Message envoyé ! Merci.</div> : (
+                        <form onSubmit={handleSubmit} className="space-y-4">
+                            <div><label className="block text-xs font-bold text-slate-500 uppercase mb-1">Email</label><input type="email" required className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3" placeholder="hello@example.com" /></div>
+                            <div><label className="block text-xs font-bold text-slate-500 uppercase mb-1">Message</label><textarea required rows="4" className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3" placeholder={t.feedback_placeholder}></textarea></div>
+                            <button type="submit" className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-xl transition-all">{t.btn_send}</button>
+                        </form>
+                    )}
+                </div>
+            );
+        };
 
         function App() {
             const [lang, setLang] = useState('FR');
             const [currentView, setView] = useState('home'); 
             const [step, setStep] = useState(0); 
-            const [formData, setFormData] = useState({
-                nationality: "FR",
-                origin: "FR", 
-                destination: "",
-                age: 25,
-                startDate: new Date().toISOString().split('T')[0],
-                endDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
-            });
+            const [formData, setFormData] = useState({ nationality: "FR", origin: "FR", destination: "", age: 25, startDate: new Date().toISOString().split('T')[0], endDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0] });
             const [result, setResult] = useState(null);
 
-            useEffect(() => {
-                const userLang = navigator.language || navigator.userLanguage; 
-                const code = userLang.split('-')[0].toUpperCase();
-                if (['FR', 'EN'].includes(code)) setLang(code);
-                else setLang('EN');
-            }, []);
-
+            useEffect(() => { const userLang = navigator.language || navigator.userLanguage; const code = userLang.split('-')[0].toUpperCase(); if (['FR', 'EN'].includes(code)) setLang(code); else setLang('EN'); }, []);
             const t = translations[lang] || translations.EN;
 
             const handleSearch = () => {
@@ -450,78 +715,25 @@
                         docs.push({ title: "Passeport Valide", status: "ok", description: "Validité min. 6 mois après le retour.", mandatory: true, cost: "-" });
                     }
 
-                    // 2. Visas & Taxes Spécifiques (Depuis la nouvelle DB)
+                    // 2. Visas & Taxes Spécifiques
                     if (destInfo.requirements) {
                         destInfo.requirements.forEach(req => {
                             let status = "info";
                             if (req.mandatory) status = "alert";
-                            if (req.type === "visa") status = "alert"; // Visas are critical
-                            
-                            docs.push({
-                                title: req.title,
-                                status: status,
-                                description: req.description,
-                                cost: req.cost,
-                                link: req.link,
-                                mandatory: req.mandatory
-                            });
+                            if (req.type === "visa") status = "alert"; 
+                            docs.push({ title: req.title, status: status, description: req.description, cost: req.cost, link: req.link, mandatory: req.mandatory });
                         });
                     }
 
                     const flightLink = generateFlightLink(formData.origin, formData.destination, formData.startDate, formData.endDate);
                     const hotelLink = generateHotelLink(destInfo.name, formData.startDate, formData.endDate);
 
-                    setResult({
-                        passportPower: passportInfo.power,
-                        destinationName: destInfo.name,
-                        originName: originInfo.name,
-                        documents: docs,
-                        health: destInfo.health,
-                        customs: destInfo.customs,
-                        water: destInfo.water,
-                        duration: durationDays,
-                        flightLink: flightLink,
-                        hotelLink: hotelLink
-                    });
+                    setResult({ passportPower: passportInfo.power, destinationName: destInfo.name, originName: originInfo.name, documents: docs, health: destInfo.health, customs: destInfo.customs, water: destInfo.water, duration: durationDays, flightLink: flightLink, hotelLink: hotelLink });
                     setStep(2);
                 }, 1500);
             };
 
             const reset = () => { setStep(0); setResult(null); };
-
-            // COMPONENTS (Internes à App pour accès simple au contexte si besoin)
-            
-            // ... (Copie des composants simplifiés pour la structure)
-            const BudgetComponent = () => {
-                const [localDest, setLocalDest] = useState("");
-                const [days, setDays] = useState(7);
-                const [style, setStyle] = useState("med");
-                const [res, setRes] = useState(null);
-                
-                const calc = () => {
-                    if(!localDest) return;
-                    const c = countriesData.find(x => x.code === localDest);
-                    const base = 60; 
-                    const factor = c ? (c.costFactor || 1) : 1;
-                    let mult = style === 'low' ? 0.6 : (style === 'high' ? 2.5 : 1);
-                    setRes(Math.round(base * factor * mult * days));
-                };
-
-                return (
-                    <div className="w-full max-w-lg mx-auto bg-white p-6 rounded-3xl shadow-xl border border-slate-100 fade-in">
-                        <div className="text-center mb-6"><div className="mx-auto w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mb-3"><Icons.Calculator className="text-green-600" size={24} /></div><h2 className="text-2xl font-bold text-slate-800">{t.budget_title}</h2><p className="text-slate-500 text-sm">{t.budget_desc}</p></div>
-                        <div className="space-y-4">
-                            <InputField label={t.label_destination} icon={Icons.MapPin}><CountrySelect value={localDest} onChange={(e) => setLocalDest(e.target.value)} placeholder={t.placeholder_select} /></InputField>
-                            <InputField label={t.duration_calc} icon={Icons.Clock}><input type="number" value={days} onChange={(e) => setDays(e.target.value)} className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3" /></InputField>
-                            <div className="grid grid-cols-3 gap-2 mb-4">
-                                {['low', 'med', 'high'].map(s => <button key={s} onClick={() => setStyle(s)} className={`p-2 rounded-lg text-xs font-bold border ${style === s ? 'bg-blue-100 border-blue-500 text-blue-700' : 'bg-white border-slate-200 text-slate-500'}`}>{t[`budget_style_${s}`]}</button>)}
-                            </div>
-                            <button onClick={calc} className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-xl transition-all">Calculer</button>
-                            {res && <div className="mt-6 p-4 bg-green-50 border border-green-200 rounded-xl text-center fade-in"><span className="text-slate-500 text-sm block mb-1">{t.budget_result}</span><span className="text-3xl font-extrabold text-green-700">{res} €</span></div>}
-                        </div>
-                    </div>
-                );
-            };
 
             return (
                 <div className="min-h-screen bg-slate-50 font-sans text-slate-900 flex flex-col">
@@ -533,10 +745,7 @@
                             <>
                                 {step === 0 && (
                                     <div className="w-full max-w-lg fade-in">
-                                        <div className="text-center mb-10">
-                                            <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-800 mb-3 tracking-tight">{t.hero_title} <span className="text-blue-600">{t.hero_highlight}</span>.</h1>
-                                            <p className="text-slate-500 text-base sm:text-lg">{t.hero_desc}</p>
-                                        </div>
+                                        <div className="text-center mb-10"><h1 className="text-3xl sm:text-4xl font-extrabold text-slate-800 mb-3 tracking-tight">{t.hero_title} <span className="text-blue-600">{t.hero_highlight}</span>.</h1><p className="text-slate-500 text-base sm:text-lg">{t.hero_desc}</p></div>
                                         <div className="bg-white p-6 sm:p-8 rounded-3xl shadow-xl border border-slate-100 relative overflow-hidden">
                                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                                 <InputField label={t.label_nationality} icon={Icons.ShieldCheck}><CountrySelect value={formData.nationality} onChange={(e) => setFormData({...formData, nationality: e.target.value})} placeholder={t.placeholder_select} /></InputField>
@@ -559,8 +768,7 @@
                                             <div className="absolute inset-0 bg-blue-100 rounded-full animate-ping opacity-75"></div>
                                             <div className="relative bg-white p-6 rounded-full shadow-xl border border-blue-50"><Icons.Plane size={48} className="text-blue-600 animate-pulse" /></div>
                                         </div>
-                                        <h2 className="text-2xl font-bold text-slate-800">{t.loading_title}</h2>
-                                        <p className="text-slate-400 mt-2 text-sm font-medium">{t.loading_text}</p>
+                                        <h2 className="text-2xl font-bold text-slate-800">{t.loading_title}</h2><p className="text-slate-400 mt-2 text-sm font-medium">{t.loading_text}</p>
                                     </div>
                                 )}
 
@@ -569,9 +777,7 @@
                                         <div className="flex items-center justify-between mb-8">
                                             <button onClick={reset} className="text-slate-500 hover:text-slate-800 text-sm font-bold flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-white hover:shadow-sm transition-all">&larr; {t.result_back}</button>
                                             <div className="flex flex-col sm:flex-row sm:items-center gap-2 text-sm font-bold text-slate-800 bg-white px-4 py-2 rounded-xl shadow-sm border border-slate-100">
-                                                <div className="flex items-center gap-2"><span className="text-slate-400">{result.originName}</span><Icons.ArrowRight size={14} className="text-blue-500" /><span className="text-blue-600">{result.destinationName}</span></div>
-                                                <span className="hidden sm:inline text-slate-300">|</span>
-                                                <span className="text-slate-500 text-xs font-normal">{t.duration_calc} {result.duration} {t.days}</span>
+                                                <div className="flex items-center gap-2"><span className="text-slate-400">{result.originName}</span><Icons.ArrowRight size={14} className="text-blue-500" /><span className="text-blue-600">{result.destinationName}</span></div><span className="hidden sm:inline text-slate-300">|</span><span className="text-slate-500 text-xs font-normal">{t.duration_calc} {result.duration} {t.days}</span>
                                             </div>
                                         </div>
 
@@ -580,9 +786,7 @@
                                         <div className="mb-10">
                                             <h3 className="text-xl font-bold text-slate-800 mb-5 flex items-center gap-3">{t.docs_title} <span className="bg-slate-100 text-slate-600 text-xs font-bold px-2.5 py-1 rounded-full border border-slate-200">{result.documents.length}</span></h3>
                                             <div className="space-y-4">
-                                                {result.documents.map((doc, idx) => (
-                                                <DocumentCard key={idx} {...doc} isMandatory={doc.mandatory} t={t} />
-                                                ))}
+                                                {result.documents.map((doc, idx) => (<DocumentCard key={idx} {...doc} isMandatory={doc.mandatory} t={t} />))}
                                                 <HealthCard water={result.water || 'unsafe'} vaccine={result.health?.yellowFever ? 'Fièvre Jaune' : null} t={t} />
                                                 {result.customs && result.customs.length > 0 && <CustomsCard items={result.customs} t={t} />}
                                             </div>
@@ -607,8 +811,7 @@
                                             <div className="text-center p-8 rounded-3xl bg-gradient-to-br from-slate-900 to-slate-800 text-white shadow-xl relative overflow-hidden group">
                                                 <div className="absolute top-0 right-0 p-8 opacity-10 transform rotate-12 group-hover:rotate-0 transition-transform duration-500"><Icons.Heart size={100} fill="currentColor" /></div>
                                                 <Icons.Heart className="mx-auto text-rose-500 mb-4 fill-rose-500 animate-pulse" size={32} />
-                                                <h4 className="text-xl font-bold mb-2">{t.donate_title}</h4>
-                                                <p className="text-slate-300 mb-6 max-w-sm mx-auto text-sm leading-relaxed">{t.donate_text}</p>
+                                                <h4 className="text-xl font-bold mb-2">{t.donate_title}</h4><p className="text-slate-300 mb-6 max-w-sm mx-auto text-sm leading-relaxed">{t.donate_text}</p>
                                                 <button className="bg-white text-slate-900 px-8 py-3 rounded-full text-sm font-bold hover:bg-rose-50 hover:text-rose-600 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">{t.donate_btn}</button>
                                             </div>
                                         </div>
@@ -617,7 +820,7 @@
                             </>
                         )}
 
-                        {currentView === 'budget' && <BudgetComponent />}
+                        {currentView === 'budget' && <BudgetComponent t={t} />}
                         {currentView === 'insurance' && <InsurancePage t={t} />}
                         {currentView === 'feedback' && <FeedbackPage t={t} />}
                     </main>
