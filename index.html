@@ -14,7 +14,7 @@
     <!-- POLICE -->
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700;800&display=swap');
-        body { font-family: 'Outfit', sans-serif; background-color: #f8fafc; margin: 0; -webkit-font-smoothing: antialiased; padding-bottom: 80px; /* Espace pour le menu mobile */ }
+        body { font-family: 'Outfit', sans-serif; background-color: #f8fafc; margin: 0; -webkit-font-smoothing: antialiased; }
         
         /* Animations */
         .animate-in { animation: fadeIn 0.5s ease-out forwards; }
@@ -23,15 +23,11 @@
         /* Masquer scrollbar */
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-
-        /* Menu Mobile vs Desktop */
-        @media (min-width: 768px) {
-            body { padding-bottom: 0; padding-top: 80px; }
-        }
     </style>
 </head>
 <body>
     <div id="root">
+        <!-- Loader simple en CSS pur en attendant que React se charge -->
         <div style="height: 100vh; display: flex; justify-content: center; align-items: center; color: #64748b; font-family: sans-serif;">
             Chargement de GoGateDocs...
         </div>
@@ -41,9 +37,10 @@
         const { useState, useEffect } = React;
 
         // ==========================================
-        // 1. CONFIGURATION & DONNÉES
+        // 1. CONFIGURATION & TRADUCTIONS
         // ==========================================
         
+        // Tes liens d'affiliation seront à mettre ici plus tard
         const AFFILIATE_CONFIG = {
             flight_marker: "YOUR_ID", 
             hotel_aid: "YOUR_ID",
@@ -55,7 +52,7 @@
         const translations = {
             FR: {
                 subtitle: "V1.0",
-                nav_home: "Accueil", nav_budget: "Budget", nav_insurance: "Assurance", nav_help: "Aide",
+                nav_home: "Formalités", nav_budget: "Budget", nav_insurance: "Assurance", nav_help: "Aide",
                 label_nationality: "Votre Nationalité (Passeport)", label_origin: "Pays de départ (Pour le vol)", label_destination: "Destination",
                 label_age: "Âge du voyageur", label_start_date: "Date de départ", label_end_date: "Date de retour",
                 placeholder_select: "Sélectionner...", btn_analyze: "Vérifier mon voyage",
@@ -86,12 +83,13 @@
                 ins_btn_compare: "Comparer les offres",
                 help_title: "Centre d'aide", help_desc: "Signalez une erreur ou contactez-nous.",
                 label_name: "Nom", label_email: "Email", label_message: "Message", btn_send: "Envoyer", feedback_success: "Message envoyé !"
-            }
+            },
+            EN: { subtitle: "V1.0", nav_home: "Check", nav_budget: "Budget", nav_insurance: "Insurance", nav_help: "Help", label_nationality: "Nationality", label_origin: "Origin", label_destination: "Destination", label_age: "Age", label_start_date: "Start", label_end_date: "End", placeholder_select: "Select...", btn_analyze: "Check Trip", loading_title: "Boarding...", loading_text: "Checking rules...", result_back: "New Search", passport_power: "Passport Power", access_text: "Access to", countries_text: "countries", docs_title: "Documents", health_title: "Health", customs_title: "Customs", docs_disclaimer: "Check official sources.", action_title: "Book Now", action_flight: "Flights (-30%)", action_hotel: "Hotels (-40%)", offer_expires: "Expires in", services_title: "Essentials", service_esim: "eSIM Data", service_esim_desc: "No roaming fees.", service_activities: "Activities", service_activities_desc: "Skip lines.", donate_title: "Support Us", donate_text: "Free tool. Buy us a coffee!", donate_btn: "Donate", hero_title: "Travel", hero_highlight: "Smart", hero_desc: "Visas, vaccines, customs... know everything.", doc_mandatory: "Mandatory", cost: "Cost", footer_rights: "All rights reserved.", duration_calc: "Duration:", origin_same_dest_error: "Origin = Destination.", missing_dest_error: "Select destination.", btn_official_link: "Official Site", water_safe: "Tap water safe ✅", water_unsafe: "Tap water unsafe ❌", vaccine_mandatory: "Vaccine:", forbidden_items: "Forbidden:", budget_title: "Budget Calc", budget_desc: "Daily estimate per person.", style_backpacker: "Budget", style_standard: "Standard", style_luxury: "Luxury", budget_total: "Est. Budget", budget_per_day: "per day", budget_breakdown: "Breakdown:", cat_accom: "Stay", cat_food: "Food", cat_transport: "Transport", ins_title: "Insurance", ins_desc: "Comparison.", ins_card_bank: "Credit Card", ins_card_bank_desc: "Low caps, often reimbursement only.", ins_card_spec: "Specialized", ins_card_spec_desc: "High caps, direct billing.", ins_btn_compare: "Compare", help_title: "Help Center", help_desc: "Report an issue.", label_name: "Name", label_email: "Email", label_message: "Message", btn_send: "Send", feedback_success: "Sent!" }
         };
 
-        // --- BASE DE DONNÉES PAYS (190+ Entrées avec Budgets & Règles) ---
+        // --- BASE DE DONNÉES PAYS (190+) ---
         const countries = [
-            // EUROPE (Budgets en €)
+            // EUROPE
             { code: "FR", name: "France", region: "EU", continent: "Europe", power: 128, water: "safe", budget: { low: 60, mid: 140, high: 300 } },
             { code: "ES", name: "Espagne", region: "EU", continent: "Europe", power: 129, water: "safe", budget: { low: 50, mid: 120, high: 250 } },
             { code: "IT", name: "Italie", region: "EU", continent: "Europe", power: 129, water: "safe", budget: { low: 60, mid: 135, high: 280 } },
@@ -113,14 +111,14 @@
             { code: "CZ", name: "République Tchèque", region: "EU", continent: "Europe", power: 124, water: "safe", budget: { low: 40, mid: 90, high: 200 } },
             { code: "HU", name: "Hongrie", region: "EU", continent: "Europe", power: 122, water: "safe", budget: { low: 35, mid: 80, high: 180 } },
             { code: "HR", name: "Croatie", region: "EU", continent: "Europe", power: 123, water: "safe", budget: { low: 50, mid: 110, high: 240 } },
-            { code: "MT", name: "Malte", region: "EU", continent: "Europe", power: 122, water: "safe", budget: { low: 60, mid: 130, high: 260 } }, 
+            { code: "MT", name: "Malte", region: "EU", continent: "Europe", power: 122, water: "safe", budget: { low: 60, mid: 130, high: 260 } },
             { code: "CY", name: "Chypre", region: "EU", continent: "Europe", power: 123, water: "safe", budget: { low: 55, mid: 120, high: 250 } },
-            { code: "LU", name: "Luxembourg", region: "EU", continent: "Europe", power: 127, water: "safe", budget: { low: 80, mid: 180, high: 350 } },
             { code: "BG", name: "Bulgarie", region: "EU", continent: "Europe", power: 120, water: "safe", budget: { low: 30, mid: 70, high: 150 } },
             { code: "RO", name: "Roumanie", region: "EU", continent: "Europe", power: 121, water: "safe", budget: { low: 30, mid: 70, high: 160 } },
             { code: "AL", name: "Albanie", region: "EU_EAST", continent: "Europe", power: 95, water: "unsafe", budget: { low: 30, mid: 60, high: 140 } },
             { code: "RS", name: "Serbie", region: "EU_EAST", continent: "Europe", power: 105, water: "unsafe", budget: { low: 35, mid: 75, high: 180 } },
             { code: "ME", name: "Monténégro", region: "EU_EAST", continent: "Europe", power: 100, water: "unsafe", budget: { low: 35, mid: 75, high: 180 } },
+            { code: "BA_BOS", name: "Bosnie-Herzégovine", region: "EU_EAST", continent: "Europe", power: 95, water: "unsafe", budget: { low: 30, mid: 70, high: 160 } },
             { code: "TR", name: "Turquie", region: "EU_EAST", continent: "Europe", power: 85, water: "unsafe", budget: { low: 35, mid: 80, high: 180 }, customs: ["Antiquités"] },
             { code: "RU", name: "Russie", region: "EU_EAST", continent: "Europe", power: 90, water: "unsafe", budget: { low: 40, mid: 90, high: 200 }, customs: ["Drones"] },
             
@@ -129,24 +127,15 @@
             { code: "CA", name: "Canada", region: "NA", continent: "Amériques", power: 115, water: "safe", budget: { low: 80, mid: 200, high: 450 }, customs: ["Cannabis"] },
             { code: "MX", name: "Mexique", region: "NA", continent: "Amériques", power: 90, water: "unsafe", budget: { low: 40, mid: 100, high: 250 }, customs: ["Cigarettes > 10 paquets"] },
             { code: "CQ", name: "Cancún (Mexique)", region: "NA", continent: "Amériques", power: 90, water: "unsafe", budget: { low: 60, mid: 150, high: 350 }, customs: ["E-cigarette"] },
-            { code: "BR", name: "Brésil", region: "SA", continent: "Amériques", power: 100, water: "unsafe", budget: { low: 45, mid: 110, high: 250 }, health: { yellowFever: true }, customs: ["Espèces protégées"] },
+            { code: "DO", name: "République Dominicaine", region: "NA", continent: "Amériques", power: 65, water: "unsafe", budget: { low: 50, mid: 130, high: 300 } },
+            { code: "CU", name: "Cuba", region: "NA", continent: "Amériques", power: 55, water: "unsafe", budget: { low: 40, mid: 90, high: 200 }, customs: ["Drones", "GPS"] },
+            { code: "CR", name: "Costa Rica", region: "SA", continent: "Amériques", power: 95, water: "safe", budget: { low: 50, mid: 120, high: 280 } },
+            { code: "BR", name: "Brésil", region: "SA", continent: "Amériques", power: 100, water: "unsafe", budget: { low: 45, mid: 110, high: 250 }, health: { yellowFever: true } },
             { code: "AR", name: "Argentine", region: "SA", continent: "Amériques", power: 98, water: "unsafe", budget: { low: 40, mid: 90, high: 200 } },
             { code: "CO", name: "Colombie", region: "SA", continent: "Amériques", power: 80, water: "unsafe", budget: { low: 35, mid: 80, high: 180 }, health: { yellowFever: true } },
             { code: "PE", name: "Pérou", region: "SA", continent: "Amériques", power: 85, water: "unsafe", budget: { low: 35, mid: 90, high: 200 }, customs: ["Feuilles de Coca"] },
             { code: "CL", name: "Chili", region: "SA", continent: "Amériques", power: 118, water: "safe", budget: { low: 50, mid: 120, high: 280 } },
-            { code: "CR", name: "Costa Rica", region: "SA", continent: "Amériques", power: 95, water: "safe", budget: { low: 50, mid: 120, high: 280 } },
-            { code: "PA", name: "Panama", region: "SA", continent: "Amériques", power: 94, water: "safe", budget: { low: 50, mid: 110, high: 250 } },
-            { code: "UY", name: "Uruguay", region: "SA", continent: "Amériques", power: 96, water: "safe", budget: { low: 55, mid: 130, high: 280 } },
-            { code: "BO", name: "Bolivie", region: "SA", continent: "Amériques", power: 82, water: "unsafe", budget: { low: 30, mid: 70, high: 160 }, health: { yellowFever: true } },
-            { code: "EC", name: "Équateur", region: "SA", continent: "Amériques", power: 86, water: "unsafe", budget: { low: 35, mid: 85, high: 190 }, health: { yellowFever: true } },
-            { code: "VE", name: "Venezuela", region: "SA", continent: "Amériques", power: 70, water: "unsafe", budget: { low: 30, mid: 70, high: 150 }, health: { yellowFever: true } },
-            { code: "GT", name: "Guatemala", region: "SA", continent: "Amériques", power: 88, water: "unsafe", budget: { low: 35, mid: 80, high: 180 } },
-            { code: "DO", name: "République Dominicaine", region: "NA", continent: "Amériques", power: 65, water: "unsafe", budget: { low: 50, mid: 130, high: 300 } },
-            { code: "CU", name: "Cuba", region: "NA", continent: "Amériques", power: 55, water: "unsafe", budget: { low: 40, mid: 90, high: 200 }, customs: ["Drones"] },
-            { code: "JM", name: "Jamaïque", region: "NA", continent: "Amériques", power: 75, water: "unsafe", budget: { low: 55, mid: 130, high: 300 } },
-            { code: "BS", name: "Bahamas", region: "NA", continent: "Amériques", power: 85, water: "unsafe", budget: { low: 90, mid: 220, high: 500 } },
-            { code: "BB", name: "Barbade", region: "NA", continent: "Amériques", power: 90, water: "safe", budget: { low: 80, mid: 200, high: 450 } },
-
+            
             // ASIE
             { code: "JP", name: "Japon", region: "AS", continent: "Asie", power: 130, water: "safe", budget: { low: 60, mid: 150, high: 350 }, customs: ["Codeine", "Couteaux"] },
             { code: "KR", name: "Corée du Sud", region: "AS", continent: "Asie", power: 129, water: "safe", budget: { low: 55, mid: 130, high: 300 } },
@@ -156,64 +145,47 @@
             { code: "ID", name: "Indonésie", region: "AS", continent: "Asie", power: 68, water: "unsafe", budget: { low: 25, mid: 60, high: 150 }, customs: ["Drogues (Mort)"] },
             { code: "BA", name: "Bali (Indonésie)", region: "AS", continent: "Asie", power: 68, water: "unsafe", budget: { low: 35, mid: 90, high: 250 }, customs: ["Drogues (Mort)"] },
             { code: "CN", name: "Chine", region: "AS", continent: "Asie", power: 80, water: "unsafe", budget: { low: 45, mid: 100, high: 250 }, customs: ["VPN"] },
-            { code: "HK", name: "Hong Kong", region: "AS", continent: "Asie", power: 115, water: "safe", budget: { low: 70, mid: 160, high: 400 } },
-            { code: "TW", name: "Taïwan", region: "AS", continent: "Asie", power: 105, water: "safe", budget: { low: 50, mid: 110, high: 250 } },
             { code: "IN", name: "Inde", region: "AS", continent: "Asie", power: 60, water: "unsafe", budget: { low: 25, mid: 50, high: 140 } },
-            { code: "NP", name: "Népal", region: "AS", continent: "Asie", power: 55, water: "unsafe", budget: { low: 20, mid: 50, high: 120 } },
-            { code: "LK", name: "Sri Lanka", region: "AS", continent: "Asie", power: 42, water: "unsafe", budget: { low: 25, mid: 60, high: 150 } },
-            { code: "MY", name: "Malaisie", region: "AS", continent: "Asie", power: 110, water: "unsafe", budget: { low: 30, mid: 70, high: 180 } },
+            { code: "MY", name: "Malaisie", region: "AS", continent: "Asie", power: 110, water: "unsafe", budget: { low: 30, mid: 70, high: 180 }, customs: ["Drogues (Mort)"] },
             { code: "PH", name: "Philippines", region: "AS", continent: "Asie", power: 66, water: "unsafe", budget: { low: 35, mid: 80, high: 180 } },
-            { code: "KH", name: "Cambodge", region: "AS", continent: "Asie", power: 50, water: "unsafe", budget: { low: 25, mid: 55, high: 140 } },
-            { code: "LA", name: "Laos", region: "AS", continent: "Asie", power: 45, water: "unsafe", budget: { low: 25, mid: 50, high: 130 } },
-            { code: "MN", name: "Mongolie", region: "AS", continent: "Asie", power: 60, water: "unsafe", budget: { low: 35, mid: 80, high: 180 } },
-            { code: "KZ", name: "Kazakhstan", region: "AS", continent: "Asie", power: 70, water: "unsafe", budget: { low: 40, mid: 90, high: 200 } },
-            { code: "UZ", name: "Ouzbékistan", region: "AS", continent: "Asie", power: 65, water: "unsafe", budget: { low: 30, mid: 70, high: 150 }, customs: ["Psychotropes"] },
-            { code: "MV", name: "Maldives", region: "AS", continent: "Asie", power: 60, water: "unsafe", budget: { low: 80, mid: 200, high: 600 }, customs: ["Alcool"] },
-
-            // MOYEN-ORIENT / AFRIQUE
-            { code: "AE", name: "Dubaï (EAU)", region: "ME", continent: "Afrique / M-O", power: 110, water: "safe", budget: { low: 70, mid: 180, high: 500 }, customs: ["Codeine"] },
-            { code: "QA", name: "Qatar", region: "ME", continent: "Afrique / M-O", power: 100, water: "safe", budget: { low: 80, mid: 200, high: 500 } },
-            { code: "SA", name: "Arabie Saoudite", region: "ME", continent: "Afrique / M-O", power: 85, water: "unsafe", budget: { low: 70, mid: 160, high: 400 }, customs: ["Alcool"] },
-            { code: "IL", name: "Israël", region: "ME", continent: "Afrique / M-O", power: 105, water: "safe", budget: { low: 70, mid: 180, high: 400 } },
-            { code: "JO", name: "Jordanie", region: "ME", continent: "Afrique / M-O", power: 75, water: "unsafe", budget: { low: 45, mid: 110, high: 250 }, customs: ["Drones"] },
-            { code: "OM", name: "Oman", region: "ME", continent: "Afrique / M-O", power: 88, water: "unsafe", budget: { low: 60, mid: 150, high: 350 } },
-            { code: "MA", name: "Maroc", region: "AF", continent: "Afrique / M-O", power: 65, water: "unsafe", budget: { low: 30, mid: 70, high: 180 }, customs: ["Drones"] },
-            { code: "TN", name: "Tunisie", region: "AF", continent: "Afrique / M-O", power: 60, water: "unsafe", budget: { low: 30, mid: 65, high: 160 }, customs: ["Dinars"] },
-            { code: "EG", name: "Égypte", region: "AF", continent: "Afrique / M-O", power: 50, water: "unsafe", budget: { low: 30, mid: 70, high: 180 }, customs: ["Drones"] },
+            
+            // AFRIQUE & MOYEN-ORIENT
+            { code: "AE", name: "Dubaï (EAU)", region: "ME", continent: "Afrique / M-O", power: 110, water: "safe", budget: { low: 70, mid: 180, high: 500 }, customs: ["Codeine", "Graines pavot"] },
+            { code: "MA", name: "Maroc", region: "AF", continent: "Afrique / M-O", power: 65, water: "unsafe", budget: { low: 30, mid: 70, high: 180 }, customs: ["Drones (Saisie)"] },
+            { code: "EG", name: "Égypte", region: "AF", continent: "Afrique / M-O", power: 50, water: "unsafe", budget: { low: 30, mid: 70, high: 180 }, customs: ["Drones (Prison)"] },
+            { code: "TN", name: "Tunisie", region: "AF", continent: "Afrique / M-O", power: 60, water: "unsafe", budget: { low: 30, mid: 65, high: 160 }, customs: ["Dinars (Export)"] },
             { code: "ZA", name: "Afrique du Sud", region: "AF", continent: "Afrique / M-O", power: 95, water: "unsafe", budget: { low: 45, mid: 100, high: 250 } },
             { code: "ZN", name: "Zanzibar (Tanzanie)", region: "AF", continent: "Afrique / M-O", power: 52, water: "unsafe", budget: { low: 50, mid: 120, high: 300 }, health: { yellowFever: true }, customs: ["Sacs plastiques"] },
-            { code: "KE", name: "Kenya", region: "AF", continent: "Afrique / M-O", power: 55, water: "unsafe", budget: { low: 60, mid: 140, high: 350 }, health: { yellowFever: true } },
-            { code: "TZ", name: "Tanzanie", region: "AF", continent: "Afrique / M-O", power: 52, water: "unsafe", budget: { low: 60, mid: 140, high: 350 }, health: { yellowFever: true } },
-            { code: "NA", name: "Namibie", region: "AF", continent: "Afrique / M-O", power: 80, water: "safe", budget: { low: 60, mid: 150, high: 350 } },
-            { code: "SN", name: "Sénégal", region: "AF", continent: "Afrique / M-O", power: 58, water: "unsafe", budget: { low: 35, mid: 80, high: 180 }, health: { yellowFever: true } },
-            { code: "MU", name: "Île Maurice", region: "AF", continent: "Afrique / M-O", power: 90, water: "unsafe", budget: { low: 60, mid: 150, high: 350 } },
-            { code: "MG", name: "Madagascar", region: "AF", continent: "Afrique / M-O", power: 50, water: "unsafe", budget: { low: 30, mid: 70, high: 160 } },
-            { code: "SC", name: "Seychelles", region: "AF", continent: "Afrique / M-O", power: 85, water: "safe", budget: { low: 100, mid: 250, high: 600 } },
+            { code: "QA", name: "Qatar", region: "ME", continent: "Afrique / M-O", power: 100, water: "safe", budget: { low: 80, mid: 200, high: 500 }, customs: ["Alcool", "Porc"] },
+            { code: "SA", name: "Arabie Saoudite", region: "ME", continent: "Afrique / M-O", power: 85, water: "unsafe", budget: { low: 70, mid: 160, high: 400 }, customs: ["Alcool", "Porc", "Religion"] },
+            { code: "IL", name: "Israël", region: "ME", continent: "Afrique / M-O", power: 105, water: "safe", budget: { low: 70, mid: 180, high: 400 } },
+            { code: "JO", name: "Jordanie", region: "ME", continent: "Afrique / M-O", power: 75, water: "unsafe", budget: { low: 45, mid: 110, high: 250 }, customs: ["Drones"] },
 
             // OCÉANIE
             { code: "AU", name: "Australie", region: "OC", continent: "Océanie", power: 120, water: "safe", budget: { low: 70, mid: 160, high: 350 }, customs: ["Terre", "Nourriture"] },
-            { code: "NZ", name: "Nouvelle-Zélande", region: "OC", continent: "Océanie", power: 119, water: "safe", budget: { low: 70, mid: 160, high: 350 }, customs: ["Terre"] },
+            { code: "NZ", name: "Nouvelle-Zélande", region: "OC", continent: "Océanie", power: 119, water: "safe", budget: { low: 70, mid: 160, high: 350 }, customs: ["Terre", "Nourriture"] },
             { code: "FJ", name: "Fidji", region: "OC", continent: "Océanie", power: 80, water: "unsafe", budget: { low: 50, mid: 120, high: 300 } },
             { code: "PF", name: "Polynésie Fr.", region: "OC", continent: "Océanie", power: 128, water: "safe", budget: { low: 90, mid: 250, high: 600 } },
             { code: "NC", name: "Nouvelle-Calédonie", region: "OC", continent: "Océanie", power: 128, water: "safe", budget: { low: 80, mid: 200, high: 450 } }
         ].sort((a, b) => a.name.localeCompare(b.name));
 
         // ==========================================
-        // 2. ICÔNES SVG
+        // 2. COMPOSANTS (Définis avant usage)
         // ==========================================
 
+        // Icone générique
         const Icon = ({ children, size = 24, className = "", strokeWidth = 2, ...props }) => (
             <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" className={className} {...props}>{children}</svg>
         );
 
-        // Vrai Avion (Silhouette)
+        // Icône Avion Réaliste (Silhouette pleine)
         const RealPlane = (props) => (
              <svg xmlns="http://www.w3.org/2000/svg" width={props.size || 24} height={props.size || 24} viewBox="0 0 24 24" fill="currentColor" className={props.className} {...props}>
                 <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
             </svg>
         );
 
-        const Plane = (props) => <Icon {...props}><path d="M2 12h20"/><path d="M13 2l9 10-9 10"/><path d="M2 12l5-5m-5 5l5 5"/></Icon>;
+        // Autres icônes
         const MapPin = (props) => <Icon {...props}><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></Icon>;
         const Calendar = (props) => <Icon {...props}><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></Icon>;
         const ShieldCheck = (props) => <Icon {...props}><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></Icon>;
@@ -244,16 +216,13 @@
         const Bus = (props) => <Icon {...props}><path d="M8 6v6"/><path d="M15 6v6"/><path d="M2 12h19.6"/><path d="M18 18h3s.5-1.7.8-2.8c.1-.4.2-.8.2-1.2 0-.4-.1-.8-.2-1.2l-1.4-5C20.1 6.8 19.1 6 18 6H4a2 2 0 0 0-2 2v10h3"/><circle cx="7" cy="18" r="2"/><path d="M9 18h5"/><circle cx="16" cy="18" r="2"/></Icon>;
         const Bed = (props) => <Icon {...props}><path d="M2 4v16"/><path d="M2 8h18a2 2 0 0 1 2 2v10"/><path d="M2 17h20"/><path d="M6 8v9"/></Icon>;
 
-        // ==========================================
-        // 3. COMPOSANTS UI (Déclarés AVANT utilisation)
-        // ==========================================
-
         const Header = ({ lang, setLang, t, setCurrentView }) => (
           <header className="w-full p-6 flex justify-between items-center max-w-4xl mx-auto border-b border-slate-100 bg-white/80 backdrop-blur-sm sticky top-0 z-50">
             <div className="flex items-center gap-3 text-slate-800 font-bold text-xl cursor-pointer" onClick={() => window.location.reload()}>
-              <div className="bg-gradient-to-br from-blue-600 to-indigo-600 text-white p-2.5 rounded-xl shadow-blue-200 shadow-lg transform -rotate-6">
-                  <RealPlane size={20} />
-              </div>
+               {/* LOGO AVION RÉALISTE (SVG) + TEXTE UNIQUEMENT */}
+               <div className="bg-gradient-to-br from-blue-600 to-indigo-600 text-white p-2 rounded-lg shadow-md">
+                   <RealPlane size={20} />
+               </div>
               <span className="tracking-tight hidden sm:inline font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-slate-800 to-slate-600">GoGateDocs.</span>
             </div>
             <div className="flex items-center gap-3">
@@ -267,101 +236,94 @@
                   ))}
                 </div>
               </div>
+              <div className="text-xs font-bold text-blue-600 bg-blue-50 px-3 py-2 rounded-full border border-blue-100 hidden sm:block">{t.subtitle}</div>
             </div>
           </header>
         );
 
+        // Avion plus réaliste pour le logo
+        const RealPlane = (props) => (
+             <svg xmlns="http://www.w3.org/2000/svg" width={props.size || 24} height={props.size || 24} viewBox="0 0 24 24" fill="currentColor" className={props.className} {...props}>
+                <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
+            </svg>
+        );
+
         const NavBar = ({ currentView, setCurrentView, t }) => (
-            <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-100 py-3 px-6 flex justify-between items-center z-50 sm:top-0 sm:bottom-auto sm:border-b sm:border-t-0 shadow-lg sm:shadow-sm">
-                <button onClick={() => setCurrentView('home')} className={`flex flex-col items-center gap-1 text-[10px] sm:text-xs font-bold transition-colors ${currentView === 'home' ? 'text-blue-600' : 'text-slate-400 hover:text-slate-600'}`}>
-                    <div className="p-1"><Home size={22} strokeWidth={currentView === 'home' ? 2.5 : 2} /></div>{t.nav_home}
-                </button>
-                <button onClick={() => setCurrentView('budget')} className={`flex flex-col items-center gap-1 text-[10px] sm:text-xs font-bold transition-colors ${currentView === 'budget' ? 'text-blue-600' : 'text-slate-400 hover:text-slate-600'}`}>
-                    <div className="p-1"><Wallet size={22} strokeWidth={currentView === 'budget' ? 2.5 : 2} /></div>{t.nav_budget}
-                </button>
-                <div className="relative -top-8 sm:static sm:top-auto">
-                    <div className="bg-blue-600 p-3.5 rounded-full shadow-blue-300 shadow-xl border-4 border-slate-50 sm:border-0 cursor-pointer flex items-center justify-center" onClick={() => setCurrentView('home')}>
-                        <Plane size={24} className="text-white" />
-                    </div>
-                </div>
-                <button onClick={() => setCurrentView('insurance')} className={`flex flex-col items-center gap-1 text-[10px] sm:text-xs font-bold transition-colors ${currentView === 'insurance' ? 'text-blue-600' : 'text-slate-400 hover:text-slate-600'}`}>
-                    <div className="p-1"><Umbrella size={22} strokeWidth={currentView === 'insurance' ? 2.5 : 2} /></div>{t.nav_insurance}
-                </button>
-                <button onClick={() => setCurrentView('help')} className={`flex flex-col items-center gap-1 text-[10px] sm:text-xs font-bold transition-colors ${currentView === 'help' ? 'text-blue-600' : 'text-slate-400 hover:text-slate-600'}`}>
-                    <div className="p-1"><HelpCircle size={22} strokeWidth={currentView === 'help' ? 2.5 : 2} /></div>{t.nav_help}
-                </button>
-            </nav>
-        );
-
-        const InputField = ({ label, icon: Icon, children }) => (
-            <div className="mb-5">
-                <label className="text-slate-500 text-[10px] sm:text-xs uppercase tracking-wider font-bold mb-2 flex items-center gap-2">
-                    <Icon size={14} className="text-blue-500" /> {label}
-                </label>
-                {children}
-            </div>
-        );
-
-        const CountrySelect = ({ value, onChange, placeholder, excludeCode }) => {
-            const grouped = (list) => list.reduce((groups, country) => {
-                const continent = country.continent;
-                if (!groups[continent]) groups[continent] = [];
-                groups[continent].push(country);
-                return groups;
-            }, {});
+          <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-100 py-2 px-6 flex justify-between items-center z-50 sm:top-0 sm:bottom-auto sm:border-b sm:border-t-0 shadow-lg sm:shadow-sm">
+            <button onClick={() => setCurrentView('home')} className={`flex flex-col items-center gap-1 text-[10px] sm:text-xs font-bold transition-colors ${currentView === 'home' ? 'text-blue-600' : 'text-slate-400 hover:text-slate-600'}`}>
+              <div className="p-1"><Home size={24} strokeWidth={currentView === 'home' ? 2.5 : 2} /></div>
+              {t.nav_home}
+            </button>
+            <button onClick={() => setCurrentView('budget')} className={`flex flex-col items-center gap-1 text-[10px] sm:text-xs font-bold transition-colors ${currentView === 'budget' ? 'text-blue-600' : 'text-slate-400 hover:text-slate-600'}`}>
+              <div className="p-1"><Wallet size={24} strokeWidth={currentView === 'budget' ? 2.5 : 2} /></div>
+              {t.nav_budget}
+            </button>
             
-            const groups = grouped(countries);
-            const continentOrder = ["Europe", "Asie", "Amériques", "Afrique / M-O", "Océanie"];
+            {/* Bouton Central Flottant (Seulement sur Mobile) */}
+            <div className="relative -top-8 sm:static sm:top-auto">
+              <div className="bg-blue-600 p-3.5 rounded-full shadow-blue-300 shadow-xl border-4 border-slate-50 sm:border-0 cursor-pointer flex items-center justify-center" onClick={() => setCurrentView('home')}>
+                 <Plane size={24} className="text-white" />
+              </div>
+            </div>
 
-            return (
-                <select 
-                    className="w-full bg-slate-50 border border-slate-200 text-slate-700 font-sans font-medium rounded-xl p-4 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all appearance-none cursor-pointer hover:bg-slate-100"
-                    value={value}
-                    onChange={onChange}
-                >
-                    <option value="">{placeholder}</option>
-                    {continentOrder.map(continent => (
-                        groups[continent] && (
-                            <optgroup key={continent} label={continent}>
-                                {groups[continent]
-                                    .filter(c => c.code !== excludeCode)
-                                    .map(c => (
-                                        <option key={c.code} value={c.code} className="font-sans">{c.name}</option>
-                                    ))
-                                }
-                            </optgroup>
-                        )
-                    ))}
-                </select>
-            );
-        };
+            <button onClick={() => setCurrentView('insurance')} className={`flex flex-col items-center gap-1 text-[10px] sm:text-xs font-bold transition-colors ${currentView === 'insurance' ? 'text-blue-600' : 'text-slate-400 hover:text-slate-600'}`}>
+              <div className="p-1"><Umbrella size={24} strokeWidth={currentView === 'insurance' ? 2.5 : 2} /></div>
+              {t.nav_insurance}
+            </button>
+            <button onClick={() => setCurrentView('help')} className={`flex flex-col items-center gap-1 text-[10px] sm:text-xs font-bold transition-colors ${currentView === 'help' ? 'text-blue-600' : 'text-slate-400 hover:text-slate-600'}`}>
+              <div className="p-1"><HelpCircle size={24} strokeWidth={currentView === 'help' ? 2.5 : 2} /></div>
+              {t.nav_help}
+            </button>
+          </nav>
+        );
 
-        // Vues secondaires
         const BudgetView = ({ t, countries }) => {
             const [dest, setDest] = useState("");
             const [days, setDays] = useState(7);
             const [style, setStyle] = useState("mid");
             const [result, setResult] = useState(null);
+
             const calculateBudget = () => {
                 if(!dest) return;
                 const country = countries.find(c => c.code === dest);
                 if(!country || !country.budget) return;
                 const dailyCost = country.budget[style];
                 const total = dailyCost * days;
-                setResult({ total: total, daily: dailyCost, accom: Math.round(dailyCost * 0.45), food: Math.round(dailyCost * 0.30), transport: Math.round(dailyCost * 0.25) });
+                setResult({
+                    total: total,
+                    daily: dailyCost,
+                    accom: Math.round(dailyCost * 0.45),
+                    food: Math.round(dailyCost * 0.30),
+                    transport: Math.round(dailyCost * 0.25)
+                });
             };
+
             return (
                 <div className="w-full max-w-lg mx-auto animate-in pt-6 pb-32">
                     <h2 className="text-2xl font-bold text-slate-800 mb-2">{t.budget_title}</h2>
                     <p className="text-slate-500 text-sm mb-6">{t.budget_desc}</p>
                     <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 space-y-4">
-                        <div><label className="block text-xs font-bold text-slate-500 uppercase mb-2">{t.label_destination}</label><select className="w-full p-3 rounded-xl border border-slate-200 bg-slate-50" value={dest} onChange={(e) => setDest(e.target.value)}><option value="">{t.placeholder_select}</option>{countries.map(c => <option key={c.code} value={c.code}>{c.name}</option>)}</select></div>
-                        <div className="grid grid-cols-2 gap-4"><div><label className="block text-xs font-bold text-slate-500 uppercase mb-2">Durée</label><input type="number" className="w-full p-3 rounded-xl border border-slate-200 bg-slate-50" value={days} onChange={(e) => setDays(parseInt(e.target.value) || 0)} /></div><div><label className="block text-xs font-bold text-slate-500 uppercase mb-2">Style</label><select className="w-full p-3 rounded-xl border border-slate-200 bg-slate-50 text-sm" value={style} onChange={(e) => setStyle(e.target.value)}><option value="low">{t.style_backpacker}</option><option value="mid">{t.style_standard}</option><option value="high">{t.style_luxury}</option></select></div></div>
+                        <div>
+                            <label className="block text-xs font-bold text-slate-500 uppercase mb-2">{t.label_destination}</label>
+                            <select className="w-full p-3 rounded-xl border border-slate-200 bg-slate-50" value={dest} onChange={(e) => setDest(e.target.value)}>
+                                <option value="">{t.placeholder_select}</option>
+                                {countries.map(c => <option key={c.code} value={c.code}>{c.name}</option>)}
+                            </select>
+                        </div>
+                        <div className="grid grid-cols-2 gap-4">
+                            <div><label className="block text-xs font-bold text-slate-500 uppercase mb-2">Durée (Jours)</label><input type="number" className="w-full p-3 rounded-xl border border-slate-200 bg-slate-50" value={days} onChange={(e) => setDays(parseInt(e.target.value) || 0)} /></div>
+                            <div><label className="block text-xs font-bold text-slate-500 uppercase mb-2">Style</label><select className="w-full p-3 rounded-xl border border-slate-200 bg-slate-50 text-sm" value={style} onChange={(e) => setStyle(e.target.value)}><option value="low">{t.style_backpacker}</option><option value="mid">{t.style_standard}</option><option value="high">{t.style_luxury}</option></select></div>
+                        </div>
                         <button onClick={calculateBudget} className="w-full bg-blue-600 text-white font-bold py-3 rounded-xl hover:bg-blue-700 transition-colors">Calculer</button>
                     </div>
                     {result && (
                         <div className="mt-6 bg-slate-900 text-white p-6 rounded-2xl shadow-xl animate-in">
                             <div className="text-center mb-6"><p className="text-slate-400 text-xs uppercase font-bold">{t.budget_total}</p><div className="text-4xl font-extrabold text-white mt-2">{result.total} €</div><p className="text-slate-400 text-sm">~ {result.daily} € / {t.budget_per_day}</p></div>
+                            <div className="space-y-3 border-t border-slate-800 pt-4">
+                                <div className="flex justify-between text-sm"><div className="flex items-center gap-2 text-slate-300"><Bed size={16}/> {t.cat_accom}</div><span className="font-bold">{result.accom} €</span></div>
+                                <div className="flex justify-between text-sm"><div className="flex items-center gap-2 text-slate-300"><Utensils size={16}/> {t.cat_food}</div><span className="font-bold">{result.food} €</span></div>
+                                <div className="flex justify-between text-sm"><div className="flex items-center gap-2 text-slate-300"><Bus size={16}/> {t.cat_transport}</div><span className="font-bold">{result.transport} €</span></div>
+                            </div>
                         </div>
                     )}
                 </div>
@@ -373,8 +335,8 @@
                 <h2 className="text-2xl font-bold text-slate-800 mb-2">{t.ins_title}</h2>
                 <p className="text-slate-500 text-sm mb-6">{t.ins_desc}</p>
                 <div className="space-y-4">
-                    <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm"><div className="flex items-start gap-4"><div className="bg-slate-100 p-3 rounded-xl text-slate-600"><Wallet size={24} /></div><div><h3 className="font-bold text-slate-800 text-lg">{t.ins_card_bank}</h3><p className="text-sm text-slate-500 mt-2">{t.ins_card_bank_desc}</p></div></div></div>
-                    <div className="bg-white p-6 rounded-2xl border-2 border-blue-100 shadow-md relative overflow-hidden"><div className="absolute top-0 right-0 bg-blue-600 text-white text-[10px] font-bold px-2 py-1 rounded-bl-lg">RECOMMANDÉ</div><div className="flex items-start gap-4"><div className="bg-blue-50 p-3 rounded-xl text-blue-600"><ShieldCheck size={24} /></div><div><h3 className="font-bold text-slate-800 text-lg">{t.ins_card_spec}</h3><p className="text-sm text-slate-500 mt-2">{t.ins_card_spec_desc}</p><button className="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold py-2 rounded-lg">{t.ins_btn_compare}</button></div></div></div>
+                    <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm"><div className="flex items-start gap-4"><div className="bg-slate-100 p-3 rounded-xl text-slate-600"><Wallet size={24} /></div><div><h3 className="font-bold text-slate-800 text-lg">{t.ins_card_bank}</h3><p className="text-sm text-slate-500 mt-2 leading-relaxed">{t.ins_card_bank_desc}</p></div></div></div>
+                    <div className="bg-white p-6 rounded-2xl border-2 border-blue-100 shadow-md relative overflow-hidden"><div className="absolute top-0 right-0 bg-blue-600 text-white text-[10px] font-bold px-2 py-1 rounded-bl-lg">RECOMMANDÉ</div><div className="flex items-start gap-4"><div className="bg-blue-50 p-3 rounded-xl text-blue-600"><ShieldCheck size={24} /></div><div><h3 className="font-bold text-slate-800 text-lg">{t.ins_card_spec}</h3><p className="text-sm text-slate-500 mt-2 leading-relaxed">{t.ins_card_spec_desc}</p><button className="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold py-2 rounded-lg transition-colors">{t.ins_btn_compare}</button></div></div></div>
                 </div>
             </div>
         );
@@ -392,87 +354,7 @@
             </div>
         );
 
-        const PassportPower = ({ score, maxScore = 150, t }) => {
-            const percentage = Math.min((score / maxScore) * 100, 100);
-            let tier = "Bronze", colorClass = "bg-amber-600", trophyColor = "text-slate-300";
-            if (score > 100) { tier = "Silver"; colorClass = "bg-slate-400"; trophyColor = "text-slate-300"; }
-            if (score > 125) { tier = "Gold"; colorClass = "bg-yellow-500"; trophyColor = "text-yellow-400"; }
-
-            return (
-                <div className="bg-slate-900 text-white rounded-2xl p-6 mb-6 relative overflow-hidden shadow-xl transform transition-all hover:scale-[1.01]">
-                    <div className="absolute top-0 right-0 p-4 opacity-10"><Globe size={120} /></div>
-                    <div className="relative z-10">
-                        <div className="flex justify-between items-start mb-4">
-                            <div><h3 className="text-slate-400 text-xs uppercase font-bold tracking-widest">{t.passport_power}</h3><div className="text-4xl font-extrabold flex items-center gap-3 mt-2"><Trophy size={32} className={trophyColor} />{score} <span className="text-lg text-slate-500 font-normal">/ {maxScore}</span></div></div>
-                            <div className={`px-4 py-1.5 rounded-full text-xs font-black text-slate-900 uppercase tracking-wide shadow-lg ${colorClass}`}>{tier} Tier</div>
-                        </div>
-                        <div className="w-full bg-slate-800 h-3 rounded-full overflow-hidden border border-slate-700"><div className={`h-full ${colorClass} transition-all duration-1000 ease-out`} style={{ width: `${percentage}%` }}></div></div>
-                        <p className="text-xs text-slate-400 mt-4 flex items-center gap-2"><CheckCircle size={12} className="text-green-500" />{t.access_text} {score} {t.countries_text}.</p>
-                    </div>
-                </div>
-            );
-        };
-
-        const HealthCard = ({ water, vaccine, t }) => (
-            <div className="bg-white border border-slate-100 rounded-xl p-5 mb-3 shadow-sm flex flex-row gap-4 items-start">
-                <div className="p-3 rounded-xl shrink-0 border bg-teal-50 text-teal-600 border-teal-100"><Stethoscope size={20} /></div>
-                <div className="flex-1">
-                    <h4 className="font-bold text-slate-800 text-lg mb-2">{t.health_title}</h4>
-                    <div className="space-y-2">
-                        <div className={`flex items-center gap-2 text-sm font-medium ${water === 'safe' ? 'text-green-600' : 'text-red-500'}`}><Droplets size={16} />{water === 'safe' ? t.water_safe : t.water_unsafe}</div>
-                        {vaccine && <div className="flex items-center gap-2 text-sm font-medium text-amber-600"><AlertTriangle size={16} />{t.vaccine_mandatory} <span className="font-bold">{vaccine}</span></div>}
-                    </div>
-                </div>
-            </div>
-        );
-
-        const CustomsCard = ({ items, t }) => (
-            <div className="bg-white border border-rose-100 rounded-xl p-5 mb-3 shadow-sm flex flex-row gap-4 items-start">
-                <div className="p-3 rounded-xl shrink-0 border bg-rose-50 text-rose-600 border-rose-100"><Siren size={20} /></div>
-                <div className="flex-1"><h4 className="font-bold text-slate-800 text-lg mb-2">{t.customs_title}</h4><p className="text-xs font-bold uppercase text-rose-500 mb-2">{t.forbidden_items}</p><ul className="list-disc list-inside text-sm text-slate-600 space-y-1">{items.map((item, i) => <li key={i}>{item}</li>)}</ul></div>
-            </div>
-        );
-
-        const DocumentCard = ({ title, status, description, cost, isMandatory, link, t }) => {
-            const getStatusColor = () => { switch(status) { case 'ok': return 'bg-emerald-50 text-emerald-600 border-emerald-100'; case 'alert': return 'bg-amber-50 text-amber-600 border-amber-100'; case 'error': return 'bg-red-50 text-red-600 border-red-100'; default: return 'bg-blue-50 text-blue-600 border-blue-100'; }};
-            const getIcon = () => { switch(status) { case 'ok': return <CheckCircle size={20} />; case 'alert': return <AlertTriangle size={20} />; case 'error': return <ShieldCheck size={20} />; default: return <Info size={20} />; } };
-            return (
-                <div className="bg-white border border-slate-100 rounded-xl p-5 mb-3 shadow-sm hover:shadow-md transition-all duration-300 flex flex-row items-start gap-4 group">
-                    <div className={`p-3 rounded-xl shrink-0 border ${getStatusColor()} transition-colors`}>{getIcon()}</div>
-                    <div className="flex-1 w-full">
-                        <div className="flex justify-between items-start"><h4 className="font-bold text-slate-800 text-lg group-hover:text-blue-600 transition-colors">{title}</h4>{isMandatory && <span className="bg-rose-50 text-rose-600 border border-rose-100 text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider">{t.doc_mandatory}</span>}</div>
-                        <p className="text-sm text-slate-500 mt-1 leading-relaxed">{description}</p>
-                        <div className="flex flex-wrap items-center gap-3 mt-3">
-                            {cost && <div className="inline-flex items-center text-xs font-bold text-slate-700 bg-slate-50 px-2.5 py-1 rounded-md border border-slate-200">{t.cost}: {cost}</div>}
-                            {link && <a href={link} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 px-3 py-1.5 rounded-md transition-colors shadow-sm">{t.btn_official_link} <ExternalLink size={12} /></a>}
-                        </div>
-                    </div>
-                </div>
-            );
-        };
-
-        const ActionButton = ({ icon: Icon, title, subtitle, colorClass, link, isExternal }) => (
-            <a href={link} target={isExternal ? "_blank" : "_self"} rel={isExternal ? "noopener noreferrer" : ""} className="flex items-center justify-between p-4 bg-white border border-slate-200 rounded-xl hover:border-blue-400 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group cursor-pointer">
-                <div className="flex items-center gap-4"><div className={`${colorClass} p-3 rounded-lg bg-opacity-10`}><Icon size={24} className={colorClass.replace('bg-', 'text-')} /></div><div className="text-left"><div className="font-bold text-slate-800">{title}</div><div className="text-xs text-slate-500">{subtitle}</div></div></div><ExternalLink size={16} className="text-slate-300 group-hover:text-blue-500 transition-colors" />
-            </a>
-        );
-
-        const ServiceCard = ({ icon: Icon, title, desc, colorClass, link }) => (
-            <a href={link} target="_blank" rel="noreferrer" className="bg-white border border-slate-100 rounded-xl p-4 shadow-sm hover:shadow-md hover:border-blue-300 transition-all duration-300 flex items-center gap-4 group cursor-pointer">
-                <div className={`p-3 rounded-xl shrink-0 ${colorClass} bg-opacity-10`}><Icon size={24} className={colorClass.replace('bg-', 'text-')} /></div>
-                <div className="flex-1"><div className="flex justify-between items-center"><h4 className="font-bold text-slate-800 group-hover:text-blue-600 transition-colors">{title}</h4><ExternalLink size={14} className="text-slate-300 group-hover:text-blue-500" /></div><p className="text-xs text-slate-500 mt-1">{desc}</p></div>
-            </a>
-        );
-
-        const OfferCountdown = ({ t }) => {
-            const [timeLeft, setTimeLeft] = useState(600);
-            useEffect(() => { const timer = setInterval(() => { setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0)); }, 1000); return () => clearInterval(timer); }, []);
-            const formatTime = (seconds) => { const m = Math.floor(seconds / 60); const s = seconds % 60; return `${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`; };
-            return <div className="flex items-center justify-center gap-2 mb-4 text-sm font-medium text-rose-600 animate-pulse"><Clock size={16} /><span>{t.offer_expires} {formatTime(timeLeft)}</span></div>;
-        };
-
         // --- APP PRINCIPALE ---
-
         const App = () => {
             const [lang, setLang] = useState('FR');
             const [currentView, setCurrentView] = useState('home');
@@ -512,41 +394,17 @@
 
                     if (travelerAge < 18) { docs.push({ title: "Autorisation de Sortie du Territoire (AST)", status: "alert", description: "Obligatoire si le mineur voyage sans l'un de ses parents.", mandatory: true, cost: "Gratuit", link: "https://www.service-public.fr/particuliers/vosdroits/F1359" }); }
 
+                    // Logique Visas Simplifiée (S'appuie sur la base de données)
                     if (destInfo.code === 'US') { docs.push({ title: "ESTA USA", status: "alert", description: "Autorisation obligatoire à remplir au moins 72h avant.", mandatory: true, cost: "21 USD", link: "https://esta.cbp.dhs.gov/" }); }
                     else if (destInfo.code === 'CA') { docs.push({ title: "AVE Canada", status: "alert", description: "Autorisation de voyage électronique requise.", mandatory: true, cost: "7 CAD", link: "https://www.canada.ca/fr/immigration-refugies-citoyennete/services/visiter-canada/ave.html" }); }
                     else if (destInfo.code === 'AU') { docs.push({ title: "eVisitor (subclass 651)", status: "alert", description: "Visa touriste gratuit pour Européens.", mandatory: true, cost: "Gratuit", link: "https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing/evisitor-651" }); }
-                    else if (destInfo.code === 'AE') {
-                        docs.push({ title: "Visa Touristique (Gratuit)", status: "ok", description: "Tampon gratuit de 30 jours.", mandatory: true, cost: "Gratuit" });
-                        docs.push({ title: "Taxe de Séjour", status: "info", description: "Taxe obligatoire à l'hôtel.", mandatory: true, cost: "~3-5€ /nuit" });
-                    }
                     else if (destInfo.code === 'BA') {
                         docs.push({ title: "Visa à l'arrivée (VOA)", status: "alert", description: "Payable en ligne ou à l'arrivée. Valable 30 jours.", mandatory: true, cost: "~35€", link: "https://molina.imigrasi.go.id/" });
                         docs.push({ title: "Taxe 'Love Bali'", status: "alert", description: "Taxe touristique obligatoire.", mandatory: true, cost: "~9€", link: "https://lovebali.baliprov.go.id/" });
                         docs.push({ title: "Déclaration Douane (ECD)", status: "info", description: "Code QR à générer 3 jours avant le départ.", mandatory: true, cost: "Gratuit", link: "https://ecd.beacukai.go.id/" });
-                    } else if (destInfo.code === 'ZN') {
-                        docs.push({title: "Assurance Voyage Zanzibar (Obligatoire)",status: "alert",description: "Nouvelle assurance obligatoire spécifique (ZIC).",mandatory: true,cost: "44 USD",link: "https://visitzanzibar.go.tz/"});
-                        docs.push({title: "Visa Tanzanie / Zanzibar",status: "error",description: "E-Visa ou visa à l'arrivée requis.",mandatory: true,cost: "50 USD",link: "https://eservices.immigration.go.tz/visa/"});
-                    } else if (destInfo.code === 'CQ') {
-                        docs.push({title: "Taxe de Tourisme (Visitax)",status: "alert",description: "Taxe obligatoire pour l'état du Quintana Roo.",mandatory: true,cost: "~11 USD",link: "https://www.visitax.gob.mx/"});
-                    } else if (destInfo.code === 'CN') {
-                        if (durationDays <= 15 && (passportInfo.code === 'FR' || passportInfo.code === 'DE' || passportInfo.code === 'IT')) {
-                           docs.push({
-                            title: "Exemption de Visa (15j)",
-                            status: "ok",
-                            description: "Nouveau : Pas de visa requis pour les séjours < 15 jours.",
-                            mandatory: false,
-                            cost: "Gratuit"
-                           });
-                        } else {
-                          docs.push({
-                            title: "Visa Tourisme (L)",
-                            status: "error",
-                            description: "Visa requis. Remplir le formulaire en ligne avant RDV.",
-                            mandatory: true,
-                            cost: "~126€",
-                            link: "https://www.visaforchina.cn/PAR2_FR/"
-                          });
-                        }
+                    } else if (destInfo.code === 'AE') {
+                        docs.push({title: "Visa Touristique (Gratuit)",status: "ok",description: "Tampon gratuit de 30 jours.",mandatory: true,cost: "Gratuit"});
+                        docs.push({title: "Taxe de Séjour",status: "info",description: "Taxe obligatoire à l'hôtel.",mandatory: true,cost: "~3-5€ /nuit"});
                     }
 
                     const flightLink = `https://www.skyscanner.fr/transport/vols/${formData.origin.toLowerCase()}/${destInfo.code === 'BA' ? 'dps' : destInfo.code.toLowerCase()}/${formData.startDate.slice(2).replace(/-/g,'')}/${formData.endDate.slice(2).replace(/-/g,'')}?associateid=${AFFILIATE_CONFIG.flight_marker}`;
@@ -568,41 +426,37 @@
                 }, 1500);
             };
 
-            const reset = () => {
-                setStep(0);
-                setResult(null);
-            };
-
             return (
                 <div className="min-h-screen bg-slate-50 font-sans text-slate-900 flex flex-col">
                     <Header lang={lang} setLang={setLang} t={t} setCurrentView={setCurrentView} />
-
                     <main className="flex-grow px-4 w-full max-w-5xl mx-auto pb-40 pt-8">
-                        {/* --- STEP 0 --- */}
-                        {step === 0 && currentView === 'home' && (
-                            <div className="w-full max-w-lg mx-auto animate-in">
-                                <div className="text-center mb-10 mt-8">
-                                    <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-800 mb-3 tracking-tight">{t.hero_title} <span className="text-blue-600">{t.hero_highlight}</span>.</h1>
-                                    <p className="text-slate-500 text-base sm:text-lg">{t.hero_desc}</p>
-                                </div>
-                                <div className="bg-white p-6 sm:p-8 rounded-3xl shadow-xl border border-slate-100 relative overflow-hidden">
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                                        <div className="mb-4 md:mb-0"><label className="block text-xs font-bold text-slate-500 uppercase mb-2">{t.label_nationality}</label><CountrySelect value={formData.nationality} onChange={(e) => setFormData({...formData, nationality: e.target.value})} placeholder={t.placeholder_select} /></div>
-                                        <div><label className="block text-xs font-bold text-slate-500 uppercase mb-2">{t.label_origin}</label><CountrySelect value={formData.origin} onChange={(e) => setFormData({...formData, origin: e.target.value})} placeholder={t.placeholder_select} /></div>
-                                    </div>
-                                    <div className="mb-4"><label className="block text-xs font-bold text-slate-500 uppercase mb-2">{t.label_destination}</label><CountrySelect value={formData.destination} onChange={(e) => setFormData({...formData, destination: e.target.value})} placeholder={t.placeholder_select} excludeCode={formData.origin} /></div>
-                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-                                         <div><label className="block text-xs font-bold text-slate-500 uppercase mb-2">{t.label_start_date}</label><input type="date" className="w-full p-3 rounded-xl border border-slate-200 bg-slate-50" value={formData.startDate} onChange={(e) => setFormData({...formData, startDate: e.target.value})} /></div>
-                                         <div><label className="block text-xs font-bold text-slate-500 uppercase mb-2">{t.label_end_date}</label><input type="date" className="w-full p-3 rounded-xl border border-slate-200 bg-slate-50" value={formData.endDate} onChange={(e) => setFormData({...formData, endDate: e.target.value})} /></div>
-                                    </div>
-                                    <InputField label={t.label_age} icon={Trophy}><input type="number" className="w-full p-3 rounded-xl border border-slate-200 bg-slate-50" value={formData.age} onChange={(e) => setFormData({...formData, age: e.target.value})} /></InputField>
-                                    <button onClick={handleSearch} className="w-full bg-blue-600 text-white font-bold py-4 rounded-xl hover:bg-blue-700 transition-transform active:scale-95 flex justify-center items-center gap-2">{t.btn_analyze} <ArrowRight size={20}/></button>
-                                </div>
+                        {currentView === 'home' && step === 0 && (
+                        <div className="w-full max-w-lg mx-auto animate-in">
+                            <div className="text-center mb-10 mt-8">
+                                <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-800 mb-3 tracking-tight">{t.hero_title} <span className="text-blue-600">{t.hero_highlight}</span>.</h1>
+                                <p className="text-slate-500 text-base sm:text-lg">{t.hero_desc}</p>
                             </div>
+                            <div className="bg-white p-6 sm:p-8 rounded-3xl shadow-xl border border-slate-100 relative overflow-hidden">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                    <div className="mb-4 md:mb-0"><label className="block text-xs font-bold text-slate-500 uppercase mb-2">{t.label_nationality}</label><CountrySelect value={formData.nationality} onChange={(e) => setFormData({...formData, nationality: e.target.value})} placeholder={t.placeholder_select} /></div>
+                                    <div><label className="block text-xs font-bold text-slate-500 uppercase mb-2">{t.label_origin}</label><CountrySelect value={formData.origin} onChange={(e) => setFormData({...formData, origin: e.target.value})} placeholder={t.placeholder_select} /></div>
+                                </div>
+                                <div className="mb-4"><label className="block text-xs font-bold text-slate-500 uppercase mb-2">{t.label_destination}</label><CountrySelect value={formData.destination} onChange={(e) => setFormData({...formData, destination: e.target.value})} placeholder={t.placeholder_select} excludeCode={formData.origin} /></div>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                                    <div><label className="block text-xs font-bold text-slate-500 uppercase mb-2">{t.label_start_date}</label><input type="date" className="w-full p-3 rounded-xl border border-slate-200 bg-slate-50" value={formData.startDate} onChange={(e) => setFormData({...formData, startDate: e.target.value})} /></div>
+                                    <div><label className="block text-xs font-bold text-slate-500 uppercase mb-2">{t.label_end_date}</label><input type="date" className="w-full p-3 rounded-xl border border-slate-200 bg-slate-50" value={formData.endDate} onChange={(e) => setFormData({...formData, endDate: e.target.value})} /></div>
+                                </div>
+                                <InputField label={t.label_age} icon={Trophy}><input type="number" className="w-full p-3 rounded-xl border border-slate-200 bg-slate-50" value={formData.age} onChange={(e) => setFormData({...formData, age: e.target.value})} /></InputField>
+                                <button onClick={handleSearch} className="w-full bg-blue-600 text-white font-bold py-4 rounded-xl hover:bg-blue-700 transition-transform active:scale-95 flex justify-center items-center gap-2">{t.btn_analyze} <ArrowRight size={20}/></button>
+                            </div>
+                        </div>
                         )}
 
-                        {/* --- STEP 1 --- */}
-                        {step === 1 && (
+                        {currentView === 'budget' && <BudgetView t={t} countries={countries} />}
+                        {currentView === 'insurance' && <InsuranceView t={t} />}
+                        {currentView === 'help' && <FeedbackView t={t} />}
+
+                        {currentView === 'home' && step === 1 && (
                             <div className="flex flex-col items-center justify-center mt-20 animate-in">
                                 <div className="spinner mb-4 text-blue-600"></div>
                                 <h2 className="text-xl font-bold">{t.loading_title}</h2>
@@ -610,74 +464,35 @@
                             </div>
                         )}
 
-                        {/* --- STEP 2 --- */}
-                        {step === 2 && result && (
+                        {currentView === 'home' && step === 2 && result && (
                             <div className="max-w-2xl mx-auto pb-24 animate-in">
-                                <div className="flex items-center justify-between mb-8">
-                                    <button onClick={reset} className="text-slate-500 font-bold hover:text-blue-600">&larr; {t.result_back}</button>
-                                    <div className="flex flex-col sm:flex-row sm:items-center gap-2 text-sm font-bold text-slate-800 bg-white px-4 py-2 rounded-xl shadow-sm border border-slate-100">
-                                        <div className="flex items-center gap-2"><span className="text-slate-400">{result.originName}</span><ArrowRight size={14} className="text-blue-500" /><span className="text-blue-600">{result.destinationName}</span></div>
-                                        <span className="hidden sm:inline text-slate-300">|</span><span className="text-slate-500 text-xs font-normal">{t.duration_calc} {result.duration} jours</span>
-                                    </div>
-                                </div>
-
+                                <button onClick={reset} className="mb-6 text-sm font-bold text-slate-500 hover:text-blue-600">&larr; {t.result_back}</button>
                                 <PassportPower score={result.passportPower} t={t} />
-
-                                <div className="mb-10">
-                                    <h3 className="text-xl font-bold text-slate-800 mb-5 flex items-center gap-3">{t.docs_title} <span className="bg-slate-100 text-slate-600 text-xs font-bold px-2.5 py-1 rounded-full border border-slate-200">{result.documents.length}</span></h3>
-                                    <div className="space-y-4">
-                                        {result.documents.map((doc, idx) => <DocumentCard key={idx} {...doc} isMandatory={doc.mandatory} t={t} />)}
-                                        <HealthCard water={result.water || 'unsafe'} vaccine={result.health?.yellowFever ? 'Fièvre Jaune' : null} t={t} />
-                                        {result.customs && <CustomsCard items={result.customs} t={t} />}
-                                    </div>
-                                    <div className="mt-4 p-4 bg-blue-50/50 border border-blue-100 rounded-xl flex gap-3 text-sm text-blue-800"><div className="mt-0.5 shrink-0"><ShieldCheck size={18} /></div><p className="font-medium">{t.docs_disclaimer}</p></div>
+                                <div className="space-y-4 mb-10">
+                                    {result.documents.map((d, i) => <DocumentCard key={i} {...d} t={t}/>)}
+                                    <HealthCard water={result.water || 'unsafe'} vaccine={result.health?.yellowFever ? 'Fièvre Jaune' : null} t={t} />
+                                    {result.customs && <CustomsCard items={result.customs} t={t} />}
                                 </div>
-
-                                {/* SECTION SERVICES */}
-                                <div className="mb-10">
-                                    <h3 className="text-xl font-bold text-slate-800 mb-5">{t.services_title}</h3>
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                        <ServiceCard icon={Wifi} title={t.service_esim} desc={t.service_esim_desc} colorClass="bg-teal-500 text-teal-500" link={`https://www.airalo.com/?ref=${AFFILIATE_CONFIG.esim_id}`} />
-                                        <ServiceCard icon={Ticket} title={t.service_activities} desc={t.service_activities_desc} colorClass="bg-purple-500 text-purple-500" link={`https://www.getyourguide.com/?partner_id=${AFFILIATE_CONFIG.activities_id}`} />
-                                    </div>
-                                </div>
-
-                                <div className="mb-32">
-                                    <h3 className="text-xl font-bold text-slate-800 mb-5 flex justify-between items-end">{t.action_title}</h3>
-                                    <OfferCountdown t={t} />
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-                                        <ActionButton icon={Plane} title={t.action_flight} subtitle="" colorClass="bg-sky-500 text-sky-500" link={result.flightLink} isExternal={true} />
-                                        <ActionButton icon={MapPin} title={t.action_hotel} subtitle="" colorClass="bg-indigo-500 text-indigo-500" link={result.hotelLink} isExternal={true} />
-                                    </div>
-                                    <div className="text-center p-8 rounded-3xl bg-gradient-to-br from-slate-900 to-slate-800 text-white shadow-xl relative overflow-hidden group">
-                                        <div className="absolute top-0 right-0 p-8 opacity-10 transform rotate-12 group-hover:rotate-0 transition-transform duration-500"><Heart size={100} fill="currentColor" /></div>
-                                        <Heart className="mx-auto text-rose-500 mb-4 fill-rose-500 animate-pulse" size={32} />
-                                        <h4 className="text-xl font-bold mb-2">{t.donate_title}</h4>
-                                        <p className="text-slate-300 mb-6 max-w-sm mx-auto text-sm leading-relaxed">{t.donate_text}</p>
-                                        <button className="bg-white text-slate-900 px-8 py-3 rounded-full text-sm font-bold hover:bg-rose-50 hover:text-rose-600 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">{t.donate_btn}</button>
-                                    </div>
-                                </div>
-
+                                <div className="mb-10"><h3 className="text-xl font-bold text-slate-800 mb-5">{t.services_title}</h3><div className="grid grid-cols-1 md:grid-cols-2 gap-4"><ServiceCard icon={Wifi} title={t.service_esim} desc={t.service_esim_desc} colorClass="bg-teal-500 text-teal-500" link={`https://www.airalo.com/?ref=${AFFILIATE_CONFIG.esim_id}`} /><ServiceCard icon={Ticket} title={t.service_activities} desc={t.service_activities_desc} colorClass="bg-purple-500 text-purple-500" link={`https://www.getyourguide.com/?partner_id=${AFFILIATE_CONFIG.activities_id}`} /></div></div>
+                                <div className="mb-32"><h3 className="text-xl font-bold text-slate-800 mb-5 flex justify-between items-end">{t.action_title}</h3><OfferCountdown t={t} /><div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8"><ActionButton icon={Plane} title={t.action_flight} subtitle="" colorClass="bg-sky-500 text-sky-500" link={result.flightLink} isExternal={true} /><ActionButton icon={MapPin} title={t.action_hotel} subtitle="" colorClass="bg-indigo-500 text-indigo-500" link={result.hotelLink} isExternal={true} /></div><div className="text-center p-8 rounded-3xl bg-gradient-to-br from-slate-900 to-slate-800 text-white shadow-xl relative overflow-hidden group"><div className="absolute top-0 right-0 p-8 opacity-10 transform rotate-12 group-hover:rotate-0 transition-transform duration-500"><Heart size={100} fill="currentColor" /></div><Heart className="mx-auto text-rose-500 mb-4 fill-rose-500 animate-pulse" size={32} /><h4 className="text-xl font-bold mb-2">{t.donate_title}</h4><p className="text-slate-300 mb-6 max-w-sm mx-auto text-sm leading-relaxed">{t.donate_text}</p><button className="bg-white text-slate-900 px-8 py-3 rounded-full text-sm font-bold hover:bg-rose-50 hover:text-rose-600 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">{t.donate_btn}</button></div></div>
                             </div>
                         )}
-
-                        {/* Autres Vues */}
-                        {currentView === 'budget' && <BudgetView t={t} countries={countries} />}
-                        {currentView === 'insurance' && <InsuranceView t={t} />}
-                        {currentView === 'help' && <FeedbackView t={t} />}
-
                     </main>
+                    {currentView === 'home' && step === 0 && (<footer className="py-8 text-center text-slate-400 text-xs mb-16 sm:mb-0"><p>2025 GoGateDocs Inc. • {t.footer_rights}</p></footer>)}
                     
                     <NavBar currentView={currentView} setCurrentView={setCurrentView} t={t} />
-                    
-                    {/* FOOTER (Uniquement sur Home) */}
-                    {step === 0 && currentView === 'home' && (<footer className="py-8 text-center text-slate-400 text-xs mb-16 sm:mb-0"><p>2025 GoGateDocs Inc. • {t.footer_rights}</p></footer>)}
                 </div>
             );
         };
 
-        const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<App />);
+        // Initialisation React sécurisée
+        const rootElement = document.getElementById('root');
+        if (rootElement) {
+            const root = ReactDOM.createRoot(rootElement);
+            root.render(<App />);
+        } else {
+            console.error("Erreur critique : Élément #root introuvable.");
+        }
     </script>
 </body>
 </html>
