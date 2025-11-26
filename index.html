@@ -7,26 +7,26 @@
     
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
-    <script src="https://unpkg.com/lucide-react@0.263.1/dist/umd/lucide-react.min.js"></script>
+    <script src="https://unpkg.com/lucide-react@0.469.0/dist/umd/lucide-react.min.js"></script>
 
     <style>
         body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
         .fade-in { animation: fadeIn 0.5s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* Error Overlay Style */
+        /* Overlay d'erreur */
         #error-box { display: none; background: #fee2e2; color: #991b1b; padding: 20px; position: fixed; top:0; left:0; width: 100%; z-index: 9999; border-bottom: 2px solid #ef4444; }
     </style>
 </head>
 <body>
 
     <div id="error-box">
-        <strong>Une erreur technique empêche le site de charger :</strong>
+        <strong>Une erreur technique est survenue :</strong>
         <pre id="error-content" style="margin-top: 10px; font-size: 12px;"></pre>
     </div>
 
@@ -47,17 +47,33 @@
 
     <script type="text/babel">
 
-        // --- 1. SYSTEME DE SECURITE ICONES ---
-        // On vérifie si Lucide est chargé, sinon on crée des composants vides pour éviter le crash
-        const L = window.lucideReact || {};
-        
-        const getIcon = (name) => {
-            if (L[name]) return L[name];
-            // Fallback si l'icône manque : on retourne un simple carré vide
-            return (props) => <span style={{width: 20, height: 20, display:'inline-block', background:'#eee', borderRadius: 4}} title={name}></span>;
+        // --- 1. SYSTEME DE RECUPERATION DES ICONES (CORRIGÉ) ---
+        const { useState, useEffect } = React;
+
+        // Fonction intelligente pour trouver la librairie Lucide peu importe comment le CDN la charge
+        const getLucideLibrary = () => {
+            if (window.lucideReact) return window.lucideReact;
+            if (window.lucide && window.lucide.icons) return window.lucide.icons;
+            if (window.lucide) return window.lucide;
+            return {};
         };
 
-        // Extraction sécurisée des icônes
+        const LucideLib = getLucideLibrary();
+        
+        // Fonction pour extraire une icône spécifique
+        const getIcon = (name) => {
+            // 1. Essai direct (ex: lucideReact.Plane)
+            if (LucideLib[name]) return LucideLib[name];
+            
+            // 2. Essai dans sous-objet icons (ex: lucideReact.icons.Plane)
+            if (LucideLib.icons && LucideLib.icons[name]) return LucideLib.icons[name];
+
+            // 3. Fallback texte si introuvable (pas de carré gris)
+            console.warn(`Icône introuvable: ${name}`);
+            return (props) => <span className="text-xs bg-red-100 text-red-500 px-1 rounded">{name}</span>;
+        };
+
+        // Extraction des icônes utilisées
         const Plane = getIcon('Plane');
         const MapPin = getIcon('MapPin');
         const Calendar = getIcon('Calendar');
@@ -92,8 +108,6 @@
             activities_id: "YOUR_ID",
             insurance_link: "YOUR_INSURANCE_LINK"
         };
-
-        const { useState, useEffect } = React;
 
         // --- 3. TRADUCTIONS ---
         const translations = {
@@ -1004,6 +1018,7 @@
             );
         }
 
+        // Rendu de l'application
         const root = ReactDOM.createRoot(document.getElementById('root'));
         root.render(<App />);
 
