@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GoGateDocs - Travel Requirements Checklist</title>
+    <title>GoGateDocs - Préparez votre voyage</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     
@@ -17,10 +17,10 @@
         .fade-in { animation: fadeIn 0.5s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* Scrollbar plus discrète */
-        ::-webkit-scrollbar { width: 8px; }
+        /* Scrollbar Custom */
+        ::-webkit-scrollbar { width: 10px; }
         ::-webkit-scrollbar-track { background: #f1f1f1; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 5px; }
         ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
     </style>
 </head>
@@ -31,24 +31,48 @@
     <script type="text/babel">
         const { useState, useEffect } = React;
 
-        // ==============================================
-        // 1. SYSTÈME D'ICÔNES SVG (NOUVEL AVION)
-        // ==============================================
+        // ==========================================================================================
+        // 1. SYSTÈME D'ICÔNES SVG (INTÉGRÉ EN DUR)
+        // ==========================================================================================
         
         const IconBase = ({ children, size = 24, className = "", ...props }) => (
-            <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={`lucide ${className}`} {...props}>
+            <svg 
+                xmlns="http://www.w3.org/2000/svg" 
+                width={size} 
+                height={size} 
+                viewBox="0 0 24 24" 
+                fill="none" 
+                stroke="currentColor" 
+                strokeWidth="2" 
+                strokeLinecap="round" 
+                strokeLinejoin="round" 
+                className={`lucide ${className}`} 
+                {...props}
+            >
                 {children}
             </svg>
         );
 
         const Icons = {
-            // --- NOUVELLE ICÔNE AVION (Paper Plane Style) ---
-            Plane: (props) => <IconBase {...props}><line x1="22" x2="11" y1="2" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></IconBase>,
+            // --- ICÔNE AVION (PAPER PLANE STYLE) ---
+            Plane: (props) => (
+                <IconBase {...props}>
+                    <line x1="22" x2="11" y1="2" y2="13"/>
+                    <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                </IconBase>
+            ),
             
-            // Stéthoscope (Reste le même car il était correct dans la dernière version)
-            Stethoscope: (props) => <IconBase {...props}><path d="M4.8 2.3A10 10 0 0 1 20 10c0 5.5-4.5 10-10 10s-10-4.5-10-10"/><path d="M4 10v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-9"/><path d="M12 10V2"/><circle cx="12" cy="2" r="2"/></IconBase>,
+            // --- ICÔNE SANTÉ (STÉTHOSCOPE LISIBLE) ---
+            Stethoscope: (props) => (
+                <IconBase {...props}>
+                    <path d="M4.8 2.3A10 10 0 0 1 20 10c0 5.5-4.5 10-10 10s-10-4.5-10-10"/>
+                    <path d="M4 10v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-9"/>
+                    <path d="M12 10V2"/>
+                    <circle cx="12" cy="2" r="2"/>
+                </IconBase>
+            ),
             
-            // --- AUTRES ICÔNES ---
+            // --- RESTE DES ICÔNES ---
             MapPin: (props) => <IconBase {...props}><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></IconBase>,
             Calendar: (props) => <IconBase {...props}><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></IconBase>,
             ShieldCheck: (props) => <IconBase {...props}><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/><path d="m9 12 2 2 4-4"/></IconBase>,
@@ -71,20 +95,36 @@
             MessageSquare: (props) => <IconBase {...props}><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></IconBase>,
             Umbrella: (props) => <IconBase {...props}><path d="M22 12a10.06 10.06 0 0 0-20 0Z"/><path d="M12 12v8a2 2 0 0 0 4 0"/><path d="M12 2v1"/></IconBase>,
             Calculator: (props) => <IconBase {...props}><rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" x2="16" y1="6" y2="6"/><line x1="16" x2="16" y1="14" y2="18"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/></IconBase>,
-            Mail: (props) => <IconBase {...props}><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></IconBase>
+            Mail: (props) => <IconBase {...props}><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></IconBase>,
+            CreditCard: (props) => <IconBase {...props}><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></IconBase>,
+            Menu: (props) => <IconBase {...props}><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></IconBase>,
+            X: (props) => <IconBase {...props}><path d="M18 6 6 18"/><path d="m6 6 12 12"/></IconBase>
         };
 
-        // --- 2. CONFIGURATION AFFILIATION ---
+        // Destructuring simple
+        const { 
+            Plane, MapPin, Calendar, ShieldCheck, Trophy, ArrowRight, Heart, Globe, 
+            ExternalLink, CheckCircle, AlertTriangle, Info, Languages, Clock, Copyright, 
+            Navigation, Stethoscope, Droplets, Siren, Wifi, Ticket, 
+            MessageSquare, Umbrella, Calculator, Mail, CreditCard 
+        } = Icons;
+
+        // ==========================================================================================
+        // 2. CONFIGURATION & CONSTANTES
+        // ==========================================================================================
+        
         const AFFILIATE_CONFIG = {
             flight_marker: "YOUR_ID", 
             hotel_aid: "YOUR_ID",
             esim_id: "YOUR_ID", 
             activities_id: "YOUR_ID",
-            insurance_link: "YOUR_INSURANCE_LINK"
+            insurance_link: "https://www.chapkadirect.com/" // Lien Chapka
         };
 
-        // --- 3. TRADUCTIONS (AJOUT ES, CN, JP) ---
-        // NOTE: Les langues ES, CN, JP utilisent l'anglais comme placeholder pour l'instant.
+        // ==========================================================================================
+        // 3. TRADUCTIONS
+        // ==========================================================================================
+        
         const translations = {
             EN: {
                 app_name: "GoGateDocs",
@@ -102,17 +142,17 @@
                 label_start_date: "Start",
                 label_end_date: "End",
                 label_age: "Age",
-                placeholder_select: "Select...",
-                btn_analyze: "Analyze",
-                loading_title: "Checking Formalities",
-                loading_text: "Searching for visas and taxes...",
+                placeholder_select: "Select a country...",
+                btn_analyze: "Start Analysis",
+                loading_title: "Analyzing Itinerary",
+                loading_text: "Checking visas, taxes and formalities...",
                 result_back: "Edit",
                 docs_title: "Documents & Requirements",
                 docs_disclaimer: "Links redirect to official government websites.",
                 doc_mandatory: "Mandatory",
                 cost: "Cost",
                 btn_official_link: "Official Site",
-                health_title: "Health",
+                health_title: "Health & Vaccines",
                 vaccine_mandatory: "Mandatory Vaccine:",
                 water_safe: "Tap water safe",
                 water_unsafe: "Tap water UNSAFE",
@@ -123,22 +163,24 @@
                 service_esim_desc: "No roaming fees.",
                 service_activities: "Activities",
                 service_activities_desc: "Skip-the-line.",
-                action_title: "Book Now",
-                action_flight: "Flights (-30%)",
-                action_hotel: "Hotels (-40%)",
+                action_title: "Book at Best Prices",
+                action_flight: "✈️ Find Secret Fares (-30%)",
+                action_hotel: "🏨 See Exclusive Deals (-40%)",
                 offer_expires: "Offer expires in",
-                budget_title: "Budget Calculator",
-                budget_desc: "Estimate excluding flights (Stay + Food + Fun)",
-                budget_style_low: "Budget / Backpacker",
+                budget_title: "Travel Budget Estimator",
+                budget_desc: "Estimated daily cost including Accommodation, Food & Local Transport.",
+                budget_style_low: "Backpacker",
                 budget_style_med: "Standard",
                 budget_style_high: "Luxury",
-                budget_result: "Estimated budget:",
-                insurance_title: "Travel Insurance",
-                insurance_subtitle: "Health Coverage",
-                insurance_desc: "Medical costs can be huge. Don't travel without it.",
-                btn_get_quote: "Get Quote",
-                feedback_title: "Contact",
-                feedback_desc: "Bug report or feedback?",
+                budget_result: "Estimated Total:",
+                budget_daily: "per day",
+                insurance_title: "Chapka Insurance",
+                insurance_subtitle: "Why Credit Cards aren't enough",
+                insurance_desc: "Credit card insurance usually stops after 90 days, has high deductibles and you must advance costs. Chapka covers you fully.",
+                btn_get_quote: "Get a Free Quote",
+                feedback_title: "Help & Contact",
+                feedback_desc: "Report a bug or request a new country.",
+                feedback_placeholder: "Message (e.g., Please add Japan to the list...)",
                 btn_send: "Send",
                 passport_power: "Passport Power",
                 access_text: "Visa-free access to",
@@ -146,7 +188,7 @@
                 duration_calc: "Duration:",
                 days: "days",
                 donate_title: "Free Project",
-                donate_text: "Support GoGateDocs with a coffee!",
+                donate_text: "If we helped you, buy us a coffee!",
                 donate_btn: "Donate"
             },
             FR: {
@@ -155,252 +197,436 @@
                 menu_home: "Accueil",
                 menu_budget: "Budget",
                 menu_insurance: "Assurance",
-                menu_feedback: "Aide & Avis",
+                menu_feedback: "Aide",
                 hero_title: "Préparez votre voyage",
                 hero_highlight: "simplement",
                 hero_desc: "Visas, taxes locales, vaccins et documents officiels.",
-                label_nationality: "Votre Nationalité (Passeport)",
+                label_nationality: "Votre Nationalité",
                 label_origin: "Pays de départ",
                 label_destination: "Destination",
                 label_start_date: "Aller",
                 label_end_date: "Retour",
                 label_age: "Âge",
-                placeholder_select: "Sélectionner un pays...",
+                placeholder_select: "Sélectionner...",
                 btn_analyze: "Lancer l'analyse",
                 loading_title: "Analyse de votre itinéraire",
-                loading_text: "Vérification des formalités...",
+                loading_text: "Vérification des visas et taxes...",
                 result_back: "Modifier",
-                passport_power: "Puissance du Passeport",
-                access_text: "Accès simplifié à",
-                countries_text: "pays",
-                docs_title: "Documents & Liens Officiels",
-                health_title: "Santé & Hygiène",
-                customs_title: "Douanes & Interdits",
+                docs_title: "Documents & Formalités",
                 docs_disclaimer: "Les liens redirigent vers les sites gouvernementaux officiels.",
-                action_title: "Réserver au meilleur prix",
-                action_flight: "Vols : Accéder aux tarifs secrets (-30%)",
-                action_hotel: "Hôtels : Voir les offres exclusives (-40%)",
-                offer_expires: "Ces offres tarifaires expirent dans",
-                services_title: "Indispensables pour ce voyage",
-                service_esim: "Internet sur place (eSIM)",
-                service_esim_desc: "Restez connecté sans frais d'itinérance.",
-                service_activities: "Activités & Visites",
-                service_activities_desc: "Billets coupe-file et excursions.",
-                donate_title: "Soutenez ce projet gratuit",
-                donate_text: "GoGateDocs est 100% gratuit. Si nous vous avons aidé, offrez-nous un café !",
-                donate_btn: "Faire un don",
-                hero_title: "Préparez votre départ",
-                hero_highlight: "simplement",
-                hero_desc: "Visas, vaccins, interdits douaniers... on vous dit tout.",
                 doc_mandatory: "Obligatoire",
                 cost: "Coût",
-                footer_rights: "Tous droits réservés. Reproduction interdite.",
-                footer_affiliate: "Transparence : Ce site contient des liens affiliés.",
-                duration_calc: "Durée du séjour :",
-                origin_same_dest_error: "Le pays de départ et la destination ne peuvent pas être identiques.",
-                missing_dest_error: "Veuillez sélectionner une destination.",
-                btn_official_link: "Accéder au site officiel",
+                btn_official_link: "Site Officiel",
+                health_title: "Santé & Vaccins",
+                vaccine_mandatory: "Vaccin Obligatoire :",
                 water_safe: "Eau du robinet potable",
                 water_unsafe: "Eau du robinet NON potable",
-                vaccine_mandatory: "Vaccin Obligatoire :",
+                customs_title: "Douanes & Interdits",
                 forbidden_items: "Strictement Interdit :",
-                budget_title: "Estimateur de Budget Voyage",
-                budget_desc: "Estimez le coût de votre séjour (hors vols) selon votre style.",
-                budget_style_low: "Eco / Backpacker",
+                services_title: "Indispensables",
+                service_esim: "eSIM (Internet)",
+                service_esim_desc: "Zéro frais de roaming.",
+                service_activities: "Activités",
+                service_activities_desc: "Billets coupe-file.",
+                action_title: "Réserver au meilleur prix",
+                action_flight: "✈️ Trouver des vols secrets (-30%)",
+                action_hotel: "🏨 Voir les offres exclusives (-40%)",
+                offer_expires: "Offre expire dans",
+                budget_title: "Calculateur de Budget",
+                budget_desc: "Estimation quotidienne (Logement + Repas + Transport local).",
+                budget_style_low: "Backpacker",
                 budget_style_med: "Standard",
                 budget_style_high: "Luxe",
-                budget_result: "Budget estimé sur place :",
-                insurance_title: "Assurance Voyage",
-                insurance_subtitle: "Couverture Santé",
-                insurance_desc: "Les frais médicaux peuvent être exorbitants. Partez couvert.",
-                btn_get_quote: "Voir le devis",
-                feedback_title: "Besoin d'aide ?",
-                feedback_desc: "Une erreur sur le site ? Une suggestion ? Contactez l'équipe GoGateDocs.",
-                feedback_placeholder: "Votre message...",
+                budget_result: "Budget Total Estimé :",
+                budget_daily: "par jour",
+                insurance_title: "Assurance Voyage Chapka",
+                insurance_subtitle: "Pourquoi votre CB ne suffit pas",
+                insurance_desc: "L'assurance de votre carte bancaire s'arrête souvent après 90 jours, comporte des franchises élevées et nécessite l'avance des frais. Chapka vous couvre à 100%.",
+                btn_get_quote: "Voir le devis Chapka",
+                feedback_title: "Aide & Contact",
+                feedback_desc: "Une erreur ? Vous voulez ajouter un pays ?",
+                feedback_placeholder: "Votre message (ex: Ajoutez le Pérou svp...)",
                 btn_send: "Envoyer",
-                days: "jours"
+                passport_power: "Puissance Passeport",
+                access_text: "Accès sans visa à",
+                countries_text: "pays",
+                duration_calc: "Durée :",
+                days: "jours",
+                donate_title: "Projet Gratuit",
+                donate_text: "Si nous vous avons aidé, vous pouvez nous offrir un café !",
+                donate_btn: "Faire un don"
             },
-            ES: {
-                app_name: "GoGateDocs", subtitle: "V2.0 Global", menu_home: "Home", menu_budget: "Budget", menu_insurance: "Insurance", menu_feedback: "Help", hero_title: "Prepare your trip", hero_highlight: "simply", hero_desc: "Visas, local taxes, vaccines and official documents.", label_nationality: "Your Nationality", label_origin: "Departure", label_destination: "Destination", label_start_date: "Start", label_end_date: "End", label_age: "Age", placeholder_select: "Select...", btn_analyze: "Analyze", loading_title: "Checking Formalities", loading_text: "Searching for visas and taxes...", result_back: "Edit", docs_title: "Documents & Requirements", docs_disclaimer: "Links redirect to official government websites.", doc_mandatory: "Mandatory", cost: "Cost", btn_official_link: "Official Site", health_title: "Health", vaccine_mandatory: "Mandatory Vaccine:", water_safe: "Tap water safe", water_unsafe: "Tap water UNSAFE", customs_title: "Customs & Bans", forbidden_items: "Strictly Forbidden:", services_title: "Essentials", service_esim: "eSIM (Data)", service_esim_desc: "No roaming fees.", service_activities: "Activities", service_activities_desc: "Skip-the-line.", action_title: "Book Now", action_flight: "Flights (-30%)", action_hotel: "Hotels (-40%)", offer_expires: "Offer expires in", budget_title: "Budget Calculator", budget_desc: "Estimate excluding flights (Stay + Food + Fun)", budget_style_low: "Budget / Backpacker", budget_style_med: "Standard", budget_style_high: "Luxury", budget_result: "Estimated budget:", insurance_title: "Travel Insurance", insurance_subtitle: "Health Coverage", insurance_desc: "Medical costs can be huge. Don't travel without it.", btn_get_quote: "Get Quote", feedback_title: "Contact", feedback_desc: "Bug report or feedback?", btn_send: "Send", passport_power: "Passport Power", access_text: "Visa-free access to", countries_text: "countries", duration_calc: "Duration:", days: "days", donate_title: "Free Project", donate_text: "Support GoGateDocs with a coffee!", donate_btn: "Donate"
-            },
-            CN: {
-                 app_name: "GoGateDocs", subtitle: "V2.0 Global", menu_home: "Home", menu_budget: "Budget", menu_insurance: "Insurance", menu_feedback: "Help", hero_title: "Prepare your trip", hero_highlight: "simply", hero_desc: "Visas, local taxes, vaccines and official documents.", label_nationality: "Your Nationality", label_origin: "Departure", label_destination: "Destination", label_start_date: "Start", label_end_date: "End", label_age: "Age", placeholder_select: "Select...", btn_analyze: "Analyze", loading_title: "Checking Formalities", loading_text: "Searching for visas and taxes...", result_back: "Edit", docs_title: "Documents & Requirements", docs_disclaimer: "Links redirect to official government websites.", doc_mandatory: "Mandatory", cost: "Cost", btn_official_link: "Official Site", health_title: "Health", vaccine_mandatory: "Mandatory Vaccine:", water_safe: "Tap water safe", water_unsafe: "Tap water UNSAFE", customs_title: "Customs & Bans", forbidden_items: "Strictly Forbidden:", services_title: "Essentials", service_esim: "eSIM (Data)", service_esim_desc: "No roaming fees.", service_activities: "Activities", service_activities_desc: "Skip-the-line.", action_title: "Book Now", action_flight: "Flights (-30%)", action_hotel: "Hotels (-40%)", offer_expires: "Offer expires in", budget_title: "Budget Calculator", budget_desc: "Estimate excluding flights (Stay + Food + Fun)", budget_style_low: "Budget / Backpacker", budget_style_med: "Standard", budget_style_high: "Luxury", budget_result: "Estimated budget:", insurance_title: "Travel Insurance", insurance_subtitle: "Health Coverage", insurance_desc: "Medical costs can be huge. Don't travel without it.", btn_get_quote: "Get Quote", feedback_title: "Contact", feedback_desc: "Bug report or feedback?", btn_send: "Send", passport_power: "Passport Power", access_text: "Visa-free access to", countries_text: "countries", duration_calc: "Duration:", days: "days", donate_title: "Free Project", donate_text: "Support GoGateDocs with a coffee!", donate_btn: "Donate"
-            },
-            JP: {
-                 app_name: "GoGateDocs", subtitle: "V2.0 Global", menu_home: "Home", menu_budget: "Budget", menu_insurance: "Insurance", menu_feedback: "Help", hero_title: "Prepare your trip", hero_highlight: "simply", hero_desc: "Visas, local taxes, vaccines and official documents.", label_nationality: "Your Nationality", label_origin: "Departure", label_destination: "Destination", label_start_date: "Start", label_end_date: "End", label_age: "Age", placeholder_select: "Select...", btn_analyze: "Analyze", loading_title: "Checking Formalities", loading_text: "Searching for visas and taxes...", result_back: "Edit", docs_title: "Documents & Requirements", docs_disclaimer: "Links redirect to official government websites.", doc_mandatory: "Mandatory", cost: "Cost", btn_official_link: "Official Site", health_title: "Health", vaccine_mandatory: "Mandatory Vaccine:", water_safe: "Tap water safe", water_unsafe: "Tap water UNSAFE", customs_title: "Customs & Bans", forbidden_items: "Strictly Forbidden:", services_title: "Essentials", service_esim: "eSIM (Data)", service_esim_desc: "No roaming fees.", service_activities: "Activities", service_activities_desc: "Skip-the-line.", action_title: "Book Now", action_flight: "Flights (-30%)", action_hotel: "Hotels (-40%)", offer_expires: "Offer expires in", budget_title: "Budget Calculator", budget_desc: "Estimate excluding flights (Stay + Food + Fun)", budget_style_low: "Budget / Backpacker", budget_style_med: "Standard", budget_style_high: "Luxury", budget_result: "Estimated budget:", insurance_title: "Travel Insurance", insurance_subtitle: "Health Coverage", insurance_desc: "Medical costs can be huge. Don't travel without it.", btn_get_quote: "Get Quote", feedback_title: "Contact", feedback_desc: "Bug report or feedback?", btn_send: "Send", passport_power: "Passport Power", access_text: "Visa-free access to", countries_text: "countries", duration_calc: "Duration:", days: "days", donate_title: "Free Project", donate_text: "Support GoGateDocs with a coffee!", donate_btn: "Donate"
-            }
+            // Placeholders pour les autres langues
+            ES: { app_name: "GoGateDocs", subtitle: "V2.0 Global", menu_home: "Home", menu_budget: "Budget", menu_insurance: "Insurance", menu_feedback: "Help", hero_title: "Prepare your trip", hero_highlight: "simply", hero_desc: "Visas, local taxes, vaccines and official documents.", label_nationality: "Your Nationality", label_origin: "Departure", label_destination: "Destination", label_start_date: "Start", label_end_date: "End", label_age: "Age", placeholder_select: "Select...", btn_analyze: "Analyze", loading_title: "Checking Formalities", loading_text: "Searching for visas and taxes...", result_back: "Edit", docs_title: "Documents & Requirements", docs_disclaimer: "Links redirect to official government websites.", doc_mandatory: "Mandatory", cost: "Cost", btn_official_link: "Official Site", health_title: "Health", vaccine_mandatory: "Mandatory Vaccine:", water_safe: "Tap water safe", water_unsafe: "Tap water UNSAFE", customs_title: "Customs & Bans", forbidden_items: "Strictly Forbidden:", services_title: "Essentials", service_esim: "eSIM (Data)", service_esim_desc: "No roaming fees.", service_activities: "Activities", service_activities_desc: "Skip-the-line.", action_title: "Book Now", action_flight: "✈️ Secret Flight Deals (-30%)", action_hotel: "🏨 Exclusive Hotel Rates (-40%)", offer_expires: "Offer expires in", budget_title: "Budget Calculator", budget_desc: "Estimate excluding flights", budget_style_low: "Budget / Backpacker", budget_style_med: "Standard", budget_style_high: "Luxury", budget_result: "Estimated budget:", budget_daily: "per day", insurance_title: "Travel Insurance", insurance_subtitle: "Health Coverage", insurance_desc: "Medical costs can be huge.", btn_get_quote: "Get Quote", feedback_title: "Contact", feedback_desc: "Bug report or feedback?", btn_send: "Send", passport_power: "Passport Power", access_text: "Visa-free access to", countries_text: "countries", duration_calc: "Duration:", days: "days", donate_title: "Free Project", donate_text: "If we helped you, buy us a coffee!", donate_btn: "Donate" },
+            CN: { app_name: "GoGateDocs", subtitle: "V2.0 Global", menu_home: "Home", menu_budget: "Budget", menu_insurance: "Insurance", menu_feedback: "Help", hero_title: "Prepare your trip", hero_highlight: "simply", hero_desc: "Visas, local taxes, vaccines and official documents.", label_nationality: "Your Nationality", label_origin: "Departure", label_destination: "Destination", label_start_date: "Start", label_end_date: "End", label_age: "Age", placeholder_select: "Select...", btn_analyze: "Analyze", loading_title: "Checking Formalities", loading_text: "Searching for visas and taxes...", result_back: "Edit", docs_title: "Documents & Requirements", docs_disclaimer: "Links redirect to official government websites.", doc_mandatory: "Mandatory", cost: "Cost", btn_official_link: "Official Site", health_title: "Health", vaccine_mandatory: "Mandatory Vaccine:", water_safe: "Tap water safe", water_unsafe: "Tap water UNSAFE", customs_title: "Customs & Bans", forbidden_items: "Strictly Forbidden:", services_title: "Essentials", service_esim: "eSIM (Data)", service_esim_desc: "No roaming fees.", service_activities: "Activities", service_activities_desc: "Skip-the-line.", action_title: "Book Now", action_flight: "✈️ Secret Flight Deals (-30%)", action_hotel: "🏨 Exclusive Hotel Rates (-40%)", offer_expires: "Offer expires in", budget_title: "Budget Calculator", budget_desc: "Estimate excluding flights", budget_style_low: "Budget / Backpacker", budget_style_med: "Standard", budget_style_high: "Luxury", budget_result: "Estimated budget:", budget_daily: "per day", insurance_title: "Travel Insurance", insurance_subtitle: "Health Coverage", insurance_desc: "Medical costs can be huge.", btn_get_quote: "Get Quote", feedback_title: "Contact", feedback_desc: "Bug report or feedback?", btn_send: "Send", passport_power: "Passport Power", access_text: "Visa-free access to", countries_text: "countries", duration_calc: "Duration:", days: "days", donate_title: "Free Project", donate_text: "If we helped you, buy us a coffee!", donate_btn: "Donate" },
+            JP: { app_name: "GoGateDocs", subtitle: "V2.0 Global", menu_home: "Home", menu_budget: "Budget", menu_insurance: "Insurance", menu_feedback: "Help", hero_title: "Prepare your trip", hero_highlight: "simply", hero_desc: "Visas, local taxes, vaccines and official documents.", label_nationality: "Your Nationality", label_origin: "Departure", label_destination: "Destination", label_start_date: "Start", label_end_date: "End", label_age: "Age", placeholder_select: "Select...", btn_analyze: "Analyze", loading_title: "Checking Formalities", loading_text: "Searching for visas and taxes...", result_back: "Edit", docs_title: "Documents & Requirements", docs_disclaimer: "Links redirect to official government websites.", doc_mandatory: "Mandatory", cost: "Cost", btn_official_link: "Official Site", health_title: "Health", vaccine_mandatory: "Mandatory Vaccine:", water_safe: "Tap water safe", water_unsafe: "Tap water UNSAFE", customs_title: "Customs & Bans", forbidden_items: "Strictly Forbidden:", services_title: "Essentials", service_esim: "eSIM (Data)", service_esim_desc: "No roaming fees.", service_activities: "Activities", service_activities_desc: "Skip-the-line.", action_title: "Book Now", action_flight: "✈️ Secret Flight Deals (-30%)", action_hotel: "🏨 Exclusive Hotel Rates (-40%)", offer_expires: "Offer expires in", budget_title: "Budget Calculator", budget_desc: "Estimate excluding flights", budget_style_low: "Budget / Backpacker", budget_style_med: "Standard", budget_style_high: "Luxury", budget_result: "Estimated budget:", budget_daily: "per day", insurance_title: "Travel Insurance", insurance_subtitle: "Health Coverage", insurance_desc: "Medical costs can be huge.", btn_get_quote: "Get Quote", feedback_title: "Contact", feedback_desc: "Bug report or feedback?", btn_send: "Send", passport_power: "Passport Power", access_text: "Visa-free access to", countries_text: "countries", duration_calc: "Duration:", days: "days", donate_title: "Free Project", donate_text: "If we helped you, buy us a coffee!", donate_btn: "Donate" }
         };
 
-        // ==============================================
-        // 4. BASE DE DONNÉES PAYS
-        // ==============================================
+        // ==========================================================================================
+        // 4. BASE DE DONNÉES PAYS ETENDUE (FORMAT LISIBLE ET ÉDITABLE)
+        // ==========================================================================================
         
         const countriesData = [
-            // --- ASIE ---
+            // ------------------------------------------
+            // ASIE
+            // ------------------------------------------
             { 
-                code: "ID", name: "Indonésie (Général)", region: "AS", continent: "Asie", power: 70, water: "unsafe", costFactor: 0.7,
+                code: "ID", 
+                name: "Indonésie (Général)", 
+                region: "AS", 
+                continent: "Asie", 
+                power: 70, 
+                water: "unsafe", 
+                costFactor: 0.7,
                 customs: ["Drogues (Peine de mort)", "Plus de 1L d'alcool"],
                 requirements: [
-                    { type: "visa", title: "e-VOA (Visa on Arrival)", description: "Visa 30j. Payable en ligne ou aéroport.", cost: "~32€", link: "https://molina.imigrasi.go.id/", mandatory: true },
-                    { type: "form", title: "Douane (ECD)", description: "QR Code douanier obligatoire (3j avant).", cost: "Gratuit", link: "https://ecd.beacukai.go.id/", mandatory: true },
-                    { type: "form", title: "SATUSEHAT Health Pass", description: "Formulaire santé Mpox (2024).", cost: "Gratuit", link: "https://sshp.kemkes.go.id/", mandatory: true }
+                    { type: "visa", title: "e-VOA (Visa on Arrival)", description: "Visa tourisme 30 jours. Payable en ligne ou à l'arrivée.", cost: "~32€ (500k IDR)", link: "https://molina.imigrasi.go.id/", mandatory: true },
+                    { type: "form", title: "Douane (ECD)", description: "QR Code douanier obligatoire (à faire 3 jours avant).", cost: "Gratuit", link: "https://ecd.beacukai.go.id/", mandatory: true },
+                    { type: "form", title: "SATUSEHAT Health Pass", description: "Formulaire santé Mpox (Nouveau 2024).", cost: "Gratuit", link: "https://sshp.kemkes.go.id/", mandatory: true }
                 ]
             },
             { 
-                code: "BA", name: "Bali (Indonésie)", region: "AS", continent: "Asie", power: 70, water: "unsafe", costFactor: 1.0,
-                customs: ["Drogues (Tolérance Zéro)", "Médicaments sur ordonnance"],
+                code: "BA", 
+                name: "Bali (Indonésie)", 
+                region: "AS", 
+                continent: "Asie", 
+                power: 70, 
+                water: "unsafe", 
+                costFactor: 1.0,
+                customs: ["Drogues (Tolérance Zéro)", "Médicaments (Ordonnance obligatoire)"],
                 requirements: [
-                    { type: "visa", title: "e-VOA (Visa on Arrival)", description: "Visa 30 jours. Renouvelable 1 fois.", cost: "~32€ (500k IDR)", link: "https://molina.imigrasi.go.id/", mandatory: true },
-                    { type: "tax", title: "Taxe 'Love Bali'", description: "Taxe régionale obligatoire pour entrer à Bali.", cost: "~9€ (150k IDR)", link: "https://lovebali.baliprov.go.id/", mandatory: true },
+                    { type: "visa", title: "e-VOA (Visa on Arrival)", description: "Visa 30 jours (Renouvelable 1 fois).", cost: "~32€ (500k IDR)", link: "https://molina.imigrasi.go.id/", mandatory: true },
+                    { type: "tax", title: "Taxe Touristique 'Love Bali'", description: "Taxe régionale obligatoire pour entrer à Bali.", cost: "~9€ (150k IDR)", link: "https://lovebali.baliprov.go.id/", mandatory: true },
                     { type: "form", title: "Douane (ECD)", description: "Code QR obligatoire à l'arrivée.", cost: "Gratuit", link: "https://ecd.beacukai.go.id/", mandatory: true },
-                    { type: "form", title: "SATUSEHAT Health Pass", description: "Nouveau formulaire santé obligatoire.", cost: "Gratuit", link: "https://sshp.kemkes.go.id/", mandatory: true }
+                    { type: "form", title: "SATUSEHAT Health Pass", description: "Formulaire santé Mpox (Nouveau 2024).", cost: "Gratuit", link: "https://sshp.kemkes.go.id/", mandatory: true }
                 ]
             },
             { 
-                code: "JP", name: "Japon", region: "AS", continent: "Asie", power: 130, water: "safe", costFactor: 1.6,
-                customs: ["Viande/Fruits frais interdits", "Codeine interdite", "Couteaux de poche"],
+                code: "JP", 
+                name: "Japon", 
+                region: "AS", 
+                continent: "Asie", 
+                power: 130, 
+                water: "safe", 
+                costFactor: 1.6,
+                customs: ["Viande/Fruits frais interdits", "Certains médicaments (Codeine)", "Couteaux de poche"],
                 requirements: [
-                    { type: "form", title: "Visit Japan Web", description: "QR Code immigration et douanes (recommandé).", cost: "Gratuit", link: "https://vjw-lp.digital.go.jp/en/", mandatory: false }
+                    { type: "form", title: "Visit Japan Web", description: "QR Code pour l'immigration et les douanes (Recommandé).", cost: "Gratuit", link: "https://vjw-lp.digital.go.jp/en/", mandatory: false }
                 ]
             },
             {
-                code: "TH", name: "Thaïlande", region: "AS", continent: "Asie", power: 75, water: "unsafe", costFactor: 0.8,
-                customs: ["Cigarettes électroniques (Prison possible)", "Plus de 200 cigarettes"],
+                code: "TH", 
+                name: "Thaïlande", 
+                region: "AS", 
+                continent: "Asie", 
+                power: 75, 
+                water: "unsafe", 
+                costFactor: 0.8,
+                customs: ["Cigarettes électroniques (Interdit/Prison)", "Plus de 200 cigarettes"],
                 requirements: [
-                    { type: "visa", title: "Exemption de Visa (60 jours)", description: "Nouveau (2024) : 60j sans visa pour FR, BE, CH, CA.", cost: "Gratuit", mandatory: false }
+                    { type: "visa", title: "Exemption de Visa (60 jours)", description: "Pour FR, BE, CH, CA. Tampon gratuit à l'arrivée.", cost: "Gratuit", mandatory: false }
                 ]
             },
             {
-                code: "VN", name: "Vietnam", region: "AS", continent: "Asie", power: 65, water: "unsafe", costFactor: 0.6,
-                customs: ["Drones (Déclaration très complexe)", "Littérature politique"],
+                code: "VN", 
+                name: "Vietnam", 
+                region: "AS", 
+                continent: "Asie", 
+                power: 65, 
+                water: "unsafe", 
+                costFactor: 0.6,
+                customs: ["Drones (Déclaration complexe)", "Littérature politique"],
                 requirements: [
-                    { type: "visa", title: "E-Visa (90 jours)", description: "Pour séjours > 45 jours. Entrées multiples possibles.", cost: "~25 USD", link: "https://evisa.xuatnhapcanh.gov.vn/", mandatory: true },
-                    { type: "info", title: "Exemption 45 jours", description: "Sans visa pour FR, DE, IT, ES, UK (entrée simple).", cost: "Gratuit", mandatory: false }
+                    { type: "visa", title: "E-Visa (90 jours)", description: "Obligatoire pour séjours > 45 jours (ou si hors exemption).", cost: "~25 USD", link: "https://evisa.xuatnhapcanh.gov.vn/", mandatory: true },
+                    { type: "info", title: "Exemption 45 jours", description: "Pour citoyens FR, DE, IT, ES, UK (entrée simple).", cost: "Gratuit", mandatory: false }
                 ]
             },
             {
-                code: "CN", name: "Chine", region: "AS", continent: "Asie", power: 80, water: "unsafe", costFactor: 1.1,
+                code: "CN", 
+                name: "Chine", 
+                region: "AS", 
+                continent: "Asie", 
+                power: 80, 
+                water: "unsafe", 
+                costFactor: 1.1,
                 customs: ["VPN (Interdits)", "Nourriture"],
                 requirements: [
                     { type: "info", title: "Exemption 15 jours (Essai)", description: "Pour FR, DE, IT, ES, NL (Jusqu'à fin 2025).", cost: "Gratuit", mandatory: false },
-                    { type: "visa", title: "Visa Tourisme (L)", description: "Si séjour > 15 jours. Empreintes obligatoires au centre.", cost: "~126€", link: "https://www.visaforchina.cn/", mandatory: true }
+                    { type: "visa", title: "Visa Tourisme (L)", description: "Si séjour > 15 jours. Empreintes obligatoires.", cost: "~126€", link: "https://www.visaforchina.cn/", mandatory: true }
                 ]
             },
             {
-                code: "LK", name: "Sri Lanka", region: "AS", continent: "Asie", power: 50, water: "unsafe", costFactor: 0.6,
+                code: "LK", 
+                name: "Sri Lanka", 
+                region: "AS", 
+                continent: "Asie", 
+                power: 50, 
+                water: "unsafe", 
+                costFactor: 0.6,
                 requirements: [
                     { type: "visa", title: "ETA / E-Visa", description: "Autorisation électronique obligatoire avant départ.", cost: "~50 USD", link: "https://www.srilankaevisa.lk/", mandatory: true },
-                    { type: "form", title: "Arrival Card", description: "A remplir en ligne 3j avant pour gagner du temps.", cost: "Gratuit", link: "https://eservices.immigration.gov.lk/", mandatory: false }
+                    { type: "form", title: "Arrival Card", description: "A remplir en ligne 3j avant.", cost: "Gratuit", link: "https://eservices.immigration.gov.lk/", mandatory: false }
                 ]
             },
             {
-                code: "IN", name: "Inde", region: "AS", continent: "Asie", power: 60, water: "unsafe", costFactor: 0.5,
+                code: "IN", 
+                name: "Inde", 
+                region: "AS", 
+                continent: "Asie", 
+                power: 60, 
+                water: "unsafe", 
+                costFactor: 0.5,
                 requirements: [
                     { type: "visa", title: "E-Visa", description: "Obligatoire (Tourist, Business, Medical).", cost: "~25-80 USD", link: "https://indianvisaonline.gov.in/evisa/tvoa.html", mandatory: true }
                 ]
             },
-            { code: "KH", name: "Cambodge", region: "AS", continent: "Asie", power: 50, water: "unsafe", costFactor: 0.6, requirements: [{ type: "visa", title: "E-Visa", description: "Tourisme 30 jours.", cost: "36 USD", link: "https://www.evisa.gov.kh/", mandatory: true }] },
-            { code: "LA", name: "Laos", region: "AS", continent: "Asie", power: 45, water: "unsafe", costFactor: 0.5, requirements: [{ type: "visa", title: "E-Visa", description: "Tourisme 30 jours.", cost: "50 USD", link: "https://laoevisa.gov.la/", mandatory: true }] },
-            { code: "PH", name: "Philippines", region: "AS", continent: "Asie", power: 66, water: "unsafe", costFactor: 0.7, requirements: [{ type: "form", title: "eTravel", description: "QR Code obligatoire 72h avant.", cost: "Gratuit", link: "https://etravel.gov.ph/", mandatory: true }] },
-            { code: "MY", name: "Malaisie", region: "AS", continent: "Asie", power: 110, water: "unsafe", costFactor: 0.8, requirements: [{ type: "form", title: "MDAC", description: "Digital Arrival Card obligatoire 3j avant.", cost: "Gratuit", link: "https://imigresen-online.imi.gov.my/mdac/main", mandatory: true }] },
-            { code: "SG", name: "Singapour", region: "AS", continent: "Asie", power: 130, water: "safe", costFactor: 2.2, customs: ["Chewing-gum (Interdit)", "Cigarette électronique"], requirements: [{ type: "form", title: "SG Arrival Card", description: "Obligatoire 3j avant.", cost: "Gratuit", link: "https://eservices.ica.gov.sg/sgarrivalcard/", mandatory: true }] },
-            { code: "KR", name: "Corée du Sud", region: "AS", continent: "Asie", power: 129, water: "safe", costFactor: 1.4, requirements: [{ type: "visa", title: "K-ETA", description: "Temporairement suspendu pour 22 pays (dont FR) jusqu'à fin 2024.", cost: "Gratuit", mandatory: false }] },
+            { 
+                code: "KH", name: "Cambodge", region: "AS", continent: "Asie", power: 50, water: "unsafe", costFactor: 0.6, 
+                requirements: [{ type: "visa", title: "E-Visa", description: "Tourisme 30 jours.", cost: "36 USD", link: "https://www.evisa.gov.kh/", mandatory: true }] 
+            },
+            { 
+                code: "LA", name: "Laos", region: "AS", continent: "Asie", power: 45, water: "unsafe", costFactor: 0.5, 
+                requirements: [{ type: "visa", title: "E-Visa", description: "Tourisme 30 jours.", cost: "50 USD", link: "https://laoevisa.gov.la/", mandatory: true }] 
+            },
+            { 
+                code: "PH", name: "Philippines", region: "AS", continent: "Asie", power: 66, water: "unsafe", costFactor: 0.7, 
+                requirements: [{ type: "form", title: "eTravel", description: "QR Code obligatoire 72h avant.", cost: "Gratuit", link: "https://etravel.gov.ph/", mandatory: true }] 
+            },
+            { 
+                code: "MY", name: "Malaisie", region: "AS", continent: "Asie", power: 110, water: "unsafe", costFactor: 0.8, 
+                requirements: [{ type: "form", title: "MDAC", description: "Digital Arrival Card obligatoire 3j avant.", cost: "Gratuit", link: "https://imigresen-online.imi.gov.my/mdac/main", mandatory: true }] 
+            },
+            { 
+                code: "SG", name: "Singapour", region: "AS", continent: "Asie", power: 130, water: "safe", costFactor: 2.2, 
+                customs: ["Chewing-gum (Interdit)", "Cigarette électronique"], 
+                requirements: [{ type: "form", title: "SG Arrival Card", description: "Obligatoire 3j avant.", cost: "Gratuit", link: "https://eservices.ica.gov.sg/sgarrivalcard/", mandatory: true }] 
+            },
+            { 
+                code: "KR", name: "Corée du Sud", region: "AS", continent: "Asie", power: 129, water: "safe", costFactor: 1.4, 
+                requirements: [{ type: "visa", title: "K-ETA", description: "Temporairement suspendu pour 22 pays (dont FR) jusqu'à fin 2024.", cost: "Gratuit", mandatory: false }] 
+            },
 
-            // --- AMÉRIQUES (USA, CANADA, LATAM) ---
+            // ------------------------------------------
+            // AMÉRIQUES
+            // ------------------------------------------
             {
-                code: "US", name: "États-Unis", region: "NA", continent: "Amériques", power: 116, water: "safe", costFactor: 2.2,
+                code: "US", 
+                name: "États-Unis", 
+                region: "NA", 
+                continent: "Amériques", 
+                power: 116, 
+                water: "safe", 
+                costFactor: 2.2,
                 customs: ["Kinder Surprise", "Fruits/Viandes", "Fromages non pasteurisés"],
                 requirements: [
-                    { type: "visa", title: "ESTA", description: "Autorisation électronique. Min 72h avant départ.", cost: "21 USD", link: "https://esta.cbp.dhs.gov/", mandatory: true }
+                    { type: "visa", title: "ESTA", description: "Autorisation voyage électronique. Min 72h avant.", cost: "21 USD", link: "https://esta.cbp.dhs.gov/", mandatory: true }
                 ]
             },
             {
-                code: "CA", name: "Canada", region: "NA", continent: "Amériques", power: 115, water: "safe", costFactor: 2.0,
-                customs: ["Cannabis (Déclaration frontières)"],
+                code: "CA", 
+                name: "Canada", 
+                region: "NA", 
+                continent: "Amériques", 
+                power: 115, 
+                water: "safe", 
+                costFactor: 2.0,
+                customs: ["Cannabis (Déclaration obligatoire frontières)"],
                 requirements: [
                     { type: "visa", title: "AVE (eTA)", description: "Autorisation de voyage électronique.", cost: "7 CAD", link: "https://www.canada.ca/fr/immigration-refugies-citoyennete/services/visiter-canada/ave.html", mandatory: true }
                 ]
             },
             {
-                code: "CQ", name: "Cancún / Quintana Roo (Mexique)", region: "NA", continent: "Amériques", power: 90, water: "unsafe", costFactor: 1.4,
+                code: "CQ", 
+                name: "Cancún / Quintana Roo (Mexique)", 
+                region: "NA", 
+                continent: "Amériques", 
+                power: 90, 
+                water: "unsafe", 
+                costFactor: 1.4,
                 customs: ["Cigarettes électroniques (Réglementé)"],
                 requirements: [
-                    { type: "tax", title: "Visitax", description: "Taxe touristique locale obligatoire Quintana Roo.", cost: "~11 USD", link: "https://www.visitax.gob.mx/", mandatory: true },
-                    { type: "form", title: "Formulaire Migratoire (FMM)", description: "Souvent dématérialisé ou donné dans l'avion.", cost: "Gratuit", mandatory: true }
+                    { type: "tax", title: "Visitax", description: "Taxe touristique locale obligatoire.", cost: "~11 USD", link: "https://www.visitax.gob.mx/", mandatory: true },
+                    { type: "form", title: "Formulaire Migratoire (FMM)", description: "Souvent dématérialisé ou dans l'avion.", cost: "Gratuit", mandatory: true }
                 ]
             },
-            { code: "MX", name: "Mexique", region: "NA", continent: "Amériques", power: 90, water: "unsafe", costFactor: 1.0, requirements: [{ type: "form", title: "FMM (Formulaire)", description: "Formulaire d'immigration.", cost: "Gratuit", mandatory: true }] },
-            { code: "CO", name: "Colombie", region: "SA", continent: "Amériques", power: 80, water: "unsafe", costFactor: 0.8, health: { yellowFever: true }, requirements: [{ type: "form", title: "Check-Mig", description: "Formulaire migratoire obligatoire (24h avant).", cost: "Gratuit", link: "https://apps.migracioncolombia.gov.co/pre-registro/public/preregistro.jsf", mandatory: true }] },
-            { code: "DO", name: "République Dominicaine", region: "NA", continent: "Amériques", power: 65, water: "unsafe", costFactor: 1.1, requirements: [{ type: "form", title: "E-Ticket", description: "Formulaire entrée/sortie obligatoire.", cost: "Gratuit", link: "https://eticket.migracion.gob.do/", mandatory: true }] },
-            { code: "CU", name: "Cuba", region: "NA", continent: "Amériques", power: 55, water: "unsafe", costFactor: 0.9, requirements: [{ type: "form", title: "D'Viajeros", description: "Formulaire numérique obligatoire.", cost: "Gratuit", link: "https://dviajeros.mitrans.gob.cu/", mandatory: true }, { type: "visa", title: "Carte de Touriste", description: "Visa papier obligatoire (via agence ou consulat).", cost: "~25€", mandatory: true }] },
-            { code: "BR", name: "Brésil", region: "SA", continent: "Amériques", power: 100, water: "unsafe", costFactor: 1.1, health: { yellowFever: true } },
-            { code: "PE", name: "Pérou", region: "SA", continent: "Amériques", power: 85, water: "unsafe", costFactor: 0.9, customs: ["Feuilles de Coca (Quantité limitée)"] },
-            { code: "CL", name: "Chili", region: "SA", continent: "Amériques", power: 118, water: "safe", costFactor: 1.3, requirements: [{ type: "form", title: "SAG Affidavit", description: "Déclaration douanière stricte.", cost: "Gratuit", mandatory: true }] },
-            { code: "AR", name: "Argentine", region: "SA", continent: "Amériques", power: 98, water: "unsafe", costFactor: 0.8 },
-            { code: "CR", name: "Costa Rica", region: "SA", continent: "Amériques", power: 95, water: "safe", costFactor: 1.4 },
-
-            // --- OCÉANIE ---
             {
-                code: "AU", name: "Australie", region: "OC", continent: "Océanie", power: 120, water: "safe", costFactor: 2.1,
+                code: "MX", name: "Mexique", region: "NA", continent: "Amériques", power: 90, water: "unsafe", costFactor: 1.0,
+                requirements: [{ type: "form", title: "FMM (Formulaire)", description: "Formulaire d'immigration.", cost: "Gratuit", mandatory: true }]
+            },
+            {
+                code: "BR", 
+                name: "Brésil", 
+                region: "SA", 
+                continent: "Amériques", 
+                power: 100, 
+                water: "unsafe", 
+                costFactor: 1.1, 
+                health: { yellowFever: true }, 
+                customs: ["Espèces protégées"]
+            },
+            { 
+                code: "CO", 
+                name: "Colombie", 
+                region: "SA", 
+                continent: "Amériques", 
+                power: 80, 
+                water: "unsafe", 
+                costFactor: 0.8, 
+                health: { yellowFever: true },
+                requirements: [{ type: "form", title: "Check-Mig", description: "Formulaire migratoire obligatoire (24h avant).", cost: "Gratuit", link: "https://apps.migracioncolombia.gov.co/pre-registro/public/preregistro.jsf", mandatory: true }]
+            },
+            { 
+                code: "PE", name: "Pérou", region: "SA", continent: "Amériques", power: 85, water: "unsafe", costFactor: 0.9, 
+                customs: ["Feuilles de Coca (Quantité limitée)"] 
+            },
+            { 
+                code: "CL", name: "Chili", region: "SA", continent: "Amériques", power: 118, water: "safe", costFactor: 1.3, 
+                requirements: [{ type: "form", title: "SAG Affidavit", description: "Déclaration douanière stricte.", cost: "Gratuit", mandatory: true }] 
+            },
+            { 
+                code: "CR", name: "Costa Rica", region: "SA", continent: "Amériques", power: 95, water: "safe", costFactor: 1.4 
+            },
+            { 
+                code: "DO", 
+                name: "République Dominicaine", 
+                region: "NA", 
+                continent: "Amériques", 
+                power: 65, 
+                water: "unsafe", 
+                costFactor: 1.1,
+                requirements: [{ type: "form", title: "E-Ticket", description: "Formulaire entrée/sortie obligatoire.", cost: "Gratuit", link: "https://eticket.migracion.gob.do/", mandatory: true }]
+            },
+            { 
+                code: "CU", 
+                name: "Cuba", 
+                region: "NA", 
+                continent: "Amériques", 
+                power: 55, 
+                water: "unsafe", 
+                costFactor: 0.9, 
+                customs: ["Drones", "GPS Satellite"],
+                requirements: [
+                    { type: "form", title: "D'Viajeros", description: "Formulaire numérique obligatoire.", cost: "Gratuit", link: "https://dviajeros.mitrans.gob.cu/", mandatory: true },
+                    { type: "visa", title: "Carte de Touriste", description: "Visa papier obligatoire (via agence ou consulat).", cost: "~25€", mandatory: true }
+                ]
+            },
+            { code: "JM", name: "Jamaïque", region: "NA", continent: "Amériques", power: 75, water: "unsafe", costFactor: 1.5 },
+            { code: "BS", name: "Bahamas", region: "NA", continent: "Amériques", power: 85, water: "unsafe", costFactor: 2.5 },
+            { code: "BB", name: "Barbade", region: "NA", continent: "Amériques", power: 90, water: "safe", costFactor: 2.2 },
+
+            // ------------------------------------------
+            // OCÉANIE
+            // ------------------------------------------
+            {
+                code: "AU", 
+                name: "Australie", 
+                region: "OC", 
+                continent: "Océanie", 
+                power: 120, 
+                water: "safe", 
+                costFactor: 2.1,
                 customs: ["Nourriture (Bio-sécurité extrême)", "Terres/Sables"],
                 requirements: [
                     { type: "visa", title: "eVisitor (651)", description: "Visa gratuit pour Européens. Demande en ligne.", cost: "Gratuit", link: "https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing/evisitor-651", mandatory: true },
-                    { type: "form", title: "DPD", description: "Déclaration passager 72h avant.", cost: "Gratuit", mandatory: true }
+                    { type: "form", title: "Digital Passenger Declaration", description: "72h avant le vol.", cost: "Gratuit", mandatory: true }
                 ]
             },
             {
-                code: "NZ", name: "Nouvelle-Zélande", region: "OC", continent: "Océanie", power: 119, water: "safe", costFactor: 2.0,
-                customs: ["Matériel de rando sale", "Nourriture"],
+                code: "NZ", 
+                name: "Nouvelle-Zélande", 
+                region: "OC", 
+                continent: "Océanie", 
+                power: 119, 
+                water: "safe", 
+                costFactor: 2.0,
+                customs: ["Matériel de randonnée sale", "Nourriture"],
                 requirements: [
                     { type: "visa", title: "NZeTA", description: "Autorisation électronique de voyage.", cost: "17-23 NZD", link: "https://nzeta.immigration.govt.nz/", mandatory: true },
                     { type: "tax", title: "IVL Tax", description: "Taxe conservation et tourisme.", cost: "35 NZD", mandatory: true }
                 ]
             },
+            { code: "FJ", name: "Fidji", region: "OC", continent: "Océanie", power: 80, water: "unsafe", costFactor: 1.4 },
+            { code: "PF", name: "Polynésie Française", region: "OC", continent: "Océanie", power: 128, water: "safe", costFactor: 2.5 },
+            { code: "NC", name: "Nouvelle-Calédonie", region: "OC", continent: "Océanie", power: 128, water: "safe", costFactor: 2.2 },
 
-            // --- MOYEN ORIENT & AFRIQUE ---
+            // ------------------------------------------
+            // AFRIQUE & MOYEN-ORIENT
+            // ------------------------------------------
             {
-                code: "AE", name: "Dubaï (EAU)", region: "ME", continent: "Afrique / M-O", power: 110, water: "safe", costFactor: 2.0,
-                customs: ["Médicaments avec codéine", "Graines de pavot"],
+                code: "AE", 
+                name: "Dubaï (Émirats)", 
+                region: "ME", 
+                continent: "Afrique / M-O", 
+                power: 110, 
+                water: "safe", 
+                costFactor: 2.0,
+                customs: ["Médicaments (Codéine)", "Graines de pavot"],
                 requirements: [
-                    { type: "info", title: "Visa Gratuit (30j)", description: "Tampon gratuit à l'arrivée pour FR/EU.", cost: "Gratuit", mandatory: false },
-                    { type: "tax", title: "Tourism Dirham", description: "Taxe de séjour payée à l'hôtel.", cost: "7-20 AED /nuit", mandatory: true }
+                    { type: "info", title: "Visa Touristique", description: "Tampon gratuit de 30 jours à l'arrivée (FR/EU).", cost: "Gratuit", mandatory: false },
+                    { type: "tax", title: "Tourism Dirham", description: "Taxe de séjour payable à l'hôtel.", cost: "7-20 AED/nuit", mandatory: true }
                 ]
             },
             {
-                code: "EG", name: "Égypte", region: "AF", continent: "Afrique / M-O", power: 50, water: "unsafe", costFactor: 0.6,
-                customs: ["Drones (Interdiction stricte/Prison)"],
+                code: "EG", 
+                name: "Égypte", 
+                region: "AF", 
+                continent: "Afrique / M-O", 
+                power: 50, 
+                water: "unsafe", 
+                costFactor: 0.6,
+                customs: ["Drones (Interdit - Prison)"],
                 requirements: [
-                    { type: "visa", title: "E-Visa / VOA", description: "25$ à la banque avant la douane ou en ligne.", cost: "25 USD", link: "https://visa2egypt.gov.eg/", mandatory: true }
+                    { type: "visa", title: "E-Visa / Visa On Arrival", description: "25$ à la banque avant la douane ou en ligne.", cost: "25 USD", link: "https://visa2egypt.gov.eg/", mandatory: true }
                 ]
             },
             {
-                code: "KE", name: "Kenya", region: "AF", continent: "Afrique / M-O", power: 55, water: "unsafe", costFactor: 1.1,
-                health: { yellowFever: true }, customs: ["Sacs plastiques interdits"],
+                code: "KE", 
+                name: "Kenya", 
+                region: "AF", 
+                continent: "Afrique / M-O", 
+                power: 55, 
+                water: "unsafe", 
+                costFactor: 1.1,
+                health: { yellowFever: true },
+                customs: ["Sacs plastiques", "Drones"],
                 requirements: [
                     { type: "visa", title: "eTA Kenya", description: "Remplace le visa. Obligatoire pour TOUS.", cost: "~30 USD", link: "https://www.etakenya.go.ke/", mandatory: true }
                 ]
             },
             {
-                code: "ZN", name: "Zanzibar (Tanzanie)", region: "AF", continent: "Afrique / M-O", power: 52, water: "unsafe", costFactor: 1.2,
-                health: { yellowFever: true }, customs: ["Sacs plastiques interdits"],
+                code: "ZN", 
+                name: "Zanzibar (Tanzanie)", 
+                region: "AF", 
+                continent: "Afrique / M-O", 
+                power: 52, 
+                water: "unsafe", 
+                costFactor: 1.2,
+                health: { yellowFever: true },
+                customs: ["Sacs plastiques (Interdit)", "Coquillages"],
                 requirements: [
-                    { type: "visa", title: "E-Visa Tanzanie", description: "Valable pour Zanzibar et continent.", cost: "50 USD", link: "https://eservices.immigration.go.tz/", mandatory: true },
+                    { type: "visa", title: "E-Visa Tanzanie", description: "E-Visa ou visa à l'arrivée requis.", cost: "50 USD", link: "https://eservices.immigration.go.tz/visa/", mandatory: true },
                     { type: "tax", title: "Assurance Inbound", description: "Nouvelle assurance obligatoire (Oct 2024).", cost: "44 USD", link: "https://visitzanzibar.go.tz/", mandatory: true }
                 ]
             },
-            { code: "MA", name: "Maroc", region: "AF", continent: "Afrique / M-O", power: 65, water: "unsafe", costFactor: 0.7, customs: ["Drones (Confiscation)"], requirements: [{ type: "form", title: "Fiche sanitaire", description: "Parfois demandée à l'arrivée.", cost: "Gratuit", mandatory: false }] },
-            { code: "SA", name: "Arabie Saoudite", region: "ME", continent: "Afrique / M-O", power: 85, water: "unsafe", costFactor: 1.8, customs: ["Alcool (Tolérance 0)", "Symboles religieux"], requirements: [{ type: "visa", title: "E-Visa", description: "Obligatoire pour tourisme.", cost: "~120€", link: "https://visa.visitsaudi.com/", mandatory: true }] },
-            { code: "JO", name: "Jordanie", region: "ME", continent: "Afrique / M-O", power: 75, water: "unsafe", costFactor: 1.3, requirements: [{ type: "visa", title: "Jordan Pass", description: "Inclut Visa + Petra. Très avantageux.", cost: "70-80 JOD", link: "https://www.jordanpass.jo/", mandatory: false }] },
+            { code: "MA", name: "Maroc", region: "AF", continent: "Afrique / M-O", power: 65, water: "unsafe", costFactor: 0.7, customs: ["Drones (Confiscation)"] },
+            { code: "SA", name: "Arabie Saoudite", region: "ME", continent: "Afrique / M-O", power: 85, water: "unsafe", costFactor: 1.8, customs: ["Alcool (Tolérance Zéro)", "Symboles religieux"], requirements: [{ type: "visa", title: "E-Visa", description: "Obligatoire pour tourisme.", cost: "~120€", link: "https://visa.visitsaudi.com/", mandatory: true }] },
+            { code: "JO", name: "Jordanie", region: "ME", continent: "Afrique / M-O", power: 75, water: "unsafe", costFactor: 1.3, customs: ["Drones (Interdit)"], requirements: [{ type: "visa", title: "Jordan Pass", description: "Inclut Visa + Petra. Très avantageux.", cost: "70-80 JOD", link: "https://www.jordanpass.jo/", mandatory: false }] },
+            { code: "ZA", name: "Afrique du Sud", region: "AF", continent: "Afrique / M-O", power: 95, water: "unsafe", costFactor: 1.0 },
+            { code: "MU", name: "Île Maurice", region: "AF", continent: "Afrique / M-O", power: 90, water: "unsafe", costFactor: 1.4, requirements: [{ type: "form", title: "All-in-One Form", description: "Formulaire santé/immigration obligatoire.", cost: "Gratuit", link: "https://safemauritius.govmu.org/", mandatory: true }] },
+            { code: "SC", name: "Seychelles", region: "AF", continent: "Afrique / M-O", power: 85, water: "safe", costFactor: 2.5, requirements: [{ type: "form", title: "Travel Authorization", description: "Obligatoire avant départ.", cost: "10€", link: "https://seychelles.govtas.com/", mandatory: true }] },
+            { code: "MD", name: "Madagascar", region: "AF", continent: "Afrique / M-O", power: 50, water: "unsafe", costFactor: 0.6, requirements: [{ type: "visa", title: "Visa Arrivée", description: "35€ pour 30 jours.", cost: "35€", mandatory: true }] },
             
-            // --- EUROPE ---
-            { code: "GB", name: "Royaume-Uni", region: "EU_NON_SCHENGEN", continent: "Europe", power: 125, water: "safe", costFactor: 2.0, requirements: [{ type: "visa", title: "ETA (Fin 2025)", description: "Bientôt obligatoire pour les européens.", cost: "10 GBP", mandatory: false }] },
-            { code: "TR", name: "Turquie", region: "EU_EAST", continent: "Europe", power: 85, water: "unsafe", costFactor: 0.8, customs: ["Antiquités (Sortie interdite)"], requirements: [{ type: "info", title: "CNI ou Passeport", description: "Entrée sans visa pour FR/BE/CH (<90j).", cost: "Gratuit", mandatory: false }] },
+            // ------------------------------------------
+            // EUROPE
+            // ------------------------------------------
             { code: "FR", name: "France", region: "EU", continent: "Europe", power: 128, water: "safe", costFactor: 1.8 },
             { code: "DE", name: "Allemagne", region: "EU", continent: "Europe", power: 129, water: "safe", costFactor: 1.7 },
             { code: "IT", name: "Italie", region: "EU", continent: "Europe", power: 129, water: "safe", costFactor: 1.6 },
             { code: "ES", name: "Espagne", region: "EU", continent: "Europe", power: 129, water: "safe", costFactor: 1.5 },
+            { code: "GB", name: "Royaume-Uni", region: "EU_NON_SCHENGEN", continent: "Europe", power: 125, water: "safe", costFactor: 2.0, requirements: [{ type: "visa", title: "ETA (Fin 2025)", description: "Bientôt obligatoire pour les européens.", cost: "10 GBP", mandatory: false }] },
+            { code: "TR", name: "Turquie", region: "EU_EAST", continent: "Europe", power: 85, water: "unsafe", costFactor: 0.8, customs: ["Antiquités (Interdiction stricte de sortie)"] },
+            { code: "RU", name: "Russie", region: "EU_EAST", continent: "Europe", power: 90, water: "unsafe", costFactor: 1.1, customs: ["Médicaments codéinés"], requirements: [{ type: "visa", title: "E-Visa", description: "Disponible pour 55 pays (dont UE).", cost: "~50€", link: "https://electronic-visa.kdmid.ru/", mandatory: true }] },
             { code: "PT", name: "Portugal", region: "EU", continent: "Europe", power: 128, water: "safe", costFactor: 1.4 },
-            { code: "GR", name: "Grèce", region: "EU", continent: "Europe", power: 125, water: "safe", costFactor: 1.4 },
             { code: "NL", name: "Pays-Bas", region: "EU", continent: "Europe", power: 127, water: "safe", costFactor: 1.9 },
             { code: "BE", name: "Belgique", region: "EU", continent: "Europe", power: 127, water: "safe", costFactor: 1.8 },
             { code: "CH", name: "Suisse", region: "EU", continent: "Europe", power: 126, water: "safe", costFactor: 2.5 },
@@ -409,6 +635,7 @@
             { code: "NO", name: "Norvège", region: "EU", continent: "Europe", power: 126, water: "safe", costFactor: 2.3 },
             { code: "DK", name: "Danemark", region: "EU", continent: "Europe", power: 128, water: "safe", costFactor: 2.1 },
             { code: "FI", name: "Finlande", region: "EU", continent: "Europe", power: 128, water: "safe", costFactor: 2.0 },
+            { code: "GR", name: "Grèce", region: "EU", continent: "Europe", power: 125, water: "safe", costFactor: 1.4 },
             { code: "IE", name: "Irlande", region: "EU_NON_SCHENGEN", continent: "Europe", power: 126, water: "safe", costFactor: 1.9 },
             { code: "PL", name: "Pologne", region: "EU", continent: "Europe", power: 124, water: "safe", costFactor: 0.9 },
             { code: "CZ", name: "République Tchèque", region: "EU", continent: "Europe", power: 124, water: "safe", costFactor: 1.0 },
@@ -417,17 +644,24 @@
             { code: "HR", name: "Croatie", region: "EU", continent: "Europe", power: 123, water: "safe", costFactor: 1.2 },
             { code: "MT", name: "Malte", region: "EU", continent: "Europe", power: 122, water: "safe", costFactor: 1.5 },
             { code: "CY", name: "Chypre", region: "EU", continent: "Europe", power: 123, water: "safe", costFactor: 1.4 },
-            { code: "RU", name: "Russie", region: "EU_EAST", continent: "Europe", power: 90, water: "unsafe", costFactor: 1.1, requirements: [{ type: "visa", title: "E-Visa", description: "Disponible pour 55 pays (dont UE).", cost: "~50€", link: "https://electronic-visa.kdmid.ru/", mandatory: true }] },
+            { code: "LU", name: "Luxembourg", region: "EU", continent: "Europe", power: 127, water: "safe", costFactor: 2.0 },
+            { code: "SI", name: "Slovénie", region: "EU", continent: "Europe", power: 125, water: "safe", costFactor: 1.3 },
+            { code: "SK", name: "Slovaquie", region: "EU", continent: "Europe", power: 124, water: "safe", costFactor: 1.0 },
+            { code: "EE", name: "Estonie", region: "EU", continent: "Europe", power: 126, water: "safe", costFactor: 1.1 },
+            { code: "LV", name: "Lettonie", region: "EU", continent: "Europe", power: 125, water: "safe", costFactor: 1.0 },
+            { code: "LT", name: "Lituanie", region: "EU", continent: "Europe", power: 125, water: "safe", costFactor: 1.0 },
+            { code: "BG", name: "Bulgarie", region: "EU", continent: "Europe", power: 120, water: "safe", costFactor: 0.8 },
+            { code: "RO", name: "Roumanie", region: "EU", continent: "Europe", power: 121, water: "safe", costFactor: 0.8 },
             { code: "AL", name: "Albanie", region: "EU_EAST", continent: "Europe", power: 95, water: "unsafe", costFactor: 0.7 },
             { code: "ME", name: "Monténégro", region: "EU_EAST", continent: "Europe", power: 100, water: "unsafe", costFactor: 0.9 },
-            { code: "ZA", name: "Afrique du Sud", region: "AF", continent: "Afrique / M-O", power: 95, water: "unsafe", costFactor: 1.0 },
-            { code: "MU", name: "Île Maurice", region: "AF", continent: "Afrique / M-O", power: 90, water: "unsafe", costFactor: 1.4, requirements: [{ type: "form", title: "All-in-One Form", description: "Formulaire santé/immigration obligatoire.", cost: "Gratuit", link: "https://safemauritius.govmu.org/", mandatory: true }] },
-            { code: "SC", name: "Seychelles", region: "AF", continent: "Afrique / M-O", power: 85, water: "safe", costFactor: 2.5, requirements: [{ type: "form", title: "Travel Authorization", description: "Obligatoire avant départ.", cost: "10€", link: "https://seychelles.govtas.com/", mandatory: true }] },
-            { code: "MD", name: "Madagascar", region: "AF", continent: "Afrique / M-O", power: 50, water: "unsafe", costFactor: 0.6, requirements: [{ type: "visa", title: "Visa Arrivée", description: "35€ pour 30 jours.", cost: "35€", mandatory: true }] },
-            { code: "NP", name: "Népal", region: "AS", continent: "Asie", power: 55, water: "unsafe", costFactor: 0.5, requirements: [{ type: "visa", title: "Visa Arrivée", description: "Visa on Arrival à l'aéroport.", cost: "30-50 USD", mandatory: true }] }
+            { code: "RS", name: "Serbie", region: "EU_EAST", continent: "Europe", power: 105, water: "unsafe", costFactor: 0.8 },
+            { code: "BA_BOS", name: "Bosnie-Herzégovine", region: "EU_EAST", continent: "Europe", power: 95, water: "unsafe", costFactor: 0.7 }
         ].sort((a, b) => a.name.localeCompare(b.name));
 
-        // --- FONCTIONS UTILITAIRES ---
+        // ==========================================================================================
+        // 5. FONCTIONS UTILITAIRES
+        // ==========================================================================================
+        
         const groupCountriesByContinent = (list) => {
             return list.reduce((groups, country) => {
                 const continent = country.continent;
@@ -446,6 +680,7 @@
             if (destCode === 'zn') destCode = 'znz';
             if (destCode === 'cq') destCode = 'cun';
             if (destCode === 'ae') destCode = 'dxb';
+            
             return `https://www.skyscanner.fr/transport/vols/${origin.toLowerCase()}/${destCode}/${startStr}/${endStr}?associateid=${AFFILIATE_CONFIG.flight_marker}`;
         };
 
@@ -455,23 +690,17 @@
             return `https://www.booking.com/searchresults.html?ss=${destName}&checkin_year=${sYear}&checkin_month=${sMonth}&checkin_monthday=${sDay}&checkout_year=${eYear}&checkout_month=${eMonth}&checkout_monthday=${eDay}&aid=${AFFILIATE_CONFIG.hotel_aid}`;
         };
 
-        // --- COMPOSANTS UI ---
+        // ==========================================================================================
+        // 6. COMPOSANTS UI
+        // ==========================================================================================
 
         const Header = ({ lang, setLang, t, setView }) => {
-            // Mapping des codes langues vers les noms affichés
-            const languageNames = {
-                EN: "English",
-                FR: "Français",
-                ES: "Español",
-                CN: "中文 (简体)",
-                JP: "日本語"
-            };
-
+            const languageNames = { EN: "English", FR: "Français", ES: "Español", CN: "中文 (简体)", JP: "日本語" };
             return (
             <header className="w-full p-6 flex justify-between items-center max-w-4xl mx-auto border-b border-slate-100 bg-white/80 backdrop-blur-sm sticky top-0 z-50">
-                <div className="flex items-center gap-2 text-slate-800 font-bold text-xl cursor-pointer" onClick={() => setView('home')}>
-                    <div className="bg-gradient-to-br from-blue-600 to-indigo-600 text-white p-2.5 rounded-xl shadow-blue-200 shadow-lg transform -rotate-6">
-                        <Icons.Plane size={22} className="transform rotate-12" />
+                <div className="flex items-center gap-2 text-slate-800 font-bold text-xl cursor-pointer group" onClick={() => { setView('home'); window.location.reload(); }}>
+                    <div className="bg-gradient-to-br from-blue-600 to-indigo-600 text-white p-2.5 rounded-xl shadow-blue-200 shadow-lg transform -rotate-6 group-hover:rotate-0 transition-transform">
+                        <Icons.Plane size={22} />
                     </div>
                     <span className="tracking-tight hidden sm:inline font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-slate-800 to-slate-600">{t.app_name}.</span>
                 </div>
@@ -570,7 +799,7 @@
                 return <Icons.CheckCircle size={20} />;
             };
             return (
-                <div className="bg-white border border-slate-100 rounded-xl p-5 mb-3 shadow-sm hover:shadow-md transition-all duration-300 flex flex-row items-start gap-4 group">
+                <div className="bg-white border border-slate-100 rounded-xl p-5 mb-3 shadow-sm hover-card flex flex-row items-start gap-4 group">
                     <div className={`p-3 rounded-xl shrink-0 border ${getStatusColor()} transition-colors`}>{getIcon()}</div>
                     <div className="flex-1 w-full">
                         <div className="flex justify-between items-start">
@@ -579,6 +808,7 @@
                         </div>
                         <p className="text-sm text-slate-500 mt-1 leading-relaxed">{description}</p>
                         <div className="flex flex-wrap items-center gap-3 mt-3">
+                            {/* Suppression du coût si null */}
                             {cost && <div className="inline-flex items-center text-xs font-bold text-slate-700 bg-slate-50 px-2.5 py-1 rounded-md border border-slate-200">{t.cost}: {cost}</div>}
                             {link && <a href={link} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 px-3 py-1.5 rounded-md transition-colors shadow-sm">{t.btn_official_link}<Icons.ExternalLink size={12} /></a>}
                         </div>
@@ -615,7 +845,7 @@
         };
 
         const HealthCard = ({ water, vaccine, t }) => (
-            <div className="bg-white border border-slate-100 rounded-xl p-5 mb-3 shadow-sm flex flex-row gap-4 items-start">
+            <div className="bg-white border border-slate-100 rounded-xl p-5 mb-3 shadow-sm hover-card flex flex-row gap-4 items-start">
                 <div className="p-3 rounded-xl shrink-0 border bg-teal-50 text-teal-600 border-teal-100"><Icons.Stethoscope size={20} /></div>
                 <div className="flex-1">
                 <h4 className="font-bold text-slate-800 text-lg mb-2">{t.health_title}</h4>
@@ -628,7 +858,7 @@
         );
 
         const CustomsCard = ({ items, t }) => (
-            <div className="bg-white border border-rose-100 rounded-xl p-5 mb-3 shadow-sm flex flex-row gap-4 items-start">
+            <div className="bg-white border border-rose-100 rounded-xl p-5 mb-3 shadow-sm hover-card flex flex-row gap-4 items-start">
                 <div className="p-3 rounded-xl shrink-0 border bg-rose-50 text-rose-600 border-rose-100"><Icons.Siren size={20} /></div>
                 <div className="flex-1">
                 <h4 className="font-bold text-slate-800 text-lg mb-2">{t.customs_title}</h4>
@@ -646,20 +876,32 @@
         );
 
         const ServiceCard = ({ icon: Icon, title, desc, colorClass, link }) => (
-            <a href={link} target="_blank" rel="noopener noreferrer" className="bg-white border border-slate-100 rounded-xl p-4 shadow-sm hover:shadow-md hover:border-blue-300 transition-all duration-300 flex items-center gap-4 group cursor-pointer">
+            <a href={link} target="_blank" rel="noopener noreferrer" className="bg-white border border-slate-100 rounded-xl p-4 shadow-sm hover-card hover:border-blue-300 transition-all duration-300 flex items-center gap-4 group cursor-pointer">
                 <div className={`p-3 rounded-xl shrink-0 ${colorClass} bg-opacity-10`}><Icon size={24} className={colorClass.replace('bg-', 'text-')} /></div>
                 <div className="flex-1"><div className="flex justify-between items-center"><h4 className="font-bold text-slate-800 group-hover:text-blue-600 transition-colors">{title}</h4><Icons.ExternalLink size={14} className="text-slate-300 group-hover:text-blue-500" /></div><p className="text-xs text-slate-500 mt-1">{desc}</p></div>
             </a>
         );
 
-        // --- NOUVELLES PAGES ---
+        // --- NOUVELLES PAGES (BUDGET & INSURANCE) ---
 
         const BudgetComponent = ({ t }) => {
             const [localDest, setLocalDest] = useState("");
             const [days, setDays] = useState(7);
             const [style, setStyle] = useState("med");
             const [res, setRes] = useState(null);
-            const calc = () => { if(!localDest) return; const c = countriesData.find(x => x.code === localDest); const base = 60; const factor = c ? (c.costFactor || 1) : 1; let mult = style === 'low' ? 0.6 : (style === 'high' ? 2.5 : 1); setRes(Math.round(base * factor * mult * days)); };
+            const [daily, setDaily] = useState(null);
+            
+            const calc = () => {
+                if(!localDest) return;
+                const c = countriesData.find(x => x.code === localDest);
+                const base = 60; 
+                const factor = c ? (c.costFactor || 1) : 1;
+                let mult = style === 'low' ? 0.6 : (style === 'high' ? 2.5 : 1);
+                const dCost = Math.round(base * factor * mult);
+                setDaily(dCost);
+                setRes(dCost * days);
+            };
+
             return (
                 <div className="w-full max-w-lg mx-auto bg-white p-6 rounded-3xl shadow-xl border border-slate-100 fade-in">
                     <div className="text-center mb-6"><div className="mx-auto w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mb-3"><Icons.Calculator className="text-green-600" size={24} /></div><h2 className="text-2xl font-bold text-slate-800">{t.budget_title}</h2><p className="text-slate-500 text-sm">{t.budget_desc}</p></div>
@@ -668,7 +910,13 @@
                         <InputField label={t.duration_calc} icon={Icons.Clock}><input type="number" value={days} onChange={(e) => setDays(e.target.value)} className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3" /></InputField>
                         <div className="grid grid-cols-3 gap-2 mb-4">{['low', 'med', 'high'].map(s => <button key={s} onClick={() => setStyle(s)} className={`p-2 rounded-lg text-xs font-bold border ${style === s ? 'bg-blue-100 border-blue-500 text-blue-700' : 'bg-white border-slate-200 text-slate-500'}`}>{t[`budget_style_${s}`]}</button>)}</div>
                         <button onClick={calc} className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-xl transition-all">Calculer</button>
-                        {res && <div className="mt-6 p-4 bg-green-50 border border-green-200 rounded-xl text-center fade-in"><span className="text-slate-500 text-sm block mb-1">{t.budget_result}</span><span className="text-3xl font-extrabold text-green-700">{res} €</span></div>}
+                        {res && (
+                            <div className="mt-6 p-4 bg-green-50 border border-green-200 rounded-xl text-center fade-in">
+                                <span className="text-slate-500 text-sm block mb-1">{t.budget_result}</span>
+                                <span className="text-3xl font-extrabold text-green-700">{res} €</span>
+                                <span className="text-xs text-green-600 font-bold block mt-1">~ {daily} € / {t.budget_daily}</span>
+                            </div>
+                        )}
                     </div>
                 </div>
             );
@@ -677,9 +925,28 @@
         const InsurancePage = ({ t }) => (
             <div className="w-full max-w-lg mx-auto bg-white p-6 sm:p-8 rounded-3xl shadow-xl border border-slate-100 text-center fade-in">
                 <div className="mx-auto w-16 h-16 bg-rose-100 rounded-full flex items-center justify-center mb-4"><Icons.Umbrella className="text-rose-600" size={32} /></div>
-                <h2 className="text-2xl font-bold text-slate-800 mb-2">{t.insurance_title}</h2><h3 className="text-rose-600 font-bold uppercase tracking-wider text-xs mb-4">{t.insurance_subtitle}</h3><p className="text-slate-600 mb-8 leading-relaxed">{t.insurance_desc}</p>
+                <h2 className="text-2xl font-bold text-slate-800 mb-2">{t.insurance_title}</h2><h3 className="text-rose-600 font-bold uppercase tracking-wider text-xs mb-4">{t.insurance_subtitle}</h3><p className="text-slate-600 mb-8 leading-relaxed text-sm">{t.insurance_desc}</p>
+                
+                <div className="grid grid-cols-2 gap-3 mb-8 text-left">
+                    <div className="bg-slate-50 p-3 rounded-xl border border-slate-200 hover-card">
+                        <div className="flex items-center gap-2 mb-2 text-slate-400 font-bold text-xs uppercase"><Icons.CreditCard size={14}/> CB (Visa/Master)</div>
+                        <ul className="text-[10px] text-slate-500 space-y-1 list-disc list-inside">
+                            <li>Max 90 jours</li>
+                            <li>Franchises élevées</li>
+                            <li>Avance de frais</li>
+                        </ul>
+                    </div>
+                    <div className="bg-rose-50 p-3 rounded-xl border border-rose-200 hover-card">
+                        <div className="flex items-center gap-2 mb-2 text-rose-600 font-bold text-xs uppercase"><Icons.Umbrella size={14}/> Chapka</div>
+                        <ul className="text-[10px] text-slate-600 space-y-1 list-disc list-inside font-medium">
+                            <li>Jusqu'à 2 ans</li>
+                            <li>0€ Franchise</li>
+                            <li>Frais réels (100%)</li>
+                        </ul>
+                    </div>
+                </div>
+
                 <a href={AFFILIATE_CONFIG.insurance_link} target="_blank" rel="noopener noreferrer" className="block w-full bg-rose-600 hover:bg-rose-700 text-white font-bold py-4 rounded-xl shadow-lg shadow-rose-200 hover:shadow-rose-300 transition-all transform hover:-translate-y-1">{t.btn_get_quote}</a>
-                <div className="mt-8 flex justify-center gap-4 text-slate-400"><Icons.ShieldCheck size={24} /><Icons.Stethoscope size={24} /><Icons.Siren size={24} /></div>
             </div>
         );
 
@@ -700,15 +967,14 @@
             );
         };
 
+        // --- APPLICATION PRINCIPALE ---
+
         function App() {
-            // MODIFICATION LANGUE : Anglais par défaut, plus de détection automatique
-            const [lang, setLang] = useState('EN');
+            const [lang, setLang] = useState('EN'); // Anglais par défaut
             const [currentView, setView] = useState('home'); 
             const [step, setStep] = useState(0); 
             const [formData, setFormData] = useState({ nationality: "FR", origin: "FR", destination: "", age: 25, startDate: new Date().toISOString().split('T')[0], endDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0] });
             const [result, setResult] = useState(null);
-
-            // Removed useEffect for auto-detection
 
             const t = translations[lang] || translations.EN;
 
@@ -730,7 +996,7 @@
                     let docs = [];
                     let isEuToEu = passportInfo.region === 'EU' && destInfo.region === 'EU';
 
-                    // 1. Identité de base - MODIFICATION : Coût supprimé (null)
+                    // 1. Identité de base - COÛT NULL (Masqué)
                     if (isEuToEu) {
                         docs.push({ title: "CNI ou Passeport", status: "ok", description: "Zone Schengen/EU : Libre circulation.", mandatory: true, cost: null });
                     } else {
@@ -742,34 +1008,15 @@
                         destInfo.requirements.forEach(req => {
                             let status = "info";
                             if (req.mandatory) status = "alert";
-                            if (req.type === "visa") status = "alert"; // Visas are critical
-                            
-                            docs.push({
-                                title: req.title,
-                                status: status,
-                                description: req.description,
-                                cost: req.cost,
-                                link: req.link,
-                                mandatory: req.mandatory
-                            });
+                            if (req.type === "visa") status = "alert"; 
+                            docs.push({ title: req.title, status: status, description: req.description, cost: req.cost, link: req.link, mandatory: req.mandatory });
                         });
                     }
 
                     const flightLink = generateFlightLink(formData.origin, formData.destination, formData.startDate, formData.endDate);
                     const hotelLink = generateHotelLink(destInfo.name, formData.startDate, formData.endDate);
 
-                    setResult({
-                        passportPower: passportInfo.power,
-                        destinationName: destInfo.name,
-                        originName: originInfo.name,
-                        documents: docs,
-                        health: destInfo.health,
-                        customs: destInfo.customs,
-                        water: destInfo.water,
-                        duration: durationDays,
-                        flightLink: flightLink,
-                        hotelLink: hotelLink
-                    });
+                    setResult({ passportPower: passportInfo.power, destinationName: destInfo.name, originName: originInfo.name, documents: docs, health: destInfo.health, customs: destInfo.customs, water: destInfo.water, duration: durationDays, flightLink: flightLink, hotelLink: hotelLink });
                     setStep(2);
                 }, 1500);
             };
@@ -778,8 +1025,8 @@
 
             return (
                 <div className="min-h-screen bg-slate-50 font-sans text-slate-900 flex flex-col">
-                    <Header lang={lang} setLang={setLang} t={t} setView={setView} />
-                    <DesktopNav t={t} currentView={currentView} setView={setView} />
+                    <Header lang={lang} setLang={setLang} t={t} setView={(v) => { setView(v); setStep(0); }} />
+                    <DesktopNav t={t} currentView={currentView} setView={(v) => { setView(v); setStep(0); }} />
 
                     <main className="flex-grow flex flex-col items-center justify-start pt-4 px-4 w-full max-w-5xl mx-auto pb-40">
                         {currentView === 'home' && (
@@ -801,7 +1048,7 @@
                                                 <InputField label={t.label_end_date} icon={Icons.Calendar}><input type="date" className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-sm" value={formData.endDate} onChange={(e) => setFormData({...formData, endDate: e.target.value})} /></InputField>
                                             </div>
                                             <InputField label={t.label_age} icon={Icons.Trophy}><input type="number" className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4" value={formData.age} onChange={(e) => setFormData({...formData, age: e.target.value})} /></InputField>
-                                            <button onClick={handleSearch} className="w-full mt-6 bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl shadow-lg flex justify-center items-center gap-3 group">{t.btn_analyze} <Icons.ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" /></button>
+                                            <button onClick={handleSearch} className="w-full mt-6 bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl shadow-lg flex justify-center items-center gap-3 group hover-card">{t.btn_analyze} <Icons.ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" /></button>
                                         </div>
                                     </div>
                                 )}
@@ -812,8 +1059,7 @@
                                             <div className="absolute inset-0 bg-blue-100 rounded-full animate-ping opacity-75"></div>
                                             <div className="relative bg-white p-6 rounded-full shadow-xl border border-blue-50"><Icons.Plane size={48} className="text-blue-600 animate-pulse" /></div>
                                         </div>
-                                        <h2 className="text-2xl font-bold text-slate-800">{t.loading_title}</h2>
-                                        <p className="text-slate-400 mt-2 text-sm font-medium">{t.loading_text}</p>
+                                        <h2 className="text-2xl font-bold text-slate-800">{t.loading_title}</h2><p className="text-slate-400 mt-2 text-sm font-medium">{t.loading_text}</p>
                                     </div>
                                 )}
 
@@ -832,7 +1078,7 @@
                                             <h3 className="text-xl font-bold text-slate-800 mb-5 flex items-center gap-3">{t.docs_title} <span className="bg-slate-100 text-slate-600 text-xs font-bold px-2.5 py-1 rounded-full border border-slate-200">{result.documents.length}</span></h3>
                                             <div className="space-y-4">
                                                 {result.documents.map((doc, idx) => (<DocumentCard key={idx} {...doc} isMandatory={doc.mandatory} t={t} />))}
-                                                <HealthCard water={result.water || 'unsafe'} vaccine={result.health?.yellowFever ? 'Fièvre Jaune' : null} t={t} />
+                                                <HealthCard water={result.water || 'unsafe'} vaccine={result.health?.yellowFever ? 'Fièvre Jaune (Yellow Fever)' : null} t={t} />
                                                 {result.customs && result.customs.length > 0 && <CustomsCard items={result.customs} t={t} />}
                                             </div>
                                             <div className="mt-4 p-4 bg-blue-50/50 border border-blue-100 rounded-xl flex gap-3 text-sm text-blue-800"><div className="mt-0.5 shrink-0"><Icons.ShieldCheck size={18} /></div><p className="font-medium">{t.docs_disclaimer}</p></div>
@@ -856,8 +1102,7 @@
                                             <div className="text-center p-8 rounded-3xl bg-gradient-to-br from-slate-900 to-slate-800 text-white shadow-xl relative overflow-hidden group">
                                                 <div className="absolute top-0 right-0 p-8 opacity-10 transform rotate-12 group-hover:rotate-0 transition-transform duration-500"><Icons.Heart size={100} fill="currentColor" /></div>
                                                 <Icons.Heart className="mx-auto text-rose-500 mb-4 fill-rose-500 animate-pulse" size={32} />
-                                                <h4 className="text-xl font-bold mb-2">{t.donate_title}</h4>
-                                                <p className="text-slate-300 mb-6 max-w-sm mx-auto text-sm leading-relaxed">{t.donate_text}</p>
+                                                <h4 className="text-xl font-bold mb-2">{t.donate_title}</h4><p className="text-slate-300 mb-6 max-w-sm mx-auto text-sm leading-relaxed">{t.donate_text}</p>
                                                 <button className="bg-white text-slate-900 px-8 py-3 rounded-full text-sm font-bold hover:bg-rose-50 hover:text-rose-600 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">{t.donate_btn}</button>
                                             </div>
                                         </div>
@@ -871,7 +1116,7 @@
                         {currentView === 'feedback' && <FeedbackPage t={t} />}
                     </main>
 
-                    <MobileNav t={t} currentView={currentView} setView={setView} />
+                    <MobileNav t={t} currentView={currentView} setView={(v) => { setView(v); setStep(0); }} />
 
                     <footer className="py-12 text-center border-t border-slate-100 bg-white/50 backdrop-blur-sm mt-auto mb-16 sm:mb-0">
                         <div className="flex flex-col items-center justify-center gap-2 text-slate-400 text-xs font-medium uppercase tracking-widest font-sans">
