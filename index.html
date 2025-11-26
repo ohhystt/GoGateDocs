@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TravelDoc - Formalités & Budget Voyage</title>
+    <title>GoGateDocs - Formalités & Budget Voyage</title>
     
     <!-- FAVICON -->
     <link rel="icon" type="image/png" href="https://i.postimg.cc/KjG63tnz/Favicon.png">
@@ -21,9 +21,6 @@
         .animate-in { animation: fadeIn 0.6s ease-out forwards; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* Ajustement spécifique pour ton logo */
-        .logo-img { height: 38px; width: auto; object-fit: contain; }
-        
         /* Masquer scrollbar */
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
@@ -32,7 +29,7 @@
 <body>
     <div id="root">
         <div style="height: 100vh; display: flex; justify-content: center; align-items: center; color: #64748b; font-family: sans-serif;">
-            Chargement de TravelDoc...
+            Chargement de GoGateDocs...
         </div>
     </div>
 
@@ -52,7 +49,7 @@
 
         const translations = {
              FR: {
-                subtitle: "Bêta v3.8", // Version reprise
+                subtitle: "Bêta v3.9",
                 label_nationality: "Votre Nationalité (Passeport)", label_origin: "Pays de départ (Pour le vol)", label_destination: "Destination",
                 label_age: "Âge du voyageur", label_start_date: "Date de départ", label_end_date: "Date de retour",
                 placeholder_select: "Sélectionner un pays...", btn_analyze: "Lancer l'analyse",
@@ -64,145 +61,154 @@
                 offer_expires: "Ces offres tarifaires expirent dans", services_title: "Indispensables pour ce voyage",
                 service_esim: "Internet sur place (eSIM)", service_esim_desc: "Restez connecté sans frais d'itinérance.",
                 service_activities: "Activités & Visites", service_activities_desc: "Billets coupe-file et excursions.",
-                donate_title: "Soutenez ce projet gratuit", donate_text: "TravelDoc est 100% gratuit. Si nous vous avons aidé, offrez-nous un café !", donate_btn: "Faire un don",
+                donate_title: "Soutenez ce projet gratuit", donate_text: "GoGateDocs est 100% gratuit. Si nous vous avons aidé, offrez-nous un café !", donate_btn: "Faire un don",
                 hero_title: "Préparez votre départ", hero_highlight: "simplement", hero_desc: "Visas, vaccins, interdits douaniers... on vous dit tout.",
                 doc_mandatory: "Obligatoire", cost: "Coût", footer_rights: "Tous droits réservés. Reproduction interdite.", footer_affiliate: "Transparence : Ce site contient des liens affiliés.",
                 duration_calc: "Durée du séjour :", origin_same_dest_error: "Le pays de départ et la destination ne peuvent pas être identiques.", missing_dest_error: "Veuillez sélectionner une destination.",
                 btn_official_link: "Accéder au site officiel", water_safe: "Eau du robinet potable", water_unsafe: "Eau du robinet NON potable",
-                vaccine_mandatory: "Vaccin Obligatoire :", forbidden_items: "Strictement Interdit :"
+                vaccine_mandatory: "Vaccin Obligatoire :", forbidden_items: "Strictement Interdit :",
+                error_data: "Erreur lors de la récupération des données pays. Veuillez réessayer."
             },
-            EN: { subtitle: "Beta v3.8", label_nationality: "Nationality", label_origin: "Origin", label_destination: "Destination", label_age: "Age", label_start_date: "Start", label_end_date: "End", placeholder_select: "Select...", btn_analyze: "Analyze", loading_title: "Analyzing", loading_text: "Checking...", result_back: "Edit", passport_power: "Passport Power", access_text: "Access to", countries_text: "countries", docs_title: "Documents", health_title: "Health", customs_title: "Customs", docs_disclaimer: "Official links.", action_title: "Book now", action_flight: "Flights (-30%)", action_hotel: "Hotels (-40%)", offer_expires: "Expires in", services_title: "Essentials", service_esim: "eSIM Data", service_esim_desc: "No roaming fees.", service_activities: "Activities", service_activities_desc: "Skip the line.", donate_title: "Support us", donate_text: "TravelDoc is 100% free. If we helped you, buy us a coffee!", donate_btn: "Donate", hero_title: "Travel simple", hero_highlight: "smart", hero_desc: "Visas, vaccines, customs.", doc_mandatory: "Mandatory", cost: "Cost", footer_rights: "All rights reserved.", footer_affiliate: "Affiliate links.", duration_calc: "Duration:", origin_same_dest_error: "Origin = Destination.", missing_dest_error: "Select destination.", btn_official_link: "Official Site", water_safe: "Tap water safe", water_unsafe: "Tap water unsafe", vaccine_mandatory: "Vaccine:", forbidden_items: "Forbidden:" },
-            ES: { subtitle: "Beta v3.8", label_nationality: "Nacionalidad", label_origin: "Origen", label_destination: "Destino", label_age: "Edad", label_start_date: "Salida", label_end_date: "Regreso", placeholder_select: "Seleccionar...", btn_analyze: "Analizar", loading_title: "Analizando", loading_text: "Verificando...", result_back: "Editar", passport_power: "Poder Pasaporte", access_text: "Acceso a", countries_text: "países", docs_title: "Documentos", health_title: "Salud", customs_title: "Aduanas", docs_disclaimer: "Enlaces oficiales.", action_title: "Reservar", action_flight: "Vuelos (-30%)", action_hotel: "Hoteles (-40%)", offer_expires: "Expira en", services_title: "Esenciales", service_esim: "eSIM Datos", service_esim_desc: "Sin roaming.", service_activities: "Actividades", service_activities_desc: "Sin colas.", donate_title: "Apoyar", donate_text: "TravelDoc es 100% gratuito. ¡Invítanos a un café!", donate_btn: "Donar", hero_title: "Viaje simple", hero_highlight: "inteligente", hero_desc: "Visas, vacunas, aduanas.", doc_mandatory: "Obligatorio", cost: "Costo", footer_rights: "Reservados todos los derechos.", footer_affiliate: "Enlaces afiliados.", duration_calc: "Duración:", origin_same_dest_error: "Origen = Destino.", missing_dest_error: "Seleccione destino.", btn_official_link: "Sitio Oficial", water_safe: "Agua potable", water_unsafe: "Agua NO potable", vaccine_mandatory: "Vacuna:", forbidden_items: "Prohibido:" },
-            ZH: { subtitle: "测试版 v3.8", label_nationality: "国籍", label_origin: "出发地", label_destination: "目的地", label_age: "年龄", label_start_date: "出发", label_end_date: "返回", placeholder_select: "选择...", btn_analyze: "分析", loading_title: "分析中", loading_text: "检查中...", result_back: "修改", passport_power: "护照效力", access_text: "免签", countries_text: "国家", docs_title: "文件", health_title: "健康", customs_title: "海关", docs_disclaimer: "官方链接。", action_title: "预订", action_flight: "航班 (-30%)", action_hotel: "酒店 (-40%)", offer_expires: "截止", services_title: "必备", service_esim: "eSIM 流量", service_esim_desc: "无漫游费。", service_activities: "活动", service_activities_desc: "免排队。", donate_title: "支持", donate_text: "免费项目。", donate_btn: "捐赠", hero_title: "轻松旅行", hero_highlight: "智能", hero_desc: "签证、疫苗、海关。", doc_mandatory: "必须", cost: "费用", footer_rights: "版权所有。", footer_affiliate: "附属链接。", duration_calc: "时长：", origin_same_dest_error: "出发地=目的地。", missing_dest_error: "请选择目的地。", btn_official_link: "访问官方网站", water_safe: "可饮用", water_unsafe: "不可饮用", vaccine_mandatory: "疫苗：", forbidden_items: "禁止：" },
-            JA: { subtitle: "ベータ版 v3.8", label_nationality: "国籍", label_origin: "出発地", label_destination: "目的地", label_age: "年齢", label_start_date: "出発", label_end_date: "帰国", placeholder_select: "選択...", btn_analyze: "分析", loading_title: "分析中", loading_text: "確認中...", result_back: "編集", passport_power: "パスポート力", access_text: "アクセス", countries_text: "カ国", docs_title: "書類", health_title: "健康", customs_title: "税関", docs_disclaimer: "公式リンク。", action_title: "予約", action_flight: "フライト (-30%)", action_hotel: "ホテル (-40%)", offer_expires: "期限", services_title: "必需品", service_esim: "eSIMデータ", service_esim_desc: "ローミングなし。", service_activities: "アクティビティ", service_activities_desc: "優先入場。", donate_title: "支援", donate_text: "無料プロジェクト。", donate_btn: "寄付", hero_title: "シンプル旅", hero_highlight: "スマート", hero_desc: "ビザ、ワクチン、税関。", doc_mandatory: "必須", cost: "費用", footer_rights: "全著作権所有。", footer_affiliate: "アフィリエイト。", duration_calc: "期間：", origin_same_dest_error: "出発地＝目的地。", missing_dest_error: "目的地を選択。", btn_official_link: "公式サイト", water_safe: "飲用可", water_unsafe: "飲用不可", vaccine_mandatory: "ワクチン：", forbidden_items: "厳禁：" },
-            KO: { subtitle: "베타 v3.8", label_nationality: "국적", label_origin: "출발지", label_destination: "목적지", label_age: "나이", label_start_date: "출발", label_end_date: "도착", placeholder_select: "선택...", btn_analyze: "분석", loading_title: "분석 중", loading_text: "확인 중...", result_back: "수정", passport_power: "여권 파워", access_text: "무비자", countries_text: "개국", docs_title: "서류", health_title: "건강", customs_title: "세관", docs_disclaimer: "공식 링크.", action_title: "예약", action_flight: "항공권 (-30%)", action_hotel: "호텔 (-40%)", offer_expires: "마감", services_title: "필수품", service_esim: "데이터 유심 (eSIM)", service_esim_desc: "로밍 없음.", service_activities: "액티비티", service_activities_desc: "패스트트랙.", donate_title: "후원", donate_text: "무료 프로젝트.", donate_btn: "후원", hero_title: "간편 여행", hero_highlight: "스마트", hero_desc: "비자, 백신, 세관.", doc_mandatory: "필수", cost: "비용", footer_rights: "권리 보유.", footer_affiliate: "제휴 링크.", duration_calc: "기간:", origin_same_dest_error: "출발지=목적지.", missing_dest_error: "목적지 선택.", btn_official_link: "공식 사이트", water_safe: "식수 가능", water_unsafe: "식수 불가", vaccine_mandatory: "백신:", forbidden_items: "금지:" }
+            EN: { subtitle: "Beta v3.9", label_nationality: "Nationality", label_origin: "Origin", label_destination: "Destination", label_age: "Age", label_start_date: "Start", label_end_date: "End", placeholder_select: "Select...", btn_analyze: "Analyze", loading_title: "Analyzing", loading_text: "Checking...", result_back: "Edit", passport_power: "Passport Power", access_text: "Access to", countries_text: "countries", docs_title: "Documents", health_title: "Health", customs_title: "Customs", docs_disclaimer: "Official links.", action_title: "Book now", action_flight: "Flights (-30%)", action_hotel: "Hotels (-40%)", offer_expires: "Expires in", services_title: "Essentials", service_esim: "eSIM Data", service_esim_desc: "No roaming fees.", service_activities: "Activities", service_activities_desc: "Skip the line.", donate_title: "Support us", donate_text: "GoGateDocs is 100% free. If we helped you, buy us a coffee!", donate_btn: "Donate", hero_title: "Travel simple", hero_highlight: "smart", hero_desc: "Visas, vaccines, customs.", doc_mandatory: "Mandatory", cost: "Cost", footer_rights: "All rights reserved.", footer_affiliate: "Affiliate links.", duration_calc: "Duration:", origin_same_dest_error: "Origin = Destination.", missing_dest_error: "Select destination.", btn_official_link: "Official Site", water_safe: "Tap water safe", water_unsafe: "Tap water unsafe", vaccine_mandatory: "Vaccine:", forbidden_items: "Forbidden:", error_data: "Error retrieving country data. Please try again." },
+            ES: { subtitle: "Beta v3.9", label_nationality: "Nacionalidad", label_origin: "Origen", label_destination: "Destino", label_age: "Edad", label_start_date: "Salida", label_end_date: "Regreso", placeholder_select: "Seleccionar...", btn_analyze: "Analizar", loading_title: "Analizando", loading_text: "Verificando...", result_back: "Editar", passport_power: "Poder Pasaporte", access_text: "Acceso a", countries_text: "países", docs_title: "Documentos", health_title: "Salud", customs_title: "Aduanas", docs_disclaimer: "Enlaces oficiales.", action_title: "Reservar", action_flight: "Vuelos (-30%)", action_hotel: "Hoteles (-40%)", offer_expires: "Expira en", services_title: "Esenciales", service_esim: "eSIM Datos", service_esim_desc: "Sin roaming.", service_activities: "Actividades", service_activities_desc: "Sin colas.", donate_title: "Apoyar", donate_text: "GoGateDocs es 100% gratuito. ¡Invítanos a un café!", donate_btn: "Donar", hero_title: "Viaje simple", hero_highlight: "inteligente", hero_desc: "Visas, vacunas, aduanas.", doc_mandatory: "Obligatorio", cost: "Costo", footer_rights: "Reservados todos los derechos.", footer_affiliate: "Enlaces afiliados.", duration_calc: "Duración:", origin_same_dest_error: "Origen = Destino.", missing_dest_error: "Seleccione destino.", btn_official_link: "Sitio Oficial", water_safe: "Agua potable", water_unsafe: "Agua NO potable", vaccine_mandatory: "Vacuna:", forbidden_items: "Prohibido:", error_data: "Error al recuperar datos del país. Intente de nuevo." },
+            ZH: { subtitle: "测试版 v3.9", label_nationality: "国籍", label_origin: "出发地", label_destination: "目的地", label_age: "年龄", label_start_date: "出发", label_end_date: "返回", placeholder_select: "选择...", btn_analyze: "分析", loading_title: "分析中", loading_text: "检查中...", result_back: "修改", passport_power: "护照效力", access_text: "免签", countries_text: "国家", docs_title: "文件", health_title: "健康", customs_title: "海关", docs_disclaimer: "官方链接。", action_title: "预订", action_flight: "航班 (-30%)", action_hotel: "酒店 (-40%)", offer_expires: "截止", services_title: "必备", service_esim: "eSIM 流量", service_esim_desc: "无漫游费。", service_activities: "活动", service_activities_desc: "免排队。", donate_title: "支持", donate_text: "GoGateDocs 100% 免费。如果对您有帮助，请请我们喝杯咖啡！", donate_btn: "捐赠", hero_title: "轻松旅行", hero_highlight: "智能", hero_desc: "签证、疫苗、海关。", doc_mandatory: "必须", cost: "费用", footer_rights: "版权所有。", footer_affiliate: "附属链接。", duration_calc: "时长：", origin_same_dest_error: "出发地=目的地。", missing_dest_error: "请选择目的地。", btn_official_link: "访问官方网站", water_safe: "可饮用", water_unsafe: "不可饮用", vaccine_mandatory: "疫苗：", forbidden_items: "禁止：", error_data: "获取国家数据时出错。请重试。" },
+            JA: { subtitle: "ベータ版 v3.9", label_nationality: "国籍", label_origin: "出発地", label_destination: "目的地", label_age: "年齢", label_start_date: "出発", label_end_date: "帰国", placeholder_select: "選択...", btn_analyze: "分析", loading_title: "分析中", loading_text: "確認中...", result_back: "編集", passport_power: "パスポート力", access_text: "アクセス", countries_text: "カ国", docs_title: "書類", health_title: "健康", customs_title: "税関", docs_disclaimer: "公式リンク。", action_title: "予約", action_flight: "フライト (-30%)", action_hotel: "ホテル (-40%)", offer_expires: "期限", services_title: "必需品", service_esim: "eSIMデータ", service_esim_desc: "ローミングなし。", service_activities: "アクティビティ", service_activities_desc: "優先入場。", donate_title: "支援", donate_text: "GoGateDocsは完全無料です。役に立ったらコーヒーを一杯！", donate_btn: "寄付", hero_title: "シンプル旅", hero_highlight: "スマート", hero_desc: "ビザ、ワクチン、税関。", doc_mandatory: "必須", cost: "費用", footer_rights: "全著作権所有。", footer_affiliate: "アフィリエイト。", duration_calc: "期間：", origin_same_dest_error: "出発地＝目的地。", missing_dest_error: "目的地を選択。", btn_official_link: "公式サイト", water_safe: "飲用可", water_unsafe: "飲用不可", vaccine_mandatory: "ワクチン：", forbidden_items: "厳禁：", error_data: "国データの取得中にエラーが発生しました。再試行してください。" },
+            KO: { subtitle: "베타 v3.9", label_nationality: "국적", label_origin: "출발지", label_destination: "목적지", label_age: "나이", label_start_date: "출발", label_end_date: "도착", placeholder_select: "선택...", btn_analyze: "분석", loading_title: "분석 중", loading_text: "확인 중...", result_back: "수정", passport_power: "여권 파워", access_text: "무비자", countries_text: "개국", docs_title: "서류", health_title: "건강", customs_title: "세관", docs_disclaimer: "공식 링크.", action_title: "예약", action_flight: "항공권 (-30%)", action_hotel: "호텔 (-40%)", offer_expires: "마감", services_title: "필수품", service_esim: "데이터 유심 (eSIM)", service_esim_desc: "로밍 없음.", service_activities: "액티비티", service_activities_desc: "패스트트랙.", donate_title: "후원", donate_text: "GoGateDocs은 100% 무료입니다. 도움이 되셨다면 커피 한 잔 후원해주세요!", donate_btn: "후원하기", hero_title: "간편 여행", hero_highlight: "스마트", hero_desc: "비자, 백신, 세관.", doc_mandatory: "필수", cost: "비용", footer_rights: "권리 보유.", footer_affiliate: "제휴 링크.", duration_calc: "기간:", origin_same_dest_error: "출발지=목적지.", missing_dest_error: "목적지 선택.", btn_official_link: "공식 사이트", water_safe: "식수 가능", water_unsafe: "식수 불가", vaccine_mandatory: "백신:", forbidden_items: "금지:", error_data: "국가 데이터를 불러오는 중 오류가 발생했습니다. 다시 시도해 주세요." }
         };
 
         // --- BASE DE DONNÉES PAYS ---
         const countries = [
-          { code: "FR", name: "France", region: "EU", continent: "Europe", power: 128, water: "safe" },
-          { code: "DE", name: "Allemagne", region: "EU", continent: "Europe", power: 129, water: "safe" },
-          { code: "IT", name: "Italie", region: "EU", continent: "Europe", power: 129, water: "safe" },
-          { code: "ES", name: "Espagne", region: "EU", continent: "Europe", power: 129, water: "safe" },
-          { code: "GB", name: "Royaume-Uni", region: "EU_NON_SCHENGEN", continent: "Europe", power: 125, water: "safe" },
-          { code: "BE", name: "Belgique", region: "EU", continent: "Europe", power: 127, water: "safe" },
-          { code: "CH", name: "Suisse", region: "EU", continent: "Europe", power: 126, water: "safe" },
-          { code: "PT", name: "Portugal", region: "EU", continent: "Europe", power: 128, water: "safe" },
-          { code: "NL", name: "Pays-Bas", region: "EU", continent: "Europe", power: 127, water: "safe" },
-          { code: "AT", name: "Autriche", region: "EU", continent: "Europe", power: 128, water: "safe" },
-          { code: "SE", name: "Suède", region: "EU", continent: "Europe", power: 128, water: "safe" },
-          { code: "NO", name: "Norvège", region: "EU", continent: "Europe", power: 126, water: "safe" },
-          { code: "DK", name: "Danemark", region: "EU", continent: "Europe", power: 128, water: "safe" },
-          { code: "FI", name: "Finlande", region: "EU", continent: "Europe", power: 128, water: "safe" },
-          { code: "GR", name: "Grèce", region: "EU", continent: "Europe", power: 125, water: "safe" },
-          { code: "IE", name: "Irlande", region: "EU_NON_SCHENGEN", continent: "Europe", power: 126, water: "safe" },
-          { code: "PL", name: "Pologne", region: "EU", continent: "Europe", power: 124, water: "safe" },
-          { code: "CZ", name: "République Tchèque", region: "EU", continent: "Europe", power: 124, water: "safe" },
-          { code: "HU", name: "Hongrie", region: "EU", continent: "Europe", power: 122, water: "safe" },
-          { code: "IS", name: "Islande", region: "EU_NON_SCHENGEN", continent: "Europe", power: 120, water: "safe" },
-          { code: "HR", name: "Croatie", region: "EU", continent: "Europe", power: 123, water: "safe" },
-          { code: "MT", name: "Malte", region: "EU", continent: "Europe", power: 122, water: "safe" }, 
-          { code: "CY", name: "Chypre", region: "EU", continent: "Europe", power: 123, water: "safe" },
-          { code: "LU", name: "Luxembourg", region: "EU", continent: "Europe", power: 127, water: "safe" },
-          { code: "SI", name: "Slovénie", region: "EU", continent: "Europe", power: 125, water: "safe" },
-          { code: "SK", name: "Slovaquie", region: "EU", continent: "Europe", power: 124, water: "safe" },
-          { code: "EE", name: "Estonie", region: "EU", continent: "Europe", power: 126, water: "safe" },
-          { code: "LV", name: "Lettonie", region: "EU", continent: "Europe", power: 125, water: "safe" },
-          { code: "LT", name: "Lituanie", region: "EU", continent: "Europe", power: 125, water: "safe" },
-          { code: "BG", name: "Bulgarie", region: "EU", continent: "Europe", power: 120, water: "safe" },
-          { code: "RO", name: "Roumanie", region: "EU", continent: "Europe", power: 121, water: "safe" },
-          { code: "MC", name: "Monaco", region: "EU_NON_SCHENGEN", continent: "Europe", power: 110, water: "safe" },
-          { code: "AD", name: "Andorre", region: "EU_NON_SCHENGEN", continent: "Europe", power: 110, water: "safe" },
-          { code: "AL", name: "Albanie", region: "EU_EAST", continent: "Europe", power: 95, water: "unsafe" },
-          { code: "ME", name: "Monténégro", region: "EU_EAST", continent: "Europe", power: 100, water: "unsafe" },
-          { code: "RS", name: "Serbie", region: "EU_EAST", continent: "Europe", power: 105, water: "unsafe" },
-          { code: "BA_BOS", name: "Bosnie-Herzégovine", region: "EU_EAST", continent: "Europe", power: 95, water: "unsafe" },
-          { code: "MK", name: "Macédoine du Nord", region: "EU_EAST", continent: "Europe", power: 98, water: "safe" },
-          { code: "RU", name: "Russie", region: "EU_EAST", continent: "Europe", power: 90, water: "unsafe", customs: ["Médicaments codéinés", "Drones (Réglementé)"] },
-          { code: "UA", name: "Ukraine", region: "EU_EAST", continent: "Europe", power: 95, water: "unsafe" },
-          { code: "BY", name: "Biélorussie", region: "EU_EAST", continent: "Europe", power: 80, water: "unsafe" },
-          { code: "TR", name: "Turquie", region: "EU_EAST", continent: "Europe", power: 85, water: "unsafe", customs: ["Antiquités (Interdiction stricte de sortie)"] },
-          { code: "MD", name: "Moldavie", region: "EU_EAST", continent: "Europe", power: 85, water: "unsafe" },
-          { code: "US", name: "États-Unis", region: "NA", continent: "Amériques", power: 116, water: "safe", customs: ["Kinder Surprise", "Fruits/Viandes"] },
-          { code: "CA", name: "Canada", region: "NA", continent: "Amériques", power: 115, water: "safe", customs: ["Cannabis (Déclaration obligatoire frontières)"] },
-          { code: "MX", name: "Mexique", region: "NA", continent: "Amériques", power: 90, water: "unsafe", customs: ["Plus de 10 paquets de cigarettes"] },
-          { code: "CQ", name: "Cancún (Mexique)", region: "NA", continent: "Amériques", power: 90, water: "unsafe", customs: ["Cigarettes électroniques (Réglementé)"] },
-          { code: "BR", name: "Brésil", region: "SA", continent: "Amériques", power: 100, water: "unsafe", health: { yellowFever: true }, customs: ["Espèces protégées"] },
-          { code: "AR", name: "Argentine", region: "SA", continent: "Amériques", power: 98, water: "unsafe" },
-          { code: "CO", name: "Colombie", region: "SA", continent: "Amériques", power: 80, water: "unsafe", health: { yellowFever: true } },
-          { code: "PE", name: "Pérou", region: "SA", continent: "Amériques", power: 85, water: "unsafe", customs: ["Feuilles de Coca (Quantité limitée)"] },
-          { code: "CL", name: "Chili", region: "SA", continent: "Amériques", power: 118, water: "safe" },
-          { code: "CR", name: "Costa Rica", region: "SA", continent: "Amériques", power: 95, water: "safe" },
-          { code: "PA", name: "Panama", region: "SA", continent: "Amériques", power: 94, water: "safe" },
-          { code: "UY", name: "Uruguay", region: "SA", continent: "Amériques", power: 96, water: "safe" },
-          { code: "PY", name: "Paraguay", region: "SA", continent: "Amériques", power: 85, water: "unsafe" },
-          { code: "BO", name: "Bolivie", region: "SA", continent: "Amériques", power: 82, water: "unsafe", health: { yellowFever: true } },
-          { code: "EC", name: "Équateur", region: "SA", continent: "Amériques", power: 86, water: "unsafe", health: { yellowFever: true } },
-          { code: "VE", name: "Venezuela", region: "SA", continent: "Amériques", power: 70, water: "unsafe", health: { yellowFever: true } },
-          { code: "GT", name: "Guatemala", region: "SA", continent: "Amériques", power: 88, water: "unsafe" },
-          { code: "DO", name: "République Dominicaine", region: "NA", continent: "Amériques", power: 65, water: "unsafe" },
-          { code: "CU", name: "Cuba", region: "NA", continent: "Amériques", power: 55, water: "unsafe", customs: ["Drones", "GPS Satellite"] },
-          { code: "JM", name: "Jamaïque", region: "NA", continent: "Amériques", power: 75, water: "unsafe" },
-          { code: "BS", name: "Bahamas", region: "NA", continent: "Amériques", power: 85, water: "unsafe" },
-          { code: "BB", name: "Barbade", region: "NA", continent: "Amériques", power: 90, water: "safe" },
-          { code: "JP", name: "Japon", region: "AS", continent: "Asie", power: 130, water: "safe", customs: ["Codeine", "Couteaux de poche"] },
-          { code: "KR", name: "Corée du Sud", region: "AS", continent: "Asie", power: 129, water: "safe" },
-          { code: "SG", name: "Singapour", region: "AS", continent: "Asie", power: 130, water: "safe", customs: ["Chewing-gum (Interdit vente)", "Cigarette électronique"] },
-          { code: "CN", name: "Chine", region: "AS", continent: "Asie", power: 80, water: "unsafe", customs: ["VPN", "Littérature politique"] },
-          { code: "HK", name: "Hong Kong", region: "AS", continent: "Asie", power: 115, water: "safe" },
-          { code: "TW", name: "Taïwan", region: "AS", continent: "Asie", power: 105, water: "safe" },
-          { code: "TH", name: "Thaïlande", region: "AS", continent: "Asie", power: 70, water: "unsafe", customs: ["E-cigarette (Prison possible !)", "Plus de 200 cigarettes"] },
-          { code: "VN", name: "Vietnam", region: "AS", continent: "Asie", power: 65, water: "unsafe", customs: ["Drones (Déclaration obligatoire)"] },
-          { code: "ID", name: "Indonésie", region: "AS", continent: "Asie", power: 68, water: "unsafe", customs: ["Drogues (Peine de mort)"] },
-          { code: "BA", name: "Bali (Indonésie)", region: "AS", continent: "Asie", power: 68, water: "unsafe", customs: ["Drogues (Tolérance Zéro)"] },
-          { code: "MY", name: "Malaisie", region: "AS", continent: "Asie", power: 110, water: "unsafe", customs: ["Drogues (Peine très lourde)"] },
-          { code: "PH", name: "Philippines", region: "AS", continent: "Asie", power: 66, water: "unsafe" },
-          { code: "KH", name: "Cambodge", region: "AS", continent: "Asie", power: 50, water: "unsafe" },
-          { code: "LA", name: "Laos", region: "AS", continent: "Asie", power: 45, water: "unsafe" },
-          { code: "MN", name: "Mongolie", region: "AS", continent: "Asie", power: 60, water: "unsafe" },
-          { code: "KZ", name: "Kazakhstan", region: "AS", continent: "Asie", power: 70, water: "unsafe" },
-          { code: "UZ", name: "Ouzbékistan", region: "AS", continent: "Asie", power: 65, water: "unsafe", customs: ["Médicaments psychotropes (Très strict)"] },
-          { code: "PK", name: "Pakistan", region: "AS", continent: "Asie", power: 45, water: "unsafe", customs: ["Alcool"] },
-          { code: "BD", name: "Bangladesh", region: "AS", continent: "Asie", power: 50, water: "unsafe" },
-          { code: "MV", name: "Maldives", region: "AS", continent: "Asie", power: 60, water: "unsafe", customs: ["Alcool", "Porc", "Idoles religieuses"] },
-          { code: "IN", name: "Inde", region: "AS", continent: "Asie", power: 60, water: "unsafe" },
-          { code: "NP", name: "Népal", region: "AS", continent: "Asie", power: 55, water: "unsafe" },
-          { code: "LK", name: "Sri Lanka", region: "AS", continent: "Asie", power: 42, water: "unsafe" },
-          { code: "AE", name: "Dubaï (EAU)", region: "ME", continent: "Afrique / M-O", power: 110, water: "safe", customs: ["Médicaments (Codéine)", "Graines de pavot"] },
-          { code: "QA", name: "Qatar", region: "ME", continent: "Afrique / M-O", power: 100, water: "safe", customs: ["Alcool", "Porc", "Vape"] },
-          { code: "SA", name: "Arabie Saoudite", region: "ME", continent: "Afrique / M-O", power: 85, water: "unsafe", customs: ["Alcool (Tolérance Zéro)", "Symboles religieux", "Porc"] },
-          { code: "IL", name: "Israël", region: "ME", continent: "Afrique / M-O", power: 105, water: "safe" },
-          { code: "JO", name: "Jordanie", region: "ME", continent: "Afrique / M-O", power: 75, water: "unsafe", customs: ["Drones (Interdit)"] },
-          { code: "OM", name: "Oman", region: "ME", continent: "Afrique / M-O", power: 88, water: "unsafe" },
-          { code: "KW", name: "Koweït", region: "ME", continent: "Afrique / M-O", power: 95, water: "safe" },
-          { code: "BH", name: "Bahreïn", region: "ME", continent: "Afrique / M-O", power: 92, water: "safe" },
-          { code: "LB", name: "Liban", region: "ME", continent: "Afrique / M-O", power: 60, water: "unsafe" },
-          { code: "MA", name: "Maroc", region: "AF", continent: "Afrique / M-O", power: 65, water: "unsafe", customs: ["Drones (Confiscation immédiate)"] },
-          { code: "TN", name: "Tunisie", region: "AF", continent: "Afrique / M-O", power: 60, water: "unsafe", customs: ["Dinars (Interdit d'exporter)"] },
-          { code: "EG", name: "Égypte", region: "AF", continent: "Afrique / M-O", power: 50, water: "unsafe", customs: ["Drones (Interdit - Prison)"] },
-          { code: "ZA", name: "Afrique du Sud", region: "AF", continent: "Afrique / M-O", power: 95, water: "unsafe" },
-          { code: "ZN", name: "Zanzibar (Tanzanie)", region: "AF", continent: "Afrique / M-O", power: 52, water: "unsafe", health: { yellowFever: true }, customs: ["Sacs plastiques (Interdit)", "Coquillages"] },
-          { code: "KE", name: "Kenya", region: "AF", continent: "Afrique / M-O", power: 55, water: "unsafe", health: { yellowFever: true }, customs: ["Sacs plastiques (Interdiction stricte)", "Drones"] },
-          { code: "TZ", name: "Tanzanie", region: "AF", continent: "Afrique / M-O", power: 52, water: "unsafe", health: { yellowFever: true }, customs: ["Sacs plastiques"] },
-          { code: "NA", name: "Namibie", region: "AF", continent: "Afrique / M-O", power: 80, water: "safe" },
-          { code: "SN", name: "Sénégal", region: "AF", continent: "Afrique / M-O", power: 58, water: "unsafe", health: { yellowFever: true } },
-          { code: "CI", name: "Côte d'Ivoire", region: "AF", continent: "Afrique / M-O", power: 56, water: "unsafe", health: { yellowFever: true } },
-          { code: "CM", name: "Cameroun", region: "AF", continent: "Afrique / M-O", power: 50, water: "unsafe", health: { yellowFever: true } },
-          { code: "MU", name: "Île Maurice", region: "AF", continent: "Afrique / M-O", power: 90, water: "unsafe", customs: ["Papier à cigarette", "Spearguns"] },
-          { code: "MG", name: "Madagascar", region: "AF", continent: "Afrique / M-O", power: 50, water: "unsafe" },
-          { code: "SC", name: "Seychelles", region: "AF", continent: "Afrique / M-O", power: 85, water: "safe" },
-          { code: "ET", name: "Éthiopie", region: "AF", continent: "Afrique / M-O", power: 50, water: "unsafe", health: { yellowFever: true } },
-          { code: "RW", name: "Rwanda", region: "AF", continent: "Afrique / M-O", power: 60, water: "unsafe", health: { yellowFever: true }, customs: ["Sacs plastiques (Interdit)"] },
-          { code: "UG", name: "Ouganda", region: "AF", continent: "Afrique / M-O", power: 55, water: "unsafe", health: { yellowFever: true } },
-          { code: "NG", name: "Nigéria", region: "AF", continent: "Afrique / M-O", power: 45, water: "unsafe", health: { yellowFever: true } },
-          { code: "GH", name: "Ghana", region: "AF", continent: "Afrique / M-O", power: 58, water: "unsafe", health: { yellowFever: true } },
-          { code: "BW", name: "Botswana", region: "AF", continent: "Afrique / M-O", power: 75, water: "safe" },
-          { code: "DZ", name: "Algérie", region: "AF", continent: "Afrique / M-O", power: 55, water: "unsafe", customs: ["Jumelles (Souvent confisquées)"] },
-          { code: "AU", name: "Australie", region: "OC", continent: "Océanie", power: 120, water: "safe", customs: ["Nourriture (Bio-sécurité extrême)", "Terres/Sables"] },
-          { code: "NZ", name: "Nouvelle-Zélande", region: "OC", continent: "Océanie", power: 119, water: "safe", customs: ["Matériel de randonnée sale", "Nourriture"] },
-          { code: "FJ", name: "Fidji", region: "OC", continent: "Océanie", power: 80, water: "unsafe" },
-          { code: "PF", name: "Polynésie Fr.", region: "OC", continent: "Océanie", power: 128, water: "safe" },
-          { code: "NC", name: "Nouvelle-Calédonie", region: "OC", continent: "Océanie", power: 128, water: "safe" },
+          { code: "FR", name: "France", region: "EU", continent: "Europe", power: 128, water: "safe", budget: { low: 60, mid: 140, high: 300 } },
+          { code: "DE", name: "Allemagne", region: "EU", continent: "Europe", power: 129, water: "safe", budget: { low: 65, mid: 140, high: 280 } },
+          { code: "IT", name: "Italie", region: "EU", continent: "Europe", power: 129, water: "safe", budget: { low: 60, mid: 135, high: 280 } },
+          { code: "ES", name: "Espagne", region: "EU", continent: "Europe", power: 129, water: "safe", budget: { low: 50, mid: 120, high: 250 } },
+          { code: "GB", name: "Royaume-Uni", region: "EU_NON_SCHENGEN", continent: "Europe", power: 125, water: "safe", budget: { low: 70, mid: 160, high: 350 } },
+          { code: "BE", name: "Belgique", region: "EU", continent: "Europe", power: 127, water: "safe", budget: { low: 65, mid: 140, high: 280 } },
+          { code: "CH", name: "Suisse", region: "EU", continent: "Europe", power: 126, water: "safe", budget: { low: 90, mid: 200, high: 450 } },
+          { code: "PT", name: "Portugal", region: "EU", continent: "Europe", power: 128, water: "safe", budget: { low: 45, mid: 110, high: 220 } },
+          { code: "NL", name: "Pays-Bas", region: "EU", continent: "Europe", power: 127, water: "safe", budget: { low: 70, mid: 150, high: 300 } },
+          { code: "AT", name: "Autriche", region: "EU", continent: "Europe", power: 128, water: "safe", budget: { low: 60, mid: 135, high: 280 } },
+          { code: "SE", name: "Suède", region: "EU", continent: "Europe", power: 128, water: "safe", budget: { low: 75, mid: 170, high: 350 } },
+          { code: "NO", name: "Norvège", region: "EU", continent: "Europe", power: 126, water: "safe", budget: { low: 80, mid: 190, high: 400 } },
+          { code: "DK", name: "Danemark", region: "EU", continent: "Europe", power: 128, water: "safe", budget: { low: 80, mid: 180, high: 380 } },
+          { code: "FI", name: "Finlande", region: "EU", continent: "Europe", power: 128, water: "safe", budget: { low: 75, mid: 170, high: 350 } },
+          { code: "GR", name: "Grèce", region: "EU", continent: "Europe", power: 125, water: "safe", budget: { low: 50, mid: 130, high: 260 } },
+          { code: "IE", name: "Irlande", region: "EU_NON_SCHENGEN", continent: "Europe", power: 126, water: "safe", budget: { low: 70, mid: 160, high: 320 } },
+          { code: "PL", name: "Pologne", region: "EU", continent: "Europe", power: 124, water: "safe", budget: { low: 35, mid: 80, high: 180 } },
+          { code: "CZ", name: "République Tchèque", region: "EU", continent: "Europe", power: 124, water: "safe", budget: { low: 40, mid: 90, high: 200 } },
+          { code: "HU", name: "Hongrie", region: "EU", continent: "Europe", power: 122, water: "safe", budget: { low: 35, mid: 80, high: 180 } },
+          { code: "IS", name: "Islande", region: "EU_NON_SCHENGEN", continent: "Europe", power: 120, water: "safe", budget: { low: 90, mid: 220, high: 500 } },
+          { code: "HR", name: "Croatie", region: "EU", continent: "Europe", power: 123, water: "safe", budget: { low: 50, mid: 110, high: 240 } },
+          { code: "MT", name: "Malte", region: "EU", continent: "Europe", power: 122, water: "safe", budget: { low: 60, mid: 130, high: 260 } }, 
+          { code: "CY", name: "Chypre", region: "EU", continent: "Europe", power: 123, water: "safe", budget: { low: 55, mid: 120, high: 250 } },
+          { code: "LU", name: "Luxembourg", region: "EU", continent: "Europe", power: 127, water: "safe", budget: { low: 80, mid: 180, high: 350 } },
+          { code: "SI", name: "Slovénie", region: "EU", continent: "Europe", power: 125, water: "safe", budget: { low: 45, mid: 100, high: 220 } },
+          { code: "SK", name: "Slovaquie", region: "EU", continent: "Europe", power: 124, water: "safe", budget: { low: 40, mid: 90, high: 200 } },
+          { code: "EE", name: "Estonie", region: "EU", continent: "Europe", power: 126, water: "safe", budget: { low: 45, mid: 100, high: 220 } },
+          { code: "LV", name: "Lettonie", region: "EU", continent: "Europe", power: 125, water: "safe", budget: { low: 40, mid: 90, high: 200 } },
+          { code: "LT", name: "Lituanie", region: "EU", continent: "Europe", power: 125, water: "safe", budget: { low: 40, mid: 90, high: 200 } },
+          { code: "BG", name: "Bulgarie", region: "EU", continent: "Europe", power: 120, water: "safe", budget: { low: 30, mid: 70, high: 150 } },
+          { code: "RO", name: "Roumanie", region: "EU", continent: "Europe", power: 121, water: "safe", budget: { low: 30, mid: 70, high: 160 } },
+          { code: "MC", name: "Monaco", region: "EU_NON_SCHENGEN", continent: "Europe", power: 110, water: "safe", budget: { low: 120, mid: 300, high: 800 } },
+          { code: "AD", name: "Andorre", region: "EU_NON_SCHENGEN", continent: "Europe", power: 110, water: "safe", budget: { low: 50, mid: 110, high: 220 } },
+          { code: "AL", name: "Albanie", region: "EU_EAST", continent: "Europe", power: 95, water: "unsafe", budget: { low: 30, mid: 60, high: 140 } },
+          { code: "ME", name: "Monténégro", region: "EU_EAST", continent: "Europe", power: 100, water: "unsafe", budget: { low: 35, mid: 75, high: 180 } },
+          { code: "RS", name: "Serbie", region: "EU_EAST", continent: "Europe", power: 105, water: "unsafe", budget: { low: 35, mid: 75, high: 180 } },
+          { code: "BA_BOS", name: "Bosnie-Herzégovine", region: "EU_EAST", continent: "Europe", power: 95, water: "unsafe", budget: { low: 30, mid: 70, high: 160 } },
+          { code: "MK", name: "Macédoine du Nord", region: "EU_EAST", continent: "Europe", power: 98, water: "safe", budget: { low: 30, mid: 65, high: 150 } },
+          { code: "RU", name: "Russie", region: "EU_EAST", continent: "Europe", power: 90, water: "unsafe", budget: { low: 40, mid: 90, high: 200 }, customs: ["Médicaments codéinés", "Drones (Réglementé)"] },
+          { code: "UA", name: "Ukraine", region: "EU_EAST", continent: "Europe", power: 95, water: "unsafe", budget: { low: 30, mid: 70, high: 160 } },
+          { code: "BY", name: "Biélorussie", region: "EU_EAST", continent: "Europe", power: 80, water: "unsafe", budget: { low: 30, mid: 70, high: 160 } },
+          { code: "TR", name: "Turquie", region: "EU_EAST", continent: "Europe", power: 85, water: "unsafe", budget: { low: 35, mid: 80, high: 180 }, customs: ["Antiquités (Interdiction stricte de sortie)"] },
+          { code: "MD", name: "Moldavie", region: "EU_EAST", continent: "Europe", power: 85, water: "unsafe", budget: { low: 25, mid: 60, high: 140 } },
+
+          // AMÉRIQUES
+          { code: "US", name: "États-Unis", region: "NA", continent: "Amériques", power: 116, water: "safe", budget: { low: 90, mid: 250, high: 600 }, customs: ["Kinder Surprise", "Fruits/Viandes"] },
+          { code: "CA", name: "Canada", region: "NA", continent: "Amériques", power: 115, water: "safe", budget: { low: 80, mid: 200, high: 450 }, customs: ["Cannabis (Déclaration obligatoire frontières)"] },
+          { code: "MX", name: "Mexique", region: "NA", continent: "Amériques", power: 90, water: "unsafe", budget: { low: 40, mid: 100, high: 250 }, customs: ["Plus de 10 paquets de cigarettes"] },
+          { code: "CQ", name: "Cancún (Mexique)", region: "NA", continent: "Amériques", power: 90, water: "unsafe", budget: { low: 60, mid: 150, high: 350 }, customs: ["Cigarettes électroniques (Réglementé)"] },
+          { code: "BR", name: "Brésil", region: "SA", continent: "Amériques", power: 100, water: "unsafe", budget: { low: 45, mid: 110, high: 250 }, health: { yellowFever: true }, customs: ["Espèces protégées"] },
+          { code: "AR", name: "Argentine", region: "SA", continent: "Amériques", power: 98, water: "unsafe", budget: { low: 40, mid: 90, high: 200 } },
+          { code: "CO", name: "Colombie", region: "SA", continent: "Amériques", power: 80, water: "unsafe", budget: { low: 35, mid: 80, high: 180 }, health: { yellowFever: true } },
+          { code: "PE", name: "Pérou", region: "SA", continent: "Amériques", power: 85, water: "unsafe", budget: { low: 35, mid: 90, high: 200 }, customs: ["Feuilles de Coca (Quantité limitée)"] },
+          { code: "CL", name: "Chili", region: "SA", continent: "Amériques", power: 118, water: "safe", budget: { low: 50, mid: 120, high: 280 } },
+          { code: "CR", name: "Costa Rica", region: "SA", continent: "Amériques", power: 95, water: "safe", budget: { low: 50, mid: 120, high: 280 } },
+          { code: "PA", name: "Panama", region: "SA", continent: "Amériques", power: 94, water: "safe", budget: { low: 50, mid: 110, high: 250 } },
+          { code: "UY", name: "Uruguay", region: "SA", continent: "Amériques", power: 96, water: "safe", budget: { low: 55, mid: 130, high: 280 } },
+          { code: "PY", name: "Paraguay", region: "SA", continent: "Amériques", power: 85, water: "unsafe", budget: { low: 35, mid: 80, high: 180 } },
+          { code: "BO", name: "Bolivie", region: "SA", continent: "Amériques", power: 82, water: "unsafe", budget: { low: 30, mid: 70, high: 160 }, health: { yellowFever: true } },
+          { code: "EC", name: "Équateur", region: "SA", continent: "Amériques", power: 86, water: "unsafe", budget: { low: 35, mid: 85, high: 190 }, health: { yellowFever: true } },
+          { code: "VE", name: "Venezuela", region: "SA", continent: "Amériques", power: 70, water: "unsafe", budget: { low: 30, mid: 70, high: 150 }, health: { yellowFever: true } },
+          { code: "GT", name: "Guatemala", region: "SA", continent: "Amériques", power: 88, water: "unsafe", budget: { low: 35, mid: 80, high: 180 } },
+          { code: "DO", name: "République Dominicaine", region: "NA", continent: "Amériques", power: 65, water: "unsafe", budget: { low: 50, mid: 130, high: 300 } },
+          { code: "CU", name: "Cuba", region: "NA", continent: "Amériques", power: 55, water: "unsafe", budget: { low: 40, mid: 90, high: 200 }, customs: ["Drones", "GPS Satellite"] },
+          { code: "JM", name: "Jamaïque", region: "NA", continent: "Amériques", power: 75, water: "unsafe", budget: { low: 55, mid: 130, high: 300 } },
+          { code: "BS", name: "Bahamas", region: "NA", continent: "Amériques", power: 85, water: "unsafe", budget: { low: 90, mid: 220, high: 500 } },
+          { code: "BB", name: "Barbade", region: "NA", continent: "Amériques", power: 90, water: "safe", budget: { low: 80, mid: 200, high: 450 } },
+
+          // ASIE
+          { code: "JP", name: "Japon", region: "AS", continent: "Asie", power: 130, water: "safe", budget: { low: 60, mid: 150, high: 350 }, customs: ["Codeine", "Couteaux de poche"] },
+          { code: "KR", name: "Corée du Sud", region: "AS", continent: "Asie", power: 129, water: "safe", budget: { low: 55, mid: 130, high: 300 } },
+          { code: "SG", name: "Singapour", region: "AS", continent: "Asie", power: 130, water: "safe", budget: { low: 70, mid: 180, high: 400 }, customs: ["Chewing-gum (Interdit vente)", "Cigarette électronique"] },
+          { code: "CN", name: "Chine", region: "AS", continent: "Asie", power: 80, water: "unsafe", budget: { low: 45, mid: 100, high: 250 }, customs: ["VPN", "Littérature politique"] },
+          { code: "HK", name: "Hong Kong", region: "AS", continent: "Asie", power: 115, water: "safe", budget: { low: 70, mid: 160, high: 400 } },
+          { code: "TW", name: "Taïwan", region: "AS", continent: "Asie", power: 105, water: "safe", budget: { low: 50, mid: 110, high: 250 } },
+          { code: "TH", name: "Thaïlande", region: "AS", continent: "Asie", power: 70, water: "unsafe", budget: { low: 30, mid: 70, high: 180 }, customs: ["E-cigarette (Prison possible !)", "Plus de 200 cigarettes"] },
+          { code: "VN", name: "Vietnam", region: "AS", continent: "Asie", power: 65, water: "unsafe", budget: { low: 25, mid: 60, high: 150 }, customs: ["Drones (Déclaration obligatoire)"] },
+          { code: "ID", name: "Indonésie", region: "AS", continent: "Asie", power: 68, water: "unsafe", budget: { low: 25, mid: 60, high: 150 }, customs: ["Drogues (Peine de mort)"] },
+          { code: "BA", name: "Bali (Indonésie)", region: "AS", continent: "Asie", power: 68, water: "unsafe", budget: { low: 35, mid: 90, high: 250 }, customs: ["Drogues (Tolérance Zéro)"] },
+          { code: "MY", name: "Malaisie", region: "AS", continent: "Asie", power: 110, water: "unsafe", budget: { low: 30, mid: 70, high: 180 }, customs: ["Drogues (Peine très lourde)"] },
+          { code: "PH", name: "Philippines", region: "AS", continent: "Asie", power: 66, water: "unsafe", budget: { low: 35, mid: 80, high: 180 } },
+          { code: "KH", name: "Cambodge", region: "AS", continent: "Asie", power: 50, water: "unsafe", budget: { low: 25, mid: 55, high: 140 } },
+          { code: "LA", name: "Laos", region: "AS", continent: "Asie", power: 45, water: "unsafe", budget: { low: 25, mid: 50, high: 130 } },
+          { code: "MN", name: "Mongolie", region: "AS", continent: "Asie", power: 60, water: "unsafe", budget: { low: 35, mid: 80, high: 180 } },
+          { code: "KZ", name: "Kazakhstan", region: "AS", continent: "Asie", power: 70, water: "unsafe", budget: { low: 40, mid: 90, high: 200 } },
+          { code: "UZ", name: "Ouzbékistan", region: "AS", continent: "Asie", power: 65, water: "unsafe", budget: { low: 30, mid: 70, high: 150 }, customs: ["Médicaments psychotropes (Très strict)"] },
+          { code: "PK", name: "Pakistan", region: "AS", continent: "Asie", power: 45, water: "unsafe", budget: { low: 25, mid: 60, high: 140 }, customs: ["Alcool"] },
+          { code: "BD", name: "Bangladesh", region: "AS", continent: "Asie", power: 50, water: "unsafe", budget: { low: 25, mid: 60, high: 140 } },
+          { code: "MV", name: "Maldives", region: "AS", continent: "Asie", power: 60, water: "unsafe", budget: { low: 80, mid: 200, high: 600 }, customs: ["Alcool", "Porc", "Idoles religieuses"] },
+          { code: "IN", name: "Inde", region: "AS", continent: "Asie", power: 60, water: "unsafe", budget: { low: 25, mid: 50, high: 140 } },
+          { code: "NP", name: "Népal", region: "AS", continent: "Asie", power: 55, water: "unsafe", budget: { low: 20, mid: 50, high: 120 } },
+          { code: "LK", name: "Sri Lanka", region: "AS", continent: "Asie", power: 42, water: "unsafe", budget: { low: 25, mid: 60, high: 150 } },
+
+          // MOYEN-ORIENT / AFRIQUE
+          { code: "AE", name: "Dubaï (EAU)", region: "ME", continent: "Afrique / M-O", power: 110, water: "safe", budget: { low: 70, mid: 180, high: 500 }, customs: ["Médicaments (Codéine)", "Graines de pavot"] },
+          { code: "QA", name: "Qatar", region: "ME", continent: "Afrique / M-O", power: 100, water: "safe", budget: { low: 80, mid: 200, high: 500 }, customs: ["Alcool", "Porc", "Vape"] },
+          { code: "SA", name: "Arabie Saoudite", region: "ME", continent: "Afrique / M-O", power: 85, water: "unsafe", budget: { low: 70, mid: 160, high: 400 }, customs: ["Alcool", "Porc"] },
+          { code: "IL", name: "Israël", region: "ME", continent: "Afrique / M-O", power: 105, water: "safe", budget: { low: 70, mid: 180, high: 400 } },
+          { code: "JO", name: "Jordanie", region: "ME", continent: "Afrique / M-O", power: 75, water: "unsafe", budget: { low: 45, mid: 110, high: 250 }, customs: ["Drones (Interdit)"] },
+          { code: "OM", name: "Oman", region: "ME", continent: "Afrique / M-O", power: 88, water: "unsafe", budget: { low: 60, mid: 150, high: 350 } },
+          { code: "KW", name: "Koweït", region: "ME", continent: "Afrique / M-O", power: 95, water: "safe", budget: { low: 70, mid: 170, high: 400 } },
+          { code: "BH", name: "Bahreïn", region: "ME", continent: "Afrique / M-O", power: 92, water: "safe", budget: { low: 70, mid: 160, high: 400 } },
+          { code: "LB", name: "Liban", region: "ME", continent: "Afrique / M-O", power: 60, water: "unsafe", budget: { low: 40, mid: 100, high: 200 } },
+          { code: "MA", name: "Maroc", region: "AF", continent: "Afrique / M-O", power: 65, water: "unsafe", budget: { low: 30, mid: 70, high: 180 }, customs: ["Drones (Confiscation immédiate)"] },
+          { code: "TN", name: "Tunisie", region: "AF", continent: "Afrique / M-O", power: 60, water: "unsafe", budget: { low: 30, mid: 65, high: 160 }, customs: ["Dinars (Interdit d'exporter)"] },
+          { code: "EG", name: "Égypte", region: "AF", continent: "Afrique / M-O", power: 50, water: "unsafe", budget: { low: 30, mid: 70, high: 180 }, customs: ["Drones (Interdit - Prison)"] },
+          { code: "ZA", name: "Afrique du Sud", region: "AF", continent: "Afrique / M-O", power: 95, water: "unsafe", budget: { low: 45, mid: 100, high: 250 } },
+          { code: "ZN", name: "Zanzibar (Tanzanie)", region: "AF", continent: "Afrique / M-O", power: 52, water: "unsafe", budget: { low: 50, mid: 120, high: 300 }, health: { yellowFever: true }, customs: ["Sacs plastiques (Interdit)", "Coquillages"] },
+          { code: "KE", name: "Kenya", region: "AF", continent: "Afrique / M-O", power: 55, water: "unsafe", budget: { low: 60, mid: 140, high: 350 }, health: { yellowFever: true }, customs: ["Sacs plastiques (Interdiction stricte)", "Drones"] },
+          { code: "TZ", name: "Tanzanie", region: "AF", continent: "Afrique / M-O", power: 52, water: "unsafe", budget: { low: 60, mid: 140, high: 350 }, health: { yellowFever: true }, customs: ["Sacs plastiques"] },
+          { code: "NA", name: "Namibie", region: "AF", continent: "Afrique / M-O", power: 80, water: "safe", budget: { low: 60, mid: 150, high: 350 } },
+          { code: "SN", name: "Sénégal", region: "AF", continent: "Afrique / M-O", power: 58, water: "unsafe", budget: { low: 35, mid: 80, high: 180 }, health: { yellowFever: true } },
+          { code: "CI", name: "Côte d'Ivoire", region: "AF", continent: "Afrique / M-O", power: 56, water: "unsafe", budget: { low: 40, mid: 90, high: 200 }, health: { yellowFever: true } },
+          { code: "CM", name: "Cameroun", region: "AF", continent: "Afrique / M-O", power: 50, water: "unsafe", budget: { low: 35, mid: 80, high: 180 }, health: { yellowFever: true } },
+          { code: "MU", name: "Île Maurice", region: "AF", continent: "Afrique / M-O", power: 90, water: "unsafe", budget: { low: 60, mid: 150, high: 350 }, customs: ["Papier à cigarette", "Spearguns"] },
+          { code: "MG", name: "Madagascar", region: "AF", continent: "Afrique / M-O", power: 50, water: "unsafe", budget: { low: 30, mid: 70, high: 160 } },
+          { code: "SC", name: "Seychelles", region: "AF", continent: "Afrique / M-O", power: 85, water: "safe", budget: { low: 100, mid: 250, high: 600 } },
+          { code: "ET", name: "Éthiopie", region: "AF", continent: "Afrique / M-O", power: 50, water: "unsafe", budget: { low: 30, mid: 70, high: 150 }, health: { yellowFever: true } },
+          { code: "RW", name: "Rwanda", region: "AF", continent: "Afrique / M-O", power: 60, water: "unsafe", budget: { low: 40, mid: 90, high: 200 }, health: { yellowFever: true }, customs: ["Sacs plastiques (Interdit)"] },
+          { code: "UG", name: "Ouganda", region: "AF", continent: "Afrique / M-O", power: 55, water: "unsafe", budget: { low: 35, mid: 80, high: 180 }, health: { yellowFever: true } },
+          { code: "GH", name: "Ghana", region: "AF", continent: "Afrique / M-O", power: 58, water: "unsafe", budget: { low: 35, mid: 80, high: 180 }, health: { yellowFever: true } },
+          { code: "NG", name: "Nigéria", region: "AF", continent: "Afrique / M-O", power: 45, water: "unsafe", budget: { low: 40, mid: 90, high: 200 }, health: { yellowFever: true } },
+          { code: "BW", name: "Botswana", region: "AF", continent: "Afrique / M-O", power: 75, water: "safe", budget: { low: 60, mid: 150, high: 400 } },
+          { code: "DZ", name: "Algérie", region: "AF", continent: "Afrique / M-O", power: 55, water: "unsafe", budget: { low: 30, mid: 70, high: 160 }, customs: ["Jumelles (Souvent confisquées)"] },
+
+          // OCÉANIE
+          { code: "AU", name: "Australie", region: "OC", continent: "Océanie", power: 120, water: "safe", budget: { low: 70, mid: 160, high: 350 }, customs: ["Nourriture (Bio-sécurité extrême)", "Terres/Sables"] },
+          { code: "NZ", name: "Nouvelle-Zélande", region: "OC", continent: "Océanie", power: 119, water: "safe", budget: { low: 70, mid: 160, high: 350 }, customs: ["Matériel de randonnée sale", "Nourriture"] },
+          { code: "FJ", name: "Fidji", region: "OC", continent: "Océanie", power: 80, water: "unsafe", budget: { low: 50, mid: 120, high: 300 } },
+          { code: "PF", name: "Polynésie Fr.", region: "OC", continent: "Océanie", power: 128, water: "safe", budget: { low: 90, mid: 250, high: 600 } },
+          { code: "NC", name: "Nouvelle-Calédonie", region: "OC", continent: "Océanie", power: 128, water: "safe", budget: { low: 80, mid: 200, high: 450 } },
         ].sort((a, b) => a.name.localeCompare(b.name));
 
         // --- ICÔNES SVG (Manuelles pour GitHub) ---
@@ -234,7 +240,7 @@
         const Ticket = (props) => <Icon {...props}><path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M13 5v2"/><path d="M13 17v2"/><path d="M13 11v2"/></Icon>;
         const Timer = (props) => <Icon {...props}><line x1="10" x2="14" y1="2" y2="2"/><line x1="12" x2="15" y1="14" y2="11"/><circle cx="12" cy="14" r="8"/></Icon>;
 
-        // --- COMPOSANTS UI (Avant l'App) ---
+        // --- COMPOSANTS UI ---
 
         const Header = ({ lang, setLang, t }) => (
           <header className="w-full p-6 flex justify-between items-center max-w-4xl mx-auto border-b border-slate-100 bg-white/80 backdrop-blur-sm sticky top-0 z-50">
@@ -301,42 +307,22 @@
 
         const PassportPower = ({ score, maxScore = 150, t }) => {
             const percentage = Math.min((score / maxScore) * 100, 100);
-            let tier = "Bronze";
-            let colorClass = "bg-amber-600";
-            let trophyColor = "text-slate-300";
-
+            let tier = "Bronze", colorClass = "bg-amber-600", trophyColor = "text-slate-300";
             if (score > 100) { tier = "Silver"; colorClass = "bg-slate-400"; trophyColor = "text-slate-300"; }
             if (score > 125) { tier = "Gold"; colorClass = "bg-yellow-500"; trophyColor = "text-yellow-400"; }
-
             return (
                 <div className="bg-slate-900 text-white rounded-2xl p-6 mb-6 relative overflow-hidden shadow-xl transform transition-all hover:scale-[1.01]">
-                    <div className="absolute top-0 right-0 p-4 opacity-10">
-                        <Globe size={120} />
-                    </div>
+                    <div className="absolute top-0 right-0 p-4 opacity-10"><Globe size={120} /></div>
                     <div className="relative z-10">
                         <div className="flex justify-between items-start mb-4">
                             <div>
                                 <h3 className="text-slate-400 text-xs uppercase font-bold tracking-widest">{t.passport_power}</h3>
-                                <div className="text-4xl font-extrabold flex items-center gap-3 mt-2">
-                                    <Trophy size={32} className={trophyColor} />
-                                    {score} <span className="text-lg text-slate-500 font-normal">/ {maxScore}</span>
-                                </div>
+                                <div className="text-4xl font-extrabold flex items-center gap-3 mt-2"><Trophy size={32} className={trophyColor} />{score} <span className="text-lg text-slate-500 font-normal">/ {maxScore}</span></div>
                             </div>
-                            <div className={`px-4 py-1.5 rounded-full text-xs font-black text-slate-900 uppercase tracking-wide shadow-lg ${colorClass}`}>
-                                {tier} Tier
-                            </div>
+                            <div className={`px-4 py-1.5 rounded-full text-xs font-black text-slate-900 uppercase tracking-wide shadow-lg ${colorClass}`}>{tier} Tier</div>
                         </div>
-                        
-                        <div className="w-full bg-slate-800 h-3 rounded-full overflow-hidden border border-slate-700">
-                            <div 
-                                className={`h-full ${colorClass} transition-all duration-1000 ease-out`} 
-                                style={{ width: `${percentage}%` }}
-                            ></div>
-                        </div>
-                        <p className="text-xs text-slate-400 mt-4 flex items-center gap-2">
-                            <CheckCircle size={12} className="text-green-500" />
-                            {t.access_text} {score} {t.countries_text}.
-                        </p>
+                        <div className="w-full bg-slate-800 h-3 rounded-full overflow-hidden border border-slate-700"><div className={`h-full ${colorClass} transition-all duration-1000 ease-out`} style={{ width: `${percentage}%` }}></div></div>
+                        <p className="text-xs text-slate-400 mt-4 flex items-center gap-2"><CheckCircle size={12} className="text-green-500" />{t.access_text} {score} {t.countries_text}.</p>
                     </div>
                 </div>
             );
@@ -344,22 +330,12 @@
 
         const HealthCard = ({ water, vaccine, t }) => (
             <div className="bg-white border border-slate-100 rounded-xl p-5 mb-3 shadow-sm flex flex-row gap-4 items-start">
-                <div className="p-3 rounded-xl shrink-0 border bg-teal-50 text-teal-600 border-teal-100">
-                    <Stethoscope size={20} />
-                </div>
+                <div className="p-3 rounded-xl shrink-0 border bg-teal-50 text-teal-600 border-teal-100"><Stethoscope size={20} /></div>
                 <div className="flex-1">
                     <h4 className="font-bold text-slate-800 text-lg mb-2">{t.health_title}</h4>
                     <div className="space-y-2">
-                        <div className={`flex items-center gap-2 text-sm font-medium ${water === 'safe' ? 'text-green-600' : 'text-red-500'}`}>
-                            <Droplets size={16} />
-                            {water === 'safe' ? t.water_safe : t.water_unsafe}
-                        </div>
-                        {vaccine && (
-                            <div className="flex items-center gap-2 text-sm font-medium text-amber-600">
-                                <AlertTriangle size={16} />
-                                {t.vaccine_mandatory} <span className="font-bold">{vaccine}</span>
-                            </div>
-                        )}
+                        <div className={`flex items-center gap-2 text-sm font-medium ${water === 'safe' ? 'text-green-600' : 'text-red-500'}`}><Droplets size={16} />{water === 'safe' ? t.water_safe : t.water_unsafe}</div>
+                        {vaccine && <div className="flex items-center gap-2 text-sm font-medium text-amber-600"><AlertTriangle size={16} />{t.vaccine_mandatory} <span className="font-bold">{vaccine}</span></div>}
                     </div>
                 </div>
             </div>
@@ -367,73 +343,23 @@
 
         const CustomsCard = ({ items, t }) => (
             <div className="bg-white border border-rose-100 rounded-xl p-5 mb-3 shadow-sm flex flex-row gap-4 items-start">
-                <div className="p-3 rounded-xl shrink-0 border bg-rose-50 text-rose-600 border-rose-100">
-                    <Siren size={20} />
-                </div>
-                <div className="flex-1">
-                    <h4 className="font-bold text-slate-800 text-lg mb-2">{t.customs_title}</h4>
-                    <p className="text-xs font-bold uppercase text-rose-500 mb-2">{t.forbidden_items}</p>
-                    <ul className="list-disc list-inside text-sm text-slate-600 space-y-1">
-                        {items.map((item, idx) => (
-                            <li key={idx}>{item}</li>
-                        ))}
-                    </ul>
-                </div>
+                <div className="p-3 rounded-xl shrink-0 border bg-rose-50 text-rose-600 border-rose-100"><Siren size={20} /></div>
+                <div className="flex-1"><h4 className="font-bold text-slate-800 text-lg mb-2">{t.customs_title}</h4><p className="text-xs font-bold uppercase text-rose-500 mb-2">{t.forbidden_items}</p><ul className="list-disc list-inside text-sm text-slate-600 space-y-1">{items.map((item, i) => <li key={i}>{item}</li>)}</ul></div>
             </div>
         );
 
         const DocumentCard = ({ title, status, description, cost, isMandatory, link, t }) => {
-            const getStatusColor = () => {
-                switch(status) {
-                    case 'ok': return 'bg-emerald-50 text-emerald-600 border-emerald-100';
-                    case 'alert': return 'bg-amber-50 text-amber-600 border-amber-100';
-                    case 'error': return 'bg-red-50 text-red-600 border-red-100';
-                    default: return 'bg-blue-50 text-blue-600 border-blue-100';
-                }
-            };
-
-            const getIcon = () => {
-                switch(status) {
-                    case 'ok': return <CheckCircle size={20} />;
-                    case 'alert': return <AlertTriangle size={20} />;
-                    case 'error': return <ShieldCheck size={20} />;
-                    default: return <Info size={20} />;
-                }
-            };
-
+            const getStatusColor = () => { switch(status) { case 'ok': return 'bg-emerald-50 text-emerald-600 border-emerald-100'; case 'alert': return 'bg-amber-50 text-amber-600 border-amber-100'; case 'error': return 'bg-red-50 text-red-600 border-red-100'; default: return 'bg-blue-50 text-blue-600 border-blue-100'; }};
+            const getIcon = () => { switch(status) { case 'ok': return <CheckCircle size={20} />; case 'alert': return <AlertTriangle size={20} />; case 'error': return <ShieldCheck size={20} />; default: return <Info size={20} />; } };
             return (
                 <div className="bg-white border border-slate-100 rounded-xl p-5 mb-3 shadow-sm hover:shadow-md transition-all duration-300 flex flex-row items-start gap-4 group">
-                    <div className={`p-3 rounded-xl shrink-0 border ${getStatusColor()} transition-colors`}>
-                        {getIcon()}
-                    </div>
+                    <div className={`p-3 rounded-xl shrink-0 border ${getStatusColor()} transition-colors`}>{getIcon()}</div>
                     <div className="flex-1 w-full">
-                        <div className="flex justify-between items-start">
-                            <h4 className="font-bold text-slate-800 text-lg group-hover:text-blue-600 transition-colors">{title}</h4>
-                            {isMandatory && (
-                                <span className="bg-rose-50 text-rose-600 border border-rose-100 text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider">
-                                    {t.doc_mandatory}
-                                </span>
-                            )}
-                        </div>
+                        <div className="flex justify-between items-start"><h4 className="font-bold text-slate-800 text-lg group-hover:text-blue-600 transition-colors">{title}</h4>{isMandatory && <span className="bg-rose-50 text-rose-600 border border-rose-100 text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider">{t.doc_mandatory}</span>}</div>
                         <p className="text-sm text-slate-500 mt-1 leading-relaxed">{description}</p>
-                        
                         <div className="flex flex-wrap items-center gap-3 mt-3">
-                            {cost && (
-                                <div className="inline-flex items-center text-xs font-bold text-slate-700 bg-slate-50 px-2.5 py-1 rounded-md border border-slate-200">
-                                    {t.cost}: {cost}
-                                </div>
-                            )}
-                            {link && (
-                                <a 
-                                    href={link} 
-                                    target="_blank" 
-                                    rel="noopener noreferrer"
-                                    className="inline-flex items-center gap-1.5 text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 px-3 py-1.5 rounded-md transition-colors shadow-sm"
-                                >
-                                    {t.btn_official_link}
-                                    <ExternalLink size={12} />
-                                </a>
-                            )}
+                            {cost && <div className="inline-flex items-center text-xs font-bold text-slate-700 bg-slate-50 px-2.5 py-1 rounded-md border border-slate-200">{t.cost}: {cost}</div>}
+                            {link && <a href={link} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 px-3 py-1.5 rounded-md transition-colors shadow-sm">{t.btn_official_link} <ExternalLink size={12} /></a>}
                         </div>
                     </div>
                 </div>
@@ -441,317 +367,123 @@
         };
 
         const ActionButton = ({ icon: Icon, title, subtitle, colorClass, link, isExternal }) => (
-            <a 
-                href={link} 
-                target={isExternal ? "_blank" : "_self"}
-                rel={isExternal ? "noopener noreferrer" : ""}
-                className="flex items-center justify-between p-4 bg-white border border-slate-200 rounded-xl hover:border-blue-400 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group cursor-pointer"
-            >
-                <div className="flex items-center gap-4">
-                    <div className={`${colorClass} p-3 rounded-lg bg-opacity-10`}>
-                        <Icon size={24} className={colorClass.replace('bg-', 'text-')} />
-                    </div>
-                    <div className="text-left">
-                        <div className="font-bold text-slate-800">{title}</div>
-                        <div className="text-xs text-slate-500">{subtitle}</div>
-                    </div>
-                </div>
-                <ExternalLink size={16} className="text-slate-300 group-hover:text-blue-500 transition-colors" />
+            <a href={link} target={isExternal ? "_blank" : "_self"} rel={isExternal ? "noopener noreferrer" : ""} className="flex items-center justify-between p-4 bg-white border border-slate-200 rounded-xl hover:border-blue-400 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group cursor-pointer">
+                <div className="flex items-center gap-4"><div className={`${colorClass} p-3 rounded-lg bg-opacity-10`}><Icon size={24} className={colorClass.replace('bg-', 'text-')} /></div><div className="text-left"><div className="font-bold text-slate-800">{title}</div><div className="text-xs text-slate-500">{subtitle}</div></div></div><ExternalLink size={16} className="text-slate-300 group-hover:text-blue-500 transition-colors" />
             </a>
         );
 
         const ServiceCard = ({ icon: Icon, title, desc, colorClass, link }) => (
-            <a 
-                href={link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-white border border-slate-100 rounded-xl p-4 shadow-sm hover:shadow-md hover:border-blue-300 transition-all duration-300 flex items-center gap-4 group cursor-pointer"
-            >
-                <div className={`p-3 rounded-xl shrink-0 ${colorClass} bg-opacity-10`}>
-                    <Icon size={24} className={colorClass.replace('bg-', 'text-')} />
-                </div>
-                <div className="flex-1">
-                    <div className="flex justify-between items-center">
-                        <h4 className="font-bold text-slate-800 group-hover:text-blue-600 transition-colors">{title}</h4>
-                        <ExternalLink size={14} className="text-slate-300 group-hover:text-blue-500" />
-                    </div>
-                    <p className="text-xs text-slate-500 mt-1">{desc}</p>
-                </div>
+            <a href={link} target="_blank" rel="noreferrer" className="bg-white border border-slate-100 rounded-xl p-4 shadow-sm hover:shadow-md hover:border-blue-300 transition-all duration-300 flex items-center gap-4 group cursor-pointer">
+                <div className={`p-3 rounded-xl shrink-0 ${colorClass} bg-opacity-10`}><Icon size={24} className={colorClass.replace('bg-', 'text-')} /></div>
+                <div className="flex-1"><div className="flex justify-between items-center"><h4 className="font-bold text-slate-800 group-hover:text-blue-600 transition-colors">{title}</h4><ExternalLink size={14} className="text-slate-300 group-hover:text-blue-500" /></div><p className="text-xs text-slate-500 mt-1">{desc}</p></div>
             </a>
         );
 
         const OfferCountdown = ({ t }) => {
-            const [timeLeft, setTimeLeft] = useState(600); // 10 minutes in seconds
-
-            useEffect(() => {
-                const timer = setInterval(() => {
-                    setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0));
-                }, 1000);
-                return () => clearInterval(timer);
-            }, []);
-
-            const formatTime = (seconds) => {
-                const m = Math.floor(seconds / 60);
-                const s = seconds % 60;
-                return `${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
-            };
-
-            return (
-                <div className="flex items-center justify-center gap-2 mb-4 text-sm font-medium text-rose-600 animate-pulse">
-                    <Clock size={16} />
-                    <span>{t.offer_expires} {formatTime(timeLeft)}</span>
-                </div>
-            );
+            const [timeLeft, setTimeLeft] = useState(600);
+            useEffect(() => { const timer = setInterval(() => { setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0)); }, 1000); return () => clearInterval(timer); }, []);
+            const formatTime = (seconds) => { const m = Math.floor(seconds / 60); const s = seconds % 60; return `${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`; };
+            return <div className="flex items-center justify-center gap-2 mb-4 text-sm font-medium text-rose-600 animate-pulse"><Clock size={16} /><span>{t.offer_expires} {formatTime(timeLeft)}</span></div>;
         };
 
         // --- APPLICATION PRINCIPALE ---
-
         const App = () => {
             const [lang, setLang] = useState('FR');
             const [step, setStep] = useState(0); 
-            const [formData, setFormData] = useState({
-                nationality: "FR",
-                origin: "FR", 
-                destination: "",
-                age: 25,
-                startDate: new Date().toISOString().split('T')[0],
-                endDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
-            });
+            const [formData, setFormData] = useState({ nationality: "FR", origin: "FR", destination: "", age: 25, startDate: new Date().toISOString().split('T')[0], endDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0] });
             const [result, setResult] = useState(null);
 
-            // Auto-detection de la langue du navigateur
+            // Force loading check
+            const [loaded, setLoaded] = useState(false);
+            useEffect(() => { setLoaded(true); }, []);
+
             useEffect(() => {
                 const userLang = navigator.language || navigator.userLanguage; 
-                const code = userLang.split('-')[0].toUpperCase(); 
-                
-                const supported = ['FR', 'EN', 'ES', 'ZH', 'JA', 'KO'];
-                
-                if (supported.includes(code)) {
-                    setLang(code);
-                } else {
-                    setLang('EN');
-                }
+                const code = userLang.split('-')[0].toUpperCase();
+                if (['FR', 'EN', 'ES', 'ZH', 'JA', 'KO'].includes(code)) setLang(code); else setLang('EN');
             }, []);
 
             const t = translations[lang];
 
+            // SAFETY CHECK: Si pas chargé, ne rien rendre
+            if (!loaded) return null;
+
             const handleSearch = () => {
-                if (!formData.destination) {
-                    alert(t.missing_dest_error);
-                    return;
-                }
-                if (formData.origin === formData.destination) {
-                    alert(t.origin_same_dest_error);
+                // Sécurité: vérification existence données
+                if (!countries || countries.length === 0) {
+                    alert(t.error_data);
                     return;
                 }
 
+                if (!formData.destination) return alert(t.missing_dest_error);
+                if (formData.origin === formData.destination) return alert(t.origin_same_dest_error);
                 const start = new Date(formData.startDate);
                 const end = new Date(formData.endDate);
-                
-                if (end <= start) {
-                    alert("La date de retour doit être après la date de départ.");
-                    return;
-                }
+                if (end <= start) return alert("La date de retour doit être après la date de départ.");
 
                 const diffTime = Math.abs(end - start);
                 const durationDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
                 const travelerAge = parseInt(formData.age);
 
                 setStep(1);
-
-                setTimeout(() => {
-                    const passportInfo = countries.find(c => c.code === formData.nationality);
-                    const originInfo = countries.find(c => c.code === formData.origin);
-                    const destInfo = countries.find(c => c.code === formData.destination);
-
-                    let docs = [];
-                    let isEuToEu = passportInfo.region === 'EU' && destInfo.region === 'EU';
-
-                    // 1. Identité
-                    if (isEuToEu) {
-                        docs.push({
-                            title: "Carte Nationale d'Identité (CNI)",
-                            status: "ok",
-                            description: "Suffisant pour les ressortissants UE.",
-                            mandatory: true,
-                            cost: "Gratuit"
-                        });
-                    } else {
-                        docs.push({
-                            title: "Passeport Valide",
-                            status: "ok",
-                            description: "Doit être valide au moins 6 mois après le retour.",
-                            mandatory: true,
-                            cost: "Variable"
-                        });
-                    }
-
-                    // 1.5 Mineur
-                    if (travelerAge < 18) {
-                         docs.push({
-                            title: "Autorisation de Sortie du Territoire (AST)",
-                            status: "alert",
-                            description: "Obligatoire si le mineur voyage sans l'un de ses parents.",
-                            mandatory: true,
-                            cost: "Gratuit",
-                            link: "https://www.service-public.fr/particuliers/vosdroits/F1359"
-                        });
-                    }
-
-                    // 2. Visa Logic & Links
-                    if (destInfo.code === 'US') {
-                        docs.push({
-                            title: "ESTA USA",
-                            status: "alert",
-                            description: "Autorisation obligatoire à remplir au moins 72h avant.",
-                            mandatory: true,
-                            cost: "21 USD",
-                            link: "https://esta.cbp.dhs.gov/"
-                        });
-                    } 
-                    else if (destInfo.code === 'CA') {
-                         docs.push({
-                            title: "AVE Canada",
-                            status: "alert",
-                            description: "Autorisation de voyage électronique requise.",
-                            mandatory: true,
-                            cost: "7 CAD",
-                            link: "https://www.canada.ca/fr/immigration-refugies-citoyennete/services/visiter-canada/ave.html"
-                        });
-                    }
-                    else if (destInfo.code === 'AU') {
-                        docs.push({
-                            title: "eVisitor (subclass 651)",
-                            status: "alert",
-                            description: "Visa touriste gratuit pour Européens.",
-                            mandatory: true,
-                            cost: "Gratuit",
-                            link: "https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing/evisitor-651"
-                        });
-                    }
-                    else if (destInfo.code === 'AE') {
-                        docs.push({
-                           title: "Visa Touristique (Gratuit)",
-                           status: "ok",
-                           description: "Tampon gratuit de 30 jours à l'arrivée pour de nombreux pays européens (dont FR).",
-                           mandatory: true,
-                           cost: "Gratuit",
-                        });
-                        docs.push({
-                           title: "Taxe de Séjour 'Tourism Dirham'",
-                           status: "info",
-                           description: "Taxe locale obligatoire payable directement à l'hôtel (par nuit/chambre).",
-                           mandatory: true,
-                           cost: "~3-5€ /nuit",
-                        });
-                    }
-                    else if (destInfo.code === 'BA') {
-                        docs.push({
-                           title: "Visa à l'arrivée (VOA - e-VOA)",
-                           status: "alert",
-                           description: "Payable en ligne ou à l'arrivée. Valable 30 jours.",
-                           mandatory: true,
-                           cost: "~35€ (500k IDR)",
-                           link: "https://molina.imigrasi.go.id/"
-                        });
-                        docs.push({
-                           title: "Taxe Touristique 'Love Bali'",
-                           status: "alert",
-                           description: "Nouvelle taxe obligatoire pour protéger l'environnement et la culture.",
-                           mandatory: true,
-                           cost: "~9€ (150k IDR)",
-                           link: "https://lovebali.baliprov.go.id/"
-                        });
-                         docs.push({
-                           title: "Déclaration Douane (ECD)",
-                           status: "info",
-                           description: "Code QR à générer 3 jours avant le départ.",
-                           mandatory: true,
-                           cost: "Gratuit",
-                           link: "https://ecd.beacukai.go.id/"
-                        });
-                    }
-                    else if (destInfo.code === 'ZN') {
-                        docs.push({
-                           title: "Assurance Voyage Zanzibar (Obligatoire)",
-                           status: "alert",
-                           description: "Nouvelle assurance obligatoire spécifique (ZIC) à prendre en ligne.",
-                           mandatory: true,
-                           cost: "44 USD",
-                           link: "https://visitzanzibar.go.tz/"
-                        });
-                        docs.push({
-                           title: "Visa Tanzanie / Zanzibar",
-                           status: "error",
-                           description: "E-Visa ou visa à l'arrivée requis.",
-                           mandatory: true,
-                           cost: "50 USD",
-                           link: "https://eservices.immigration.go.tz/visa/"
-                        });
-                    }
-                    else if (destInfo.code === 'CQ') {
-                         docs.push({
-                           title: "Taxe de Tourisme (Visitax)",
-                           status: "alert",
-                           description: "Taxe obligatoire pour l'état du Quintana Roo (Cancún, Tulum...).",
-                           mandatory: true,
-                           cost: "~11 USD",
-                           link: "https://www.visitax.gob.mx/"
-                        });
-                        docs.push({
-                           title: "Formulaire Migratoire (FMM)",
-                           status: "info",
-                           description: "Souvent inclus dans le vol ou à remplir à l'arrivée.",
-                           mandatory: true,
-                           cost: "Gratuit",
-                        });
-                    }
-                    else if (destInfo.code === 'CN') {
-                        if (durationDays <= 15 && (passportInfo.code === 'FR' || passportInfo.code === 'DE' || passportInfo.code === 'IT')) {
-                           docs.push({
-                            title: "Exemption de Visa (15j)",
-                            status: "ok",
-                            description: "Nouveau : Pas de visa requis pour les séjours < 15 jours.",
-                            mandatory: false,
-                            cost: "Gratuit"
-                           });
-                        } else {
-                          docs.push({
-                            title: "Visa Tourisme (L)",
-                            status: "error",
-                            description: "Visa requis. Remplir le formulaire en ligne avant RDV.",
-                            mandatory: true,
-                            cost: "~126€",
-                            link: "https://www.visaforchina.cn/PAR2_FR/"
-                          });
+                
+                // Protection contre crash dans timeout
+                try {
+                    setTimeout(() => {
+                        const passportInfo = countries.find(c => c.code === formData.nationality);
+                        const originInfo = countries.find(c => c.code === formData.origin);
+                        const destInfo = countries.find(c => c.code === formData.destination);
+                        
+                        if (!passportInfo || !originInfo || !destInfo) {
+                            setStep(0);
+                            return;
                         }
-                    } else if (!isEuToEu && durationDays > 90) {
-                        docs.push({
-                          title: "Visa Long Séjour",
-                          status: "error",
-                          description: "Requis pour tout séjour > 90 jours.",
-                          mandatory: true,
-                          cost: "Variable"
+
+                        let docs = [];
+                        let isEuToEu = passportInfo.region === 'EU' && destInfo.region === 'EU';
+
+                        if (isEuToEu) { docs.push({ title: "Carte Nationale d'Identité (CNI)", status: "ok", description: "Suffisant pour les ressortissants UE.", mandatory: true, cost: "Gratuit" }); } 
+                        else { docs.push({ title: "Passeport Valide", status: "ok", description: "Doit être valide au moins 6 mois après le retour.", mandatory: true, cost: "Variable" }); }
+
+                        if (travelerAge < 18) { docs.push({ title: "Autorisation de Sortie du Territoire (AST)", status: "alert", description: "Obligatoire si le mineur voyage sans l'un de ses parents.", mandatory: true, cost: "Gratuit", link: "https://www.service-public.fr/particuliers/vosdroits/F1359" }); }
+
+                        if (destInfo.code === 'US') { docs.push({ title: "ESTA USA", status: "alert", description: "Autorisation obligatoire à remplir au moins 72h avant.", mandatory: true, cost: "21 USD", link: "https://esta.cbp.dhs.gov/" }); }
+                        else if (destInfo.code === 'CA') { docs.push({ title: "AVE Canada", status: "alert", description: "Autorisation de voyage électronique requise.", mandatory: true, cost: "7 CAD", link: "https://www.canada.ca/fr/immigration-refugies-citoyennete/services/visiter-canada/ave.html" }); }
+                        else if (destInfo.code === 'AU') { docs.push({ title: "eVisitor (subclass 651)", status: "alert", description: "Visa touriste gratuit pour Européens.", mandatory: true, cost: "Gratuit", link: "https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing/evisitor-651" }); }
+                        else if (destInfo.code === 'BA') {
+                            docs.push({ title: "Visa à l'arrivée (VOA)", status: "alert", description: "Payable en ligne ou à l'arrivée. Valable 30 jours.", mandatory: true, cost: "~35€", link: "https://molina.imigrasi.go.id/" });
+                            docs.push({ title: "Taxe 'Love Bali'", status: "alert", description: "Taxe touristique obligatoire.", mandatory: true, cost: "~9€", link: "https://lovebali.baliprov.go.id/" });
+                        } else if (destInfo.code === 'ZN') {
+                            docs.push({title: "Assurance Voyage Zanzibar (Obligatoire)",status: "alert",description: "Nouvelle assurance obligatoire spécifique (ZIC).",mandatory: true,cost: "44 USD",link: "https://visitzanzibar.go.tz/"});
+                            docs.push({title: "Visa Tanzanie / Zanzibar",status: "error",description: "E-Visa ou visa à l'arrivée requis.",mandatory: true,cost: "50 USD",link: "https://eservices.immigration.go.tz/visa/"});
+                        } else if (destInfo.code === 'CQ') {
+                            docs.push({title: "Taxe de Tourisme (Visitax)",status: "alert",description: "Taxe obligatoire pour l'état du Quintana Roo.",mandatory: true,cost: "~11 USD",link: "https://www.visitax.gob.mx/"});
+                        } else if (destInfo.code === 'AE') {
+                            docs.push({title: "Visa Touristique (Gratuit)",status: "ok",description: "Tampon gratuit de 30 jours.",mandatory: true,cost: "Gratuit"});
+                            docs.push({title: "Taxe de Séjour",status: "info",description: "Taxe obligatoire à l'hôtel.",mandatory: true,cost: "~3-5€ /nuit"});
+                        }
+
+                        const flightLink = `https://www.skyscanner.fr/transport/vols/${formData.origin.toLowerCase()}/${destInfo.code === 'BA' ? 'dps' : destInfo.code.toLowerCase()}/${formData.startDate.slice(2).replace(/-/g,'')}/${formData.endDate.slice(2).replace(/-/g,'')}?associateid=${AFFILIATE_CONFIG.flight_marker}`;
+                        const hotelLink = `https://www.booking.com/searchresults.html?ss=${destInfo.name}&checkin=${formData.startDate}&checkout=${formData.endDate}&aid=${AFFILIATE_CONFIG.hotel_aid}`;
+
+                        setResult({
+                            passportPower: passportInfo.power,
+                            destinationName: destInfo.name,
+                            originName: originInfo.name,
+                            documents: docs,
+                            health: destInfo.health,
+                            customs: destInfo.customs,
+                            water: destInfo.water,
+                            duration: durationDays,
+                            flightLink: flightLink,
+                            hotelLink: hotelLink
                         });
-                    }
-
-                    const flightLink = generateFlightLink(formData.origin, formData.destination, formData.startDate, formData.endDate);
-                    const hotelLink = generateHotelLink(destInfo.name, formData.startDate, formData.endDate);
-
-                    setResult({
-                        passportPower: passportInfo.power,
-                        destinationName: destInfo.name,
-                        originName: originInfo.name,
-                        documents: docs,
-                        health: destInfo.health,
-                        customs: destInfo.customs,
-                        water: destInfo.water,
-                        duration: durationDays,
-                        flightLink: flightLink,
-                        hotelLink: hotelLink
-                    });
-                    setStep(2);
-                }, 1500);
+                        setStep(2);
+                    }, 1500);
+                } catch (e) {
+                    console.error(e);
+                    setStep(0);
+                }
             };
 
             const reset = () => {
@@ -761,98 +493,32 @@
 
             return (
                 <div className="min-h-screen bg-slate-50 font-sans text-slate-900 flex flex-col">
-                    <Header lang={lang} setLang={setLang} t={t} />
+                    <Header lang={lang} setLang={setLang} t={t} setCurrentView={() => {}} />
 
-                    <main className="flex-grow flex flex-col items-center justify-center pt-8 px-4 w-full max-w-5xl mx-auto pb-40">
-                        
-                        {/* --- STEP 0: FORMULAIRE --- */}
+                    <main className="flex-grow px-4 w-full max-w-5xl mx-auto pb-40 pt-8">
                         {step === 0 && (
-                            <div className="w-full max-w-lg animate-in fade-in slide-in-from-bottom-4 duration-700">
-                                <div className="text-center mb-10">
-                                    <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-800 mb-3 tracking-tight">
-                                        {t.hero_title} <span className="text-blue-600">{t.hero_highlight}</span>.
-                                    </h1>
-                                    <p className="text-slate-500 text-base sm:text-lg">
-                                        {t.hero_desc}
-                                    </p>
+                            <div className="w-full max-w-lg mx-auto animate-in">
+                                <div className="text-center mb-10 mt-8">
+                                    <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-800 mb-3 tracking-tight">{t.hero_title} <span className="text-blue-600">{t.hero_highlight}</span>.</h1>
+                                    <p className="text-slate-500 text-base sm:text-lg">{t.hero_desc}</p>
                                 </div>
-
                                 <div className="bg-white p-6 sm:p-8 rounded-3xl shadow-xl border border-slate-100 relative overflow-hidden">
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                        <InputField label={t.label_nationality} icon={ShieldCheck}>
-                                            <div className="relative">
-                                                <CountrySelect 
-                                                    value={formData.nationality}
-                                                    onChange={(e) => setFormData({...formData, nationality: e.target.value})}
-                                                    placeholder={t.placeholder_select}
-                                                />
-                                            </div>
-                                        </InputField>
-
-                                        <InputField label={t.label_origin} icon={Navigation}>
-                                            <div className="relative">
-                                                <CountrySelect 
-                                                    value={formData.origin}
-                                                    onChange={(e) => setFormData({...formData, origin: e.target.value})}
-                                                    placeholder={t.placeholder_select}
-                                                />
-                                            </div>
-                                        </InputField>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                        <div className="mb-4 md:mb-0"><label className="block text-xs font-bold text-slate-500 uppercase mb-2">{t.label_nationality}</label><CountrySelect value={formData.nationality} onChange={(e) => setFormData({...formData, nationality: e.target.value})} placeholder={t.placeholder_select} /></div>
+                                        <div><label className="block text-xs font-bold text-slate-500 uppercase mb-2">{t.label_origin}</label><CountrySelect value={formData.origin} onChange={(e) => setFormData({...formData, origin: e.target.value})} placeholder={t.placeholder_select} /></div>
                                     </div>
-
-                                    <InputField label={t.label_destination} icon={MapPin}>
-                                        <div className="relative">
-                                            <CountrySelect 
-                                                value={formData.destination}
-                                                onChange={(e) => setFormData({...formData, destination: e.target.value})}
-                                                placeholder={t.placeholder_select}
-                                                excludeCode={formData.origin}
-                                            />
-                                        </div>
-                                    </InputField>
-
-                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                        <InputField label={t.label_start_date} icon={Calendar}>
-                                            <input 
-                                                type="date" 
-                                                className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 font-sans font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all hover:bg-slate-100 text-sm"
-                                                value={formData.startDate}
-                                                onChange={(e) => setFormData({...formData, startDate: e.target.value})}
-                                            />
-                                        </InputField>
-                                        <InputField label={t.label_end_date} icon={Calendar}>
-                                            <input 
-                                                type="date" 
-                                                className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 font-sans font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all hover:bg-slate-100 text-sm"
-                                                value={formData.endDate}
-                                                onChange={(e) => setFormData({...formData, endDate: e.target.value})}
-                                            />
-                                        </InputField>
+                                    <div className="mb-4"><label className="block text-xs font-bold text-slate-500 uppercase mb-2">{t.label_destination}</label><CountrySelect value={formData.destination} onChange={(e) => setFormData({...formData, destination: e.target.value})} placeholder={t.placeholder_select} excludeCode={formData.origin} /></div>
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                                         <div><label className="block text-xs font-bold text-slate-500 uppercase mb-2">{t.label_start_date}</label><input type="date" className="w-full p-3 rounded-xl border border-slate-200 bg-slate-50" value={formData.startDate} onChange={(e) => setFormData({...formData, startDate: e.target.value})} /></div>
+                                         <div><label className="block text-xs font-bold text-slate-500 uppercase mb-2">{t.label_end_date}</label><input type="date" className="w-full p-3 rounded-xl border border-slate-200 bg-slate-50" value={formData.endDate} onChange={(e) => setFormData({...formData, endDate: e.target.value})} /></div>
                                     </div>
-
-                                    <InputField label={t.label_age} icon={Trophy}>
-                                        <input 
-                                            type="number" 
-                                            className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 font-sans font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all hover:bg-slate-100"
-                                            value={formData.age}
-                                            onChange={(e) => setFormData({...formData, age: e.target.value})}
-                                        />
-                                    </InputField>
-
-                                    <button 
-                                        onClick={handleSearch}
-                                        className="w-full mt-6 bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl transition-all shadow-lg shadow-blue-200 hover:shadow-blue-300 flex justify-center items-center gap-3 group transform active:scale-95"
-                                    >
-                                        {t.btn_analyze}
-                                        <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
-                                    </button>
+                                    <InputField label={t.label_age} icon={Trophy}><input type="number" className="w-full p-3 rounded-xl border border-slate-200 bg-slate-50" value={formData.age} onChange={(e) => setFormData({...formData, age: e.target.value})} /></InputField>
+                                    <button onClick={handleSearch} className="w-full bg-blue-600 text-white font-bold py-4 rounded-xl hover:bg-blue-700 transition-transform active:scale-95 flex justify-center items-center gap-2">{t.btn_analyze} <ArrowRight size={20}/></button>
                                 </div>
                             </div>
                         )}
-
-                        {/* --- STEP 1: LOADING --- */}
                         {step === 1 && (
-                            <div className="flex flex-col items-center justify-center mt-20 animate-in fade-in duration-500">
+                            <div className="flex flex-col items-center justify-center mt-20 animate-in">
                                 <div className="relative mb-8">
                                     <div className="absolute inset-0 bg-blue-100 rounded-full animate-ping opacity-75"></div>
                                     <div className="relative bg-white p-6 rounded-full shadow-xl border border-blue-50">
@@ -860,147 +526,25 @@
                                     </div>
                                 </div>
                                 <h2 className="text-2xl font-bold text-slate-800">{t.loading_title}</h2>
-                                <p className="text-slate-400 mt-2 text-sm font-medium">{t.loading_text}</p>
+                                <p className="text-slate-400">{t.loading_text}</p>
                             </div>
                         )}
-
-                        {/* --- STEP 2: RÉSULTATS --- */}
                         {step === 2 && result && (
-                            <div className="w-full max-w-2xl animate-in slide-in-from-bottom-8 duration-700">
-                                
-                                <div className="flex items-center justify-between mb-8">
-                                    <button 
-                                        onClick={reset} 
-                                        className="text-slate-500 hover:text-slate-800 text-sm font-bold flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-white hover:shadow-sm transition-all"
-                                    >
-                                        &larr; {t.result_back}
-                                    </button>
-                                    <div className="flex flex-col sm:flex-row sm:items-center gap-2 text-sm font-bold text-slate-800 bg-white px-4 py-2 rounded-xl shadow-sm border border-slate-100">
-                                        <div className="flex items-center gap-2">
-                                           <span className="text-slate-400">{result.originName}</span>
-                                           <ArrowRight size={14} className="text-blue-500" />
-                                           <span className="text-blue-600">{result.destinationName}</span>
-                                        </div>
-                                        <span className="hidden sm:inline text-slate-300">|</span>
-                                        <span className="text-slate-500 text-xs font-normal">
-                                           {t.duration_calc} {result.duration} jours
-                                        </span>
-                                    </div>
-                                </div>
-
+                            <div className="max-w-2xl mx-auto pb-24 animate-in">
+                                <button onClick={() => setStep(0)} className="mb-6 text-sm font-bold text-slate-500 hover:text-blue-600">&larr; {t.result_back}</button>
                                 <PassportPower score={result.passportPower} t={t} />
-
-                                <div className="mb-10">
-                                    <h3 className="text-xl font-bold text-slate-800 mb-5 flex items-center gap-3">
-                                        {t.docs_title} 
-                                        <span className="bg-slate-100 text-slate-600 text-xs font-bold px-2.5 py-1 rounded-full border border-slate-200">
-                                            {result.documents.length}
-                                        </span>
-                                    </h3>
-                                    
-                                    <div className="space-y-4">
-                                        {result.documents.map((doc, idx) => (
-                                            <DocumentCard 
-                                                key={idx}
-                                                {...doc}
-                                                isMandatory={doc.mandatory}
-                                                t={t}
-                                            />
-                                        ))}
-                                        
-                                        {/* NEW V3 SECTIONS */}
-                                        <HealthCard water={result.water || 'unsafe'} vaccine={result.health?.yellowFever ? 'Fièvre Jaune' : null} t={t} />
-                                        {result.customs && result.customs.length > 0 && (
-                                            <CustomsCard items={result.customs} t={t} />
-                                        )}
-                                    </div>
-                                    
-                                    <div className="mt-4 p-4 bg-blue-50/50 border border-blue-100 rounded-xl flex gap-3 text-sm text-blue-800">
-                                        <div className="mt-0.5 shrink-0"><ShieldCheck size={18} /></div>
-                                        <p className="font-medium">
-                                            {t.docs_disclaimer}
-                                        </p>
-                                    </div>
+                                <div className="space-y-4 mb-10">
+                                    {result.documents.map((d, i) => <DocumentCard key={i} {...d} t={t}/>)}
+                                    <HealthCard water={result.water || 'unsafe'} vaccine={result.health?.yellowFever ? 'Fièvre Jaune' : null} t={t} />
+                                    {result.customs && <CustomsCard items={result.customs} t={t} />}
                                 </div>
-
-                                {/* SECTION SERVICES (eSIM & Activités) */}
-                                <div className="mb-10">
-                                    <h3 className="text-xl font-bold text-slate-800 mb-5">{t.services_title}</h3>
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                        <ServiceCard 
-                                            icon={Wifi}
-                                            title={t.service_esim}
-                                            desc={t.service_esim_desc}
-                                            colorClass="bg-teal-500 text-teal-500"
-                                            link={`https://www.airalo.com/?ref=${AFFILIATE_CONFIG.esim_id}`} 
-                                        />
-                                        <ServiceCard 
-                                            icon={Ticket}
-                                            title={t.service_activities}
-                                            desc={t.service_activities_desc}
-                                            colorClass="bg-purple-500 text-purple-500"
-                                            link={`https://www.getyourguide.com/?partner_id=${AFFILIATE_CONFIG.activities_id}`} 
-                                        />
-                                    </div>
-                                </div>
-
-                                <div className="mb-32">
-                                    <h3 className="text-xl font-bold text-slate-800 mb-5 flex justify-between items-end">
-                                        {t.action_title}
-                                    </h3>
-                                    
-                                    <OfferCountdown t={t} />
-
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-                                        <ActionButton 
-                                            icon={Plane}
-                                            title={t.action_flight}
-                                            subtitle=""
-                                            colorClass="bg-sky-500 text-sky-500"
-                                            link={result.flightLink}
-                                            isExternal={true}
-                                        />
-                                        <ActionButton 
-                                            icon={MapPin}
-                                            title={t.action_hotel}
-                                            subtitle=""
-                                            colorClass="bg-indigo-500 text-indigo-500"
-                                            link={result.hotelLink}
-                                            isExternal={true}
-                                        />
-                                    </div>
-
-                                    <div className="text-center p-8 rounded-3xl bg-gradient-to-br from-slate-900 to-slate-800 text-white shadow-xl relative overflow-hidden group">
-                                        <div className="absolute top-0 right-0 p-8 opacity-10 transform rotate-12 group-hover:rotate-0 transition-transform duration-500">
-                                            <Heart size={100} fill="currentColor" />
-                                        </div>
-                                        
-                                        <Heart className="mx-auto text-rose-500 mb-4 fill-rose-500 animate-pulse" size={32} />
-                                        <h4 className="text-xl font-bold mb-2">{t.donate_title}</h4>
-                                        <p className="text-slate-300 mb-6 max-w-sm mx-auto text-sm leading-relaxed">
-                                            {t.donate_text}
-                                        </p>
-                                        <button className="bg-white text-slate-900 px-8 py-3 rounded-full text-sm font-bold hover:bg-rose-50 hover:text-rose-600 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
-                                            {t.donate_btn}
-                                        </button>
-                                    </div>
-                                </div>
-
+                                <div className="mb-10"><h3 className="text-xl font-bold text-slate-800 mb-5">{t.services_title}</h3><div className="grid grid-cols-1 md:grid-cols-2 gap-4"><ServiceCard icon={Wifi} title={t.service_esim} desc={t.service_esim_desc} colorClass="bg-teal-500 text-teal-500" link={`https://www.airalo.com/?ref=${AFFILIATE_CONFIG.esim_id}`} /><ServiceCard icon={Ticket} title={t.service_activities} desc={t.service_activities_desc} colorClass="bg-purple-500 text-purple-500" link={`https://www.getyourguide.com/?partner_id=${AFFILIATE_CONFIG.activities_id}`} /></div></div>
+                                <div className="mb-32"><h3 className="text-xl font-bold text-slate-800 mb-5 flex justify-between items-end">{t.action_title}</h3><OfferCountdown t={t} /><div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8"><ActionButton icon={Plane} title={t.action_flight} subtitle="" colorClass="bg-sky-500 text-sky-500" link={result.flightLink} isExternal={true} /><ActionButton icon={MapPin} title={t.action_hotel} subtitle="" colorClass="bg-indigo-500 text-indigo-500" link={result.hotelLink} isExternal={true} /></div><div className="text-center p-8 rounded-3xl bg-gradient-to-br from-slate-900 to-slate-800 text-white shadow-xl relative overflow-hidden group"><div className="absolute top-0 right-0 p-8 opacity-10 transform rotate-12 group-hover:rotate-0 transition-transform duration-500"><Heart size={100} fill="currentColor" /></div><Heart className="mx-auto text-rose-500 mb-4 fill-rose-500 animate-pulse" size={32} /><h4 className="text-xl font-bold mb-2">{t.donate_title}</h4><p className="text-slate-300 mb-6 max-w-sm mx-auto text-sm leading-relaxed">{t.donate_text}</p><button className="bg-white text-slate-900 px-8 py-3 rounded-full text-sm font-bold hover:bg-rose-50 hover:text-rose-600 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">{t.donate_btn}</button></div></div>
                             </div>
                         )}
                     </main>
 
-                    {/* FOOTER - DROITS RÉSERVÉS */}
-                    <footer className="py-12 text-center border-t border-slate-100 bg-white/50 backdrop-blur-sm mt-auto">
-                        <div className="flex flex-col items-center justify-center gap-2 text-slate-400 text-xs font-medium uppercase tracking-widest font-sans">
-                            <div className="flex items-center gap-1">
-                                <Copyright size={12} />
-                                <span>2025 GoGateDocs Inc.</span>
-                            </div>
-                            <p>{t.footer_rights}</p>
-                            <p className="opacity-60 text-[10px]">{t.footer_affiliate}</p>
-                        </div>
-                    </footer>
+                    {step === 0 && (<footer className="py-8 text-center text-slate-400 text-xs mb-16 sm:mb-0"><p>2025 GoGateDocs Inc. • {t.footer_rights}</p></footer>)}
                 </div>
             );
         };
