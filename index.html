@@ -12,93 +12,65 @@
     
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
-    <script src="https://unpkg.com/lucide-react@0.469.0/dist/umd/lucide-react.min.js"></script>
+    <script src="https://unpkg.com/lucide-react@0.263.1/dist/umd/lucide-react.min.js"></script>
 
     <style>
         body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
         .fade-in { animation: fadeIn 0.5s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* Overlay d'erreur */
-        #error-box { display: none; background: #fee2e2; color: #991b1b; padding: 20px; position: fixed; top:0; left:0; width: 100%; z-index: 9999; border-bottom: 2px solid #ef4444; }
+        /* Loader animation */
+        .loader { border-top-color: #3B82F6; -webkit-animation: spinner 1.5s linear infinite; animation: spinner 1.5s linear infinite; }
+        @keyframes spinner { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
 
-    <div id="error-box">
-        <strong>Une erreur technique est survenue :</strong>
-        <pre id="error-content" style="margin-top: 10px; font-size: 12px;"></pre>
-    </div>
-
-    <script>
-        window.onerror = function(message, source, lineno, colno, error) {
-            document.getElementById('root').style.display = 'none';
-            document.getElementById('error-box').style.display = 'block';
-            document.getElementById('error-content').innerText = message + "\nLine: " + lineno;
-        };
-    </script>
-
     <div id="root">
-        <div class="flex flex-col items-center justify-center h-screen text-slate-500 font-sans">
-            <div class="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mb-4"></div>
-            Chargement de GoGateDocs...
+        <div class="fixed inset-0 flex items-center justify-center bg-slate-50 z-50">
+            <div class="flex flex-col items-center gap-4">
+                <div class="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12"></div>
+                <p class="text-slate-500 font-sans text-sm font-medium">Chargement de GoGateDocs...</p>
+            </div>
         </div>
     </div>
 
     <script type="text/babel">
 
-        // --- 1. SYSTEME DE RECUPERATION DES ICONES (CORRIGÉ) ---
-        const { useState, useEffect } = React;
-
-        // Fonction intelligente pour trouver la librairie Lucide peu importe comment le CDN la charge
-        const getLucideLibrary = () => {
-            if (window.lucideReact) return window.lucideReact;
-            if (window.lucide && window.lucide.icons) return window.lucide.icons;
-            if (window.lucide) return window.lucide;
-            return {};
-        };
-
-        const LucideLib = getLucideLibrary();
+        // --- 1. RECUPERATION FIABLE DES ICONES ---
+        // Cette version de Lucide expose "window.lucideReact"
+        const icons = window.lucideReact;
         
-        // Fonction pour extraire une icône spécifique
-        const getIcon = (name) => {
-            // 1. Essai direct (ex: lucideReact.Plane)
-            if (LucideLib[name]) return LucideLib[name];
-            
-            // 2. Essai dans sous-objet icons (ex: lucideReact.icons.Plane)
-            if (LucideLib.icons && LucideLib.icons[name]) return LucideLib.icons[name];
-
-            // 3. Fallback texte si introuvable (pas de carré gris)
-            console.warn(`Icône introuvable: ${name}`);
-            return (props) => <span className="text-xs bg-red-100 text-red-500 px-1 rounded">{name}</span>;
-        };
-
-        // Extraction des icônes utilisées
-        const Plane = getIcon('Plane');
-        const MapPin = getIcon('MapPin');
-        const Calendar = getIcon('Calendar');
-        const ShieldCheck = getIcon('ShieldCheck');
-        const Trophy = getIcon('Trophy');
-        const ArrowRight = getIcon('ArrowRight');
-        const Heart = getIcon('Heart');
-        const Globe = getIcon('Globe');
-        const ExternalLink = getIcon('ExternalLink');
-        const CheckCircle = getIcon('CheckCircle');
-        const AlertTriangle = getIcon('AlertTriangle');
-        const Info = getIcon('Info');
-        const Languages = getIcon('Languages');
-        const Clock = getIcon('Clock');
-        const Copyright = getIcon('Copyright');
-        const Navigation = getIcon('Navigation');
-        const Stethoscope = getIcon('Stethoscope');
-        const Droplets = getIcon('Droplets');
-        const Siren = getIcon('Siren');
-        const Wifi = getIcon('Wifi');
-        const Ticket = getIcon('Ticket');
-        const MessageSquare = getIcon('MessageSquare');
-        const Umbrella = getIcon('Umbrella');
-        const Calculator = getIcon('Calculator');
-        const Mail = getIcon('Mail');
+        // Extraction manuelle pour éviter tout bug
+        const Plane = icons.Plane;
+        const MapPin = icons.MapPin;
+        const Calendar = icons.Calendar;
+        const ShieldCheck = icons.ShieldCheck;
+        const Trophy = icons.Trophy;
+        const ArrowRight = icons.ArrowRight;
+        const Heart = icons.Heart;
+        const Globe = icons.Globe;
+        const ExternalLink = icons.ExternalLink;
+        const CheckCircle = icons.CheckCircle;
+        const AlertTriangle = icons.AlertTriangle;
+        const Info = icons.Info;
+        const Languages = icons.Languages;
+        const Clock = icons.Clock;
+        const Copyright = icons.Copyright;
+        const Navigation = icons.Navigation;
+        const LinkIcon = icons.Link;
+        const Stethoscope = icons.Stethoscope;
+        const Droplets = icons.Droplets;
+        const Siren = icons.Siren;
+        const Wifi = icons.Wifi;
+        const Ticket = icons.Ticket;
+        const Timer = icons.Timer;
+        const MessageSquare = icons.MessageSquare;
+        const Umbrella = icons.Umbrella;
+        const Calculator = icons.Calculator;
+        const Mail = icons.Mail;
+        const Menu = icons.Menu;
+        const X = icons.X;
 
         // --- 2. CONFIGURATION ---
         const AFFILIATE_CONFIG = {
@@ -108,6 +80,8 @@
             activities_id: "YOUR_ID",
             insurance_link: "YOUR_INSURANCE_LINK"
         };
+
+        const { useState, useEffect } = React;
 
         // --- 3. TRADUCTIONS ---
         const translations = {
@@ -397,7 +371,6 @@
         };
 
         const generateFlightLink = (origin, dest, startDate, endDate) => {
-            // Skyscanner attend YYMMDD
             const formatDates = (d) => d.slice(2,4) + d.slice(5,7) + d.slice(8,10);
             const startStr = formatDates(startDate);
             const endStr = formatDates(endDate);
@@ -416,11 +389,11 @@
             const [sYear, sMonth, sDay] = start.split('-');
             const [eYear, eMonth, eDay] = end.split('-');
 
-            // On utilise les paramètres explicites que Booking.com comprend toujours
+            // Paramètres explicites Booking.com
             return `https://www.booking.com/searchresults.html?ss=${destName}&checkin_year=${sYear}&checkin_month=${sMonth}&checkin_monthday=${sDay}&checkout_year=${eYear}&checkout_month=${eMonth}&checkout_monthday=${eDay}&aid=${AFFILIATE_CONFIG.hotel_aid}`;
         };
 
-        // --- COMPOSANTS INTERFACE UTILISATEUR (UI) ---
+        // --- COMPOSANTS UI ---
 
         const Header = ({ lang, setLang, t, setView }) => (
             <header className="w-full p-6 flex justify-between items-center max-w-4xl mx-auto border-b border-slate-100 bg-white/80 backdrop-blur-sm sticky top-0 z-50">
